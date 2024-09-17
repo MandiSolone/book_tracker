@@ -25,7 +25,7 @@ router.get("/:book_id?", async (req, res, next) => {
     }
 }); 
 
-router.post("/books", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
     try {
         let newBook = req.body; 
         let data = await books.addOne(newBook); 
