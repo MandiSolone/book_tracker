@@ -1,0 +1,16 @@
+.env
+.env.test
+
+# Babel configuration
+.babelrc
+babel.config.js
+
+# Ignore node_modules
+node_modules/
+
+# Optionally ignore other build artifacts or temporary files
+*.log
+
+# Operating System files
+.DS_Store
+Thumbs.db
