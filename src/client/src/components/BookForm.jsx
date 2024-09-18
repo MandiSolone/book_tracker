@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+// add type (hardcopy, audio, ebook), location (amazon, google books), status (read, unread)
 function BookForm({ addBook }) {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');

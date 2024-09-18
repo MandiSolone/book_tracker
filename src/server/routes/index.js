@@ -1,5 +1,6 @@
 import express from "express";
 import booksRouter from "./books.routes";
+import searchRouter from "./search.routes"; 
 
 //Express framework creates new router objects
 //Defines routes and handles request 
@@ -16,5 +17,7 @@ router.get("/homepage", (req, res, next) => {
 });
 
 router.use("/books", booksRouter); 
+
+router.use("/search", searchRouter); 
 
 export default router;

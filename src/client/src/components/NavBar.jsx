@@ -14,16 +14,13 @@ return(
 <nav className="nav-bar">
   <ul>
     <li>
-    <Link to="/">LIBRARY</Link>
+    <Link to="/">HOME</Link>
     </li>
     <li>
-          <Link to="/ebooks">EBOOKS</Link>
+    <Link to="/library">LIBRARY</Link>
     </li>
     <li>
-          <Link to="/audiobooks">AUDIOBOOKS</Link>
-    </li>
-    <li>
-          <Link to="/hardcopy">HARDCOPY</Link>
+    <Link to="/wishlist">WISHLIST</Link>
     </li>
     <li>
           <Link to="/account">ACCOUNT</Link>

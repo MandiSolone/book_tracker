@@ -3,10 +3,9 @@ import { React } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
 import NavBar from './components/NavBar';
 import Library from './pages/Library';
-import EBooks from './pages/Ebooks';
-import AudioBooks from './pages/AudioBooks';
-import HardCopy from './pages/HardCopy';
 import Account from './pages/Account';
+import Home from './pages/Home';
+import WishList from './pages/WishList';
 
 
 export default function App() {
@@ -15,11 +14,9 @@ export default function App() {
       <BrowserRouter>
         <NavBar />
         <Routes>
-          <Route path="/" element={<Library />} />
+          <Route path="/" element={<Home />} />
           <Route path="/library" element={<Library />} />
-          <Route path="/ebooks" element={<EBooks />} />
-          <Route path="/audiobooks" element={<AudioBooks />} />
-          <Route path="/hardcopy" element={<HardCopy />} />
+          <Route path="/wishlist" element={<WishList />} />
           <Route path="/account" element={<Account />} />
         </Routes>
       </BrowserRouter>

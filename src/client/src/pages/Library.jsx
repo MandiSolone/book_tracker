@@ -1,5 +1,8 @@
 //add a whole edit book capability (w/ btn, and axios.put/update on server side)
 //add a page/link for .get find 1 (server:http://localhost:8080/api/books/1), code client side
+//add a type (hardcopy, audio) & location (B&N, Amazon) column
+//Add a sort by ; type, location, author name, 
+//Add public API and pull images 
 
 import React from "react";
 import { useState, useEffect } from "react"; 
@@ -60,6 +63,7 @@ const addBook = (book) => {
       <h1> Library </h1>
       <BookForm addBook={addBook} />
       <BookList books={books} onDelete={handleDelete} />
+      {/* <GoogleBookSearch addBook={addBook} /> */}
     </div>
   );
 }

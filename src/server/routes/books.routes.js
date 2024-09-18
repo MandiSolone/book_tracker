@@ -1,9 +1,28 @@
 import express from "express";
-//doesn't matter what I call this books or xyz//
 import books from "../controllers/books.controllers";
+// import dotenv from 'dotenv'; 
+// import axios from 'axios'; 
 
-const router = express.Router(); 
 // requests will reach these routes already matching /api/books
+const router = express.Router(); 
+
+// dotenv.config(); 
+// const GOOGLE_BOOKS_API = "https://www.googleapis.com/books/v1/volumes?q="; 
+// const API_KEY = process.env.API_KEY; 
+
+// router.get('/search/:query', async (req, res, next) => {
+//   try {
+//     const query = req.params.query;
+//     const response = await axios.get(`${GOOGLE_BOOKS_API}${query}&key=${API_KEY}`);
+//     console.log("API key", API_KEY); 
+//     console.log("Query", query); 
+//     console.log("Response", response); 
+//     res.json(response.data);
+//   } catch (err) {
+//     console.error('Error fetching data from Google Books API:', err);
+//     next(err);
+//   }
+// });
 
 //:book_id? means id is optional 
 router.get("/:book_id?", async (req, res, next) => {
