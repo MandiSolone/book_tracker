@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 function BookForm({ addBook }) {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
-  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState('');
   const [link, setLink] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addBook({ title, author, comment, link });
+    addBook({ title, author, comments, link });
     setTitle('');
     setAuthor('');
-    setComment('');
+    setComments('');
     setLink('');
   };
 
@@ -36,14 +36,14 @@ function BookForm({ addBook }) {
         />
       </div>
       <div>
-        <label>Comment:</label>
+        <label>Comments:</label>
         <textarea
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          value={comments}
+          onChange={(e) => setComments(e.target.value)}
         />
       </div>
       <div>
-        <label>Link:</label>
+        <label>Link (optional):</label>
         <input
           type="url"
           value={link}

@@ -1,6 +1,3 @@
-// export const books = (req, res) => {
-//     res.json("List of books");
-//   };
 
 import query from "../db/utils";
 
@@ -16,7 +13,14 @@ const findOne = async (book_id) => {
 }; 
 
 const addOne = async (newBook) => {
-    return await query("INSERT INTO books SET ?", [newBook]); 
+    const result = await query("INSERT INTO books SET ?", [newBook]); 
+    // Construct the new book object including its id
+    const bookWithId = {
+        book_id: result.insertId, // Use insertId from the result
+        ...newBook // Spread other book properties
+    };
+
+    return bookWithId; // Return the new book object
 }; 
 
 const updateOne = async (updatedBook, book_id) => {

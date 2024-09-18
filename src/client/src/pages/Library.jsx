@@ -1,34 +1,58 @@
+//add a whole edit book capability (w/ btn, and axios.put/update on server side)
+//add a page/link for .get find 1 (server:http://localhost:8080/api/books/1), code client side
+
 import React from "react";
 import { useState, useEffect } from "react"; 
 import BookForm from "../components/BookForm";
 import BookList from "../components/BookList";
-// import axios from 'axios';
+import axios from 'axios';
 
 
 function Library() {
-  const [books, setBooks] = useState([
-    { title: 'Book One', author: 'Author One', comment: 'Great book', link: 'http://example.com' },
-    { title: 'Book Two', author: 'Author Two', comment: 'Another great book', link: 'http://example.com' },
-  ]);
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   // Fetch books from the backend API
-  //   axios.get('http://localhost:8080/books')
-  //     .then(response => {
-  //       setBooks(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching books:', error);
-  //     });
-  // }, []);
 
-  const handleDelete = (index) => {
-    //Remove the book at the specified index
-    setBooks(books.filter((_, i) => i !== index));
-  }; 
+  useEffect(() => {
+    // Fetch books from the backend API
+    axios.get('http://localhost:8080/api/books')
+      .then(response => {
+        setBooks(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching books:', error);
+      });
+  }, []);
 
-  const addBook = (book) => {
-    setBooks([...books, book]);
+  if (loading) {
+  return <div>Loading Books...</div>;
+}
+
+console.log("books", books); 
+
+const handleDelete = (bookId) => {
+  axios.delete(`http://localhost:8080/api/books/${bookId}`)
+  .then(() => {
+      // Filter out the deleted book using the bookId
+      setBooks(books.filter(book => book.book_id !== bookId));
+      console.log("Deleted book with ID:", bookId);
+  })
+  .catch(error => {
+      console.error('Error deleting book:', error);
+  });
+};
+
+const addBook = (book) => {
+    axios.post('http://localhost:8080/api/books', book)
+      .then(response => {
+        // Contains the newly created book with its id
+        const newBook = response.data;
+        setBooks(prevBooks => [...prevBooks, newBook]);
+        })
+       .catch(error => {
+        console.error('Error adding book:', error);
+      });
   };
 
   return (

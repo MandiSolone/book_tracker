@@ -5,9 +5,6 @@ import books from "../controllers/books.controllers";
 const router = express.Router(); 
 // requests will reach these routes already matching /api/books
 
-// router.get("/", books);  
-// export default router; 
-
 //:book_id? means id is optional 
 router.get("/:book_id?", async (req, res, next) => {
     try {
@@ -27,15 +24,19 @@ router.get("/:book_id?", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
     try {
-        let newBook = req.body; 
-        let data = await books.addOne(newBook); 
+        let newBook = req.body;
+        // Call addOne function in the controller
+        let data = await books.addOne(newBook);
+         // Send the new book with its ID as the response
         res.json(data); 
+        console.log("router.post data", data); 
     } catch (err){
         next(err); 
     }
 });  
 
 //requires an user_id to update that user
+//Would need an edit button on the client side
 router.put("/:book_id", async (req, res, next) => {
     try {
         let { book_id } = req.params; 
