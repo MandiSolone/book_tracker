@@ -1,33 +1,44 @@
 //make sure link is opening a new page. Needs http:// or http.s:// (should I embed that?)
 //add a sort by function
-import React from 'react';
 
-function BookList({ books, onDelete }) {
+// Div ul of each book being displayed in Library w/ buttons
+import React from "react";
+
+//blBooks=[] set to empty array while awaiting db API fetch from Library
+export default function BookList({ blBooks = [], blOnDelete }) {
+  console.log("Books in BookList, blBooks:", blBooks); // Log the books array
+
   return (
     <div>
-      <h2>All Books</h2>
+      <h2>Your Library</h2>
       <ul>
-        {books.map((book) => (
-    <li key={book.book_id}>
-        <h3>{book.title}</h3>
-        <p><strong>Author:</strong> {book.author}</p>
-        {/* <p><strong>Location:</strong> {book.location}</p>
-        <p><strong>Type:</strong>
-              <select value={book.type} readOnly>
-                <option value="hardcopy">Hardcopy</option>
-                <option value="ebook">Ebook</option>
-                <option value="audiobook">Audiobook</option>
-                <option value="other">Other</option>
-              </select>
-            </p> */}
-        <p><strong>Comments:</strong> {book.comments}</p>
-        <p><strong>Link:</strong> <a href={book.link} target="_blank" rel="noopener noreferrer">{book.link}</a></p>
-        <button onClick={() => onDelete(book.book_id)}>Delete</button>
-    </li>
-))}
+        {blBooks.map((book) => (
+          <li key={book.id}>
+            <img src={book.image} alt={book.title} />
+            <h3>{book.title}</h3>
+            <p>
+              <strong>Author(s):</strong> {book.authors}
+            </p>
+            <p>
+              <strong>Comments:</strong> {book.comments}
+            </p>
+            <p>
+              <strong>Link:</strong>{" "}
+              <a href={book.link} target="_blank" rel="noopener noreferrer">
+                {book.link}
+              </a>
+            </p>
+            <button
+              onClick={() => {
+                console.log("Attempting to delete blBook with ID:", book.id); // Log the ID being deleted
+                blOnDelete(book.id);
+              }}
+            >
+              Delete
+            </button>
+          </li>
+        ))}
       </ul>
     </div>
   );
 }
-
-export default BookList;

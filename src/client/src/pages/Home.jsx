@@ -1,16 +1,14 @@
-import React from "react";
-import GoogleBookSearch from "../components/GoogleBookSearch";
+import React from 'react';
+import GoogleBooksSearch from '../components/GoogleBookSearch';
 
-//implimenet a sign up/sign in page 
-
-function Home() {
-
+const Home = ({ libraryAddBook = () => {} }) => {
+  
   return (
     <div>
-      <h1> Welcome to Book Tracker's Home Page </h1>
-      <GoogleBookSearch />
+      <h1>Welcome to the Book App</h1>
+      <GoogleBooksSearch libraryAddBook={libraryAddBook} />
     </div>
   );
-}
+};
 
 export default Home;

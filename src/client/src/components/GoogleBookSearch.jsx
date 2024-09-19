@@ -1,13 +1,20 @@
+//Get addToLibrary and addToWishList functional
+//move styles over to global.css
+//Look into context provider / lift state for
+
 import React, { useState } from "react";
 
-const GoogleBooksSearch = () => {
-  // Holds the search input from the user.
-  const [query, setQuery] = useState("");
-  // Stores the list of fetched books.
-  const [books, setBooks] = useState([]);
-  const [error, setError] = useState(null);
-  const [library, setLibrary] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
+  function GoogleBooksSearch({ libraryAddBook}) {
+  const [query, setQuery] = useState("");// Holds the search input
+  const [gsBooks, setGSBooks] = useState([]);// Fetched books from Google API.
+  const [error, setError] = useState("");
+  // const [gsLibrary, setGSLibrary] = useState([]); 
+  // const [wishlist, setWishlist] = useState([]);
+ 
+  console.log("google search query:", query);
+  console.log("gsBooks:", gsBooks);
+  console.log("gs Error:", error);
+  // console.log("gsLibrary:", gsLibrary);
 
   const handleSearch = async () => {
     if (!query) return;
@@ -15,21 +22,21 @@ const GoogleBooksSearch = () => {
     try {
       //Uses server side search.routes.js which will handle the request, add the API key, and fetch data from the Google Books API
       const response = await fetch(`http://localhost:8080/api/search/${query}`);
-
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
-      setBooks(data.items || []);
-      setError(null);
+      console.log("HandleSearch data", data); 
+      setGSBooks(data.items || []);
+      setError("");
     } catch (err) {
       console.error("Error fetching book data:", err);
       setError("Failed to fetch books. Please try again later.");
-      setBooks([]);
+      setGSBooks([]);
     }
   };
 
   //Reduce description to under 50 words
   const truncateDescription = (description) => {
-    if (!description) return ''; // Return an empt string if undefined description 
+    if (!description) return ""; // Return an empt string if undefined description
     const words = description.split(" ");
     return words.length > 50
       ? words.slice(0, 50).join(" ") + "..."
@@ -37,20 +44,82 @@ const GoogleBooksSearch = () => {
   };
 
   const addToLibrary = (book) => {
-    setLibrary((prev) => [...prev, book]);
+    const bookData = {
+      book_id: book.id,
+      image: book.volumeInfo.imageLinks?.thumbnail || "https://via.placeholder.com/128x193.png?text=No+Image",
+      title: book.volumeInfo.title,
+      authors: book.volumeInfo.authors.join(", "),
+      comments: "",
+      link: "",
+    };
+  
+    libraryAddBook(bookData);
     alert(`${book.volumeInfo.title} was added to your library!`);
-    console.log("GoogleBookSearch library", library);
-};
+  };
 
-const addToWishlist = (book) => {
-    setWishlist((prev) => [...prev, book]);
-    alert(`${book.volumeInfo.title} was added to your wishlist!`);
-    console.log("GoogleBookSearch wishlist", wishlist);
-};
+   // const addToWishlist = (book) => {
+  //   setWishlist((prev) => {
+  //     const updatedWishlist = [...prev, book];
+  //     alert(`${book.volumeInfo.title} was added to your wishlist!`);
+  //     console.log("Updated Wishlist:", updatedWishlist); // Log the updated wishlist
+  //     return updatedWishlist;
+  //   });
+  // };
+
+//   setGSLibrary((prev) => {
+//     const updatedGSLibrary = [...prev, book];
+//     alert(`${book.volumeInfo.title} was added to your library!`);
+//     console.log("Updated GS Library:", updatedGSLibrary); // Log the updated library
+//     return updatedGSLibrary; // where does this return go? 
+//   });
+// };
+
+// // Extracting relevant data from Google Search BookList
+// const simplifiedLibrary = gsLibrary.map((book) => ({
+//   book_id: book.id,
+//   image:
+//     book.volumeInfo.imageLinks?.thumbnail ||
+//     "https://via.placeholder.com/100",
+//   title: book.volumeInfo.title,
+//   authors: book.volumeInfo.authors.join(", "),
+//   comments: "", // Set comments to an empty string
+//   link: "", // Set link to an empty string
+// }));
+
+    // const addToLibrary = (book) => {
+  //   console.log("addToLibrary(book)", book); 
+  //   libraryAddBook({
+  //     book_id: book.id,
+  //     image: book.volumeInfo.imageLinks?.thumbnail || "https://via.placeholder.com/128x193.png?text=No+Image",
+  //     title: book.volumeInfo.title,
+  //     authors: book.volumeInfo.authors.join(", "),
+  //     comments: "", // Set comments to an empty string
+  //     link: "", // Set link to an empty string
+  //   });
+  // };
+
+  // const addToLibrary = (book) => {
+  //   console.log("addToLibrary book:", book); 
+  //   if (!book) {
+  //     console.error("No book ID provided for addition");
+  //     return;
+  //   }
+  //   axios.post("http://localhost:8080/api/books", book)
+  //     .then((response) => {
+  //       // Contains the newly created book with its id
+  //       const newBook = response.data;
+  //       setBooks((prevBooks) => [...prevBooks, newBook]);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error adding book:", error);
+  //     });
+  // };
+
+  // console.log("simplifiedLibrary", simplifiedLibrary); 
 
   return (
     <div>
-      <h1>Search For Books</h1>
+      <h1>Search</h1>
       <input
         type="text"
         value={query}
@@ -58,12 +127,10 @@ const addToWishlist = (book) => {
         placeholder="Search for books..."
       />
       <button onClick={handleSearch}>Search</button>
-
       {error && <p style={{ color: "red" }}>{error}</p>}
-
       <div id="results">
-        {books.length > 0 ? (
-          books.map((book) => {
+        {gsBooks.length > 0 ? (
+          gsBooks.map((book) => {
             const { title, authors, description, imageLinks } = book.volumeInfo;
             return (
               <div key={book.id} className="book">
@@ -82,9 +149,9 @@ const addToWishlist = (book) => {
                   <button onClick={() => addToLibrary(book)}>
                     Add to Library
                   </button>
-                  <button onClick={() => addToWishlist(book)}>
-                    Add to Wishlist
-                  </button>
+                  {/* <button onClick={() => addToWishlist(book)}>
+                    Add to Wishlist */}
+                  {/* </button> */}
                 </div>
               </div>
             );
@@ -93,6 +160,7 @@ const addToWishlist = (book) => {
           <p>No results found.</p>
         )}
       </div>
+
       <style jsx>{`
         .book {
           margin: 20px;
@@ -106,9 +174,9 @@ const addToWishlist = (book) => {
           margin-right: 20px;
         }
         button {
-                    margin-right: 10px;
-                    padding: 5px 10px;
-                    cursor: pointer;
+          margin-right: 10px;
+          padding: 5px 10px;
+          cursor: pointer;
         }
       `}</style>
     </div>
