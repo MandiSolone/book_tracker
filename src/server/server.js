@@ -1,19 +1,16 @@
-
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import apiRouter from "./routes/index";
 import config from "./config";
 import { errorHandler } from "./middlewares/errorHandler";
-import { join } from "path";
-import mysql from "./config/index";
 
 const app = express();
 
 /**
  * Parses incoming request body as json if header indicates application/json
  * Middlewear that parses incoming request data to JSON
-*  Attaches JSON to body parameter of the request object 
+ *  Attaches JSON to body parameter of the request object
  */
 app.use(express.json());
 

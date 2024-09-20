@@ -4,7 +4,7 @@ import books from "../controllers/books.controllers";
 // requests will reach these routes already matching /api/books
 const router = express.Router();
 
-//:book_id? means id is optional
+//? means id is optional
 router.get("/:book_id?", async (req, res, next) => {
   try {
     let { book_id } = req.params;
@@ -14,15 +14,15 @@ router.get("/:book_id?", async (req, res, next) => {
     } else {
       data = await books.findAll();
     }
-    // res.json(data);
     return res.json(
       data.map((book) => ({
         id: book.book_id,
         title: book.title,
-        authors: book.author.split(", "),
+        authors: book.authors.split(", "),
         comments: book.comments,
         link: book.link,
         image: book.image,
+        google_id: book.google_id,
       }))
     );
   } catch (err) {
@@ -36,18 +36,17 @@ router.post("/", async (req, res, next) => {
     // Call addOne function in the controller
     // Send the new book with its ID as the response
     let data = await books.addOne(newBook);
-   
-     // Use a placeholder image if data.image is null
-     const placeholderImage = "https://via.placeholder.com/128x193.png?text=No+Image";
-    
+    // Use a placeholder image if data.image is null
+    const placeholderImage =
+      "https://via.placeholder.com/128x193.png?text=No+Image";
     res.json({
       id: data.book_id,
       title: data.title,
-      authors: data.author.split(", "),
+      authors: data.authors.split(", "),
       comments: data.comments,
       link: data.link,
-      image: data.image ? data.imamge : placeholderImage, 
-      // image: data.image || placeholderImage, 
+      image: data.image ? data.imamge : placeholderImage,
+      google_id: data.google_id,
     });
     console.log("router.post data", data);
   } catch (err) {
@@ -55,7 +54,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-//requires an user_id to update that user
+//requires a user_id to update that user
 //Would need an edit button on the client side
 router.put("/:book_id", async (req, res, next) => {
   try {
@@ -72,7 +71,6 @@ router.delete("/:book_id", async (req, res, next) => {
   try {
     let { book_id } = req.params;
     await books.removeOne(book_id);
-    // res.json(data);
     res.json({ message: "Book deleted", book_id });
   } catch (err) {
     next(err);

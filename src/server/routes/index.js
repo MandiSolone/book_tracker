@@ -11,11 +11,6 @@ router.get("/test", (req, res, next) => {
   res.json("Hello World!");
 });
 
-// http://localhost:8080/api/homepage
-router.get("/homepage", (req, res, next) => {
-  res.json("Hello HomePage!");
-});
-
 router.use("/books", booksRouter);
 
 router.use("/search", searchRouter);

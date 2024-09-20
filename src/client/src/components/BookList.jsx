@@ -1,12 +1,11 @@
-//make sure link is opening a new page. Needs http:// or http.s:// (should I embed that?)
+//make sure link is opening a new page. Needs http:// or http.s://
 //add a sort by function
 
-// Div ul of each book being displayed in Library w/ buttons
 import React from "react";
 
-//blBooks=[] set to empty array while awaiting db API fetch from Library
+// blBooks=[] set to empty array while awaiting db API fetch from Library
 export default function BookList({ blBooks = [], blOnDelete }) {
-  console.log("Books in BookList, blBooks:", blBooks); // Log the books array
+  console.log("Books in BookList, blBooks:", blBooks);
 
   return (
     <div>
@@ -30,7 +29,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
             </p>
             <button
               onClick={() => {
-                console.log("Attempting to delete blBook with ID:", book.id); // Log the ID being deleted
+                console.log("Attempting to delete blBook with ID:", book.id);
                 blOnDelete(book.id);
               }}
             >

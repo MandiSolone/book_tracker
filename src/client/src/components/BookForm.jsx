@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
 // add type (hardcopy, audio, ebook), location (amazon, google books), status (read, unread)
+import React, { useState } from "react";
+
 function BookForm({ addBook }) {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [comments, setComments] = useState('');
-  const [link, setLink] = useState('');
+  const [title, setTitle] = useState("");
+  const [authors, setAuthors] = useState("");
+  const [comments, setComments] = useState("");
+  const [link, setLink] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addBook({ title, author, comments, link });
-    setTitle('');
-    setAuthor('');
-    setComments('');
-    setLink('');
+    addBook({ title, authors, comments, link });
+    setTitle("");
+    setAuthors("");
+    setComments("");
+    setLink("");
   };
 
   return (
@@ -28,11 +29,11 @@ function BookForm({ addBook }) {
         />
       </div>
       <div>
-        <label>Author:</label>
+        <label>Authors:</label>
         <input
           type="text"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
+          value={authors}
+          onChange={(e) => setAuthors(e.target.value)}
           required
         />
       </div>

@@ -2,15 +2,13 @@ import query from "../db/utils";
 
 const findAll = async () => {
   return await query(
-    // "SELECT book_id, title, author, comments, link FROM books"
-    "SELECT book_id, title, author, comments, link, image FROM books"
+    "SELECT book_id, title, authors, comments, link, image, google_id FROM books"
   );
 };
 
 const findOne = async (book_id) => {
   return await query(
-    // "SELECT book_id, title, author, comments, link FROM books WHERE book_id = ?", [book_id]);
-    "SELECT book_id, title, author, comments, link, image FROM books WHERE book_id = ?",
+    "SELECT book_id, title, authors, comments, link, image, google_id  FROM books WHERE book_id = ?",
     [book_id]
   );
 };
@@ -22,7 +20,6 @@ const addOne = async (newBook) => {
     book_id: result.insertId, // Use insertId from the result
     ...newBook, // Spread other book properties
   };
-
   return bookWithId; // Return the new book object
 };
 
