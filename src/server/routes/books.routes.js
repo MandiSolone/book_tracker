@@ -33,7 +33,7 @@ router.get("/:book_id?", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     let newBook = req.body;
-    // Call addOne function in the controller
+    console.log("newBook, req.body", newBook); 
     // Send the new book with its ID as the response
     let data = await books.addOne(newBook);
     res.json({
@@ -44,6 +44,13 @@ router.post("/", async (req, res, next) => {
       link: data.link,
       image: data.image, 
       google_id: data.google_id,
+
+      type: data.type, 
+      location: data.location, 
+      status: data.status, 
+      rating: data.rating, 
+     
+
     });
     console.log("router.post data", data);
   } catch (err) {
@@ -53,16 +60,18 @@ router.post("/", async (req, res, next) => {
 
 //requires a user_id to update that user
 //Would need an edit button on the client side
-router.put("/:book_id", async (req, res, next) => {
-  try {
-    let { book_id } = req.params;
-    let updatedBook = req.body;
-    let data = await books.updateOne(updatedBook, book_id);
-    res.json(data);
-  } catch (err) {
-    next(err);
-  }
-});
+//Sending a request to update the details of an existing
+
+// router.put("/:book_id", async (req, res, next) => {
+//   try {
+//     let { book_id } = req.params;
+//     let updatedBook = req.body;
+//     let data = await books.updateOne(updatedBook, book_id);
+//     res.json(data);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 router.delete("/:book_id", async (req, res, next) => {
   try {

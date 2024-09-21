@@ -1,3 +1,4 @@
+/* fix syntax */ 
 .body {
   padding: 10px;
   background-color: #333; 
@@ -6,11 +7,13 @@
 }
 
 h1 {
-  color: #f5f0f0;
+  color: #60926b;
   margin-bottom: 20px;
   font-size: 24px;
 }
-
+html {
+  color: #f5f0f0;
+}
 input[type="text"] {
   width: 100%;
   padding: 10px;
@@ -24,6 +27,7 @@ button {
   color: white;
   border: none;
   border-radius: 4px;
+  margin: 10px;
   padding: 10px 15px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -52,23 +56,23 @@ button:hover {
   align-items: center;
 }
 
-.book img {
+.bookImg {
   width: 100px; /* Set fixed width for book images */
   height: auto; /* Maintain aspect ratio */
   border-radius: 4px;
   margin-right: 15px; /* Space between image and text */
 }
 
-.book div {
+.bookDiv {
   flex: 1; /* Allow text to fill available space */
 }
 
-.book h2 {
+.title {
   font-size: 18px;
   margin: 0 0 5px; /* Space below title */
 }
 
-.book p {
+.bookParagraph {
   margin: 5px 0; /* Space between paragraphs */
   color: #666; /* Lighter color for text */
 }

@@ -7,6 +7,7 @@ import React from "react";
 export default function BookList({ blBooks = [], blOnDelete }) {
   console.log("Books in BookList, blBooks:", blBooks);
 
+  //handle defualtImage if broken 
   const BookImage = ({ src }) => {
     const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image";
   
@@ -44,6 +45,18 @@ export default function BookList({ blBooks = [], blOnDelete }) {
               <a href={book.link} target="_blank" rel="noopener noreferrer">
                 {book.link}
               </a>
+            </p>
+            <p>
+              <strong>Type:</strong> {book.type}
+            </p>
+            <p>
+              <strong>Location:</strong>{book.location}
+              </p>
+            <p>
+              <strong>Status:</strong>{book.status}
+            </p>  
+            <p>
+              <strong>Rating:</strong>{book.rating}
             </p>
             <button
               onClick={() => {

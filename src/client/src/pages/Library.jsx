@@ -5,17 +5,15 @@
 //Add public API and pull images for books added manually
 
 import React from "react";
-import BookForm from "../components/BookForm";
 import BookList from "../components/BookList";
 import useLibrary from "../hooks/useLibrary";
 
 const Library = () => {
-  const { libraryBooks, libraryAddBook, libraryHandleDelete } = useLibrary();
+  const { libraryBooks, libraryHandleDelete } = useLibrary();
 
   return (
     <div>
       <h1>Library</h1>
-      <BookForm addBook={libraryAddBook} />
       <BookList blBooks={libraryBooks} blOnDelete={libraryHandleDelete} />
     </div>
   );
