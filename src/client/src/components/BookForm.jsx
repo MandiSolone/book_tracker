@@ -6,18 +6,29 @@ function BookForm({ addBook }) {
   const [authors, setAuthors] = useState("");
   const [comments, setComments] = useState("");
   const [link, setLink] = useState("");
+  const [image, setImage] = useState ("");
+
+  const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addBook({ title, authors, comments, link });
+    addBook({ title, authors, comments, link, image: image.trim() !=="" ? image : defaultImage,  });
+    // Reset the form fileds after sent off
     setTitle("");
     setAuthors("");
     setComments("");
     setLink("");
+    setImage("");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter') {
+        handleSubmit(e);
+      }
+    }}
+    >
       <div>
         <h2>Add A Book</h2>
         <label>Title:</label>
@@ -50,6 +61,14 @@ function BookForm({ addBook }) {
           type="url"
           value={link}
           onChange={(e) => setLink(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>Image (optional):</label>
+        <input
+          type="Image url"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
         />
       </div>
       <button type="submit">Add Book</button>

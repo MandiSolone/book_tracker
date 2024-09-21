@@ -1,11 +1,10 @@
 import React from "react";
-import GoogleBooksSearch from "../components/GoogleBookSearch";
+//code to populate top fav books or something// 
 
-const Search = ({ libraryAddBook }) => {
+const Search = () => {
   return (
     <div>
-      <h1>Search for a Book</h1>
-      <GoogleBooksSearch libraryAddBook={libraryAddBook} />
+      <h1>Search</h1>
     </div>
   );
 };

@@ -7,14 +7,32 @@ import React from "react";
 export default function BookList({ blBooks = [], blOnDelete }) {
   console.log("Books in BookList, blBooks:", blBooks);
 
+  const BookImage = ({ src }) => {
+    const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image";
+  
+    return (
+      <img
+        src={src}
+        onError={(e) => {
+          e.target.onerror = null; // Prevent looping
+          e.target.src = defaultImage; // Set the default image on error
+        }}
+        alt="Book cover"
+        style={{ width: '128px', height: '193px' }} // Adjust size as needed
+      />
+    );
+  };
+
   return (
     <div>
       <h2>Your Library</h2>
+      {blBooks.length === 0 ? (<p>No Books available</p>) : (
       <ul>
         {blBooks.map((book) => (
           <li key={book.id}>
-            <img src={book.image} alt={book.title} />
-            <h3>{book.title}</h3>
+            <BookImage src={book.image} />
+            {/* <img src={book.image} alt={book.title} /> */}
+            <h2>{book.title}</h2>
             <p>
               <strong>Author(s):</strong> {book.authors}
             </p>
@@ -38,6 +56,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
           </li>
         ))}
       </ul>
+    )}
     </div>
   );
 }

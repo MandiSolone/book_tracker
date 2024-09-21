@@ -1,19 +1,23 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-export const LibraryContext = createContext();
+const LibraryContext = createContext();
 
-export const LibraryProvider = ({ children }) => {
+const LibraryProvider = ({ children }) => {
   const [libraryBooks, setLibraryBooks] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
   // Fetch library books from API & db
   useEffect(() => {
     const fetchBooks = async () => {
+      setLoading(true);//Start loading
       try {
         const response = await axios.get("http://localhost:8080/api/books");
         setLibraryBooks(response.data);
       } catch (error) {
         console.error("Error fetching books:", error);
+      } finally {
+        setLoading(false);// Stop loading regardless of success or failure
       }
     };
 
@@ -51,11 +55,17 @@ export const LibraryProvider = ({ children }) => {
     }
   };
 
+  // Conditional rendering for loading state
+  if (loading) {
+    return <div><h1>Loading Library...</h1></div>;
+  }
+
   return (
     <LibraryContext.Provider
-      value={{ libraryBooks, libraryAddBook, libraryHandleDelete }}
-    >
+      value={{ libraryBooks, libraryAddBook, libraryHandleDelete }}>
       {children}
     </LibraryContext.Provider>
   );
 };
+
+export { LibraryProvider, LibraryContext };

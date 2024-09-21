@@ -36,16 +36,13 @@ router.post("/", async (req, res, next) => {
     // Call addOne function in the controller
     // Send the new book with its ID as the response
     let data = await books.addOne(newBook);
-    // Use a placeholder image if data.image is null
-    const placeholderImage =
-      "https://via.placeholder.com/128x193.png?text=No+Image";
     res.json({
       id: data.book_id,
       title: data.title,
       authors: data.authors.split(", "),
       comments: data.comments,
       link: data.link,
-      image: data.image ? data.imamge : placeholderImage,
+      image: data.image, 
       google_id: data.google_id,
     });
     console.log("router.post data", data);
