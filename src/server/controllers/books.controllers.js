@@ -24,10 +24,36 @@ const addOne = async (newBook) => {
 };
 
 const updateOne = async (updatedBook, book_id) => {
-  return await query("UPDATE books SET ? WHERE book_id = ?", [
-    updatedBook,
-    book_id,
-  ]);
+  const {
+    title,
+    authors,
+    comments,
+    link,
+    image,
+    type,
+    location,
+    status,
+    rating,
+  } = updatedBook;
+
+  const updateResult = await query(
+    "UPDATE books SET title = ?, authors = ?, comments = ?, link = ?, image = ?, type = ?, location = ?, status = ?, rating = ? WHERE book_id = ?",
+    [
+      title,
+      authors,
+      comments,
+      link,
+      image,
+      type,
+      location,
+      status,
+      rating,
+      book_id,
+    ]
+  );
+
+  console.log(updateResult.affectedRows);
+  return updateResult;
 };
 
 const removeOne = async (bookID) => {

@@ -1,9 +1,8 @@
-//update DB to accept all these points (type, location, status, rating)
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
 
-function BookForm() {
-  const {libraryAddBook } = useLibrary(); // Use the hook to access libraryAddBook
+function BookForm({ book, onClose }) {
+  const { libraryAddBook, libraryEditBook } = useLibrary(); // Hooks to access libraryContext
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState("");
   const [comments, setComments] = useState("");
@@ -16,31 +15,76 @@ function BookForm() {
   const [customLocation, setCustomLocation] = useState(""); // New state for custom Location
   const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image";
 
-  console.log("title", title); 
-  console.log("type", type); 
-  console.log("location", location); 
-  console.log("status", status); 
-  console.log("rating", rating); 
+  console.log(
+    "BookForm const--",
+    "title:",
+    title,
+    "author:",
+    authors,
+    "comments:",
+    comments,
+    "link:",
+    link,
+    "image:",
+    image,
+    "type:",
+    type,
+    "location:",
+    location,
+    "status:",
+    status,
+    "rating:",
+    rating,
+    "customLocation:",
+    customLocation
+  );
+  console.log("BookForm book:", book);
 
-  //set async/awaut on handleSubmit so fetch is preformed before states are cleared
-  const handleSubmit =  async (e) => {
+  // useEffect to populate book data as initial state for editing
+  useEffect(() => {
+    if (book) {
+      setTitle(book.title);
+      setAuthors(book.authors.join(", ")); // Convert array to string for input
+      setComments(book.comments);
+      setLink(book.link);
+      setImage(book.image); // Keep current image if editing
+      setType(book.type);
+      setLocation(book.location);
+      setStatus(book.status);
+      setRating(book.rating);
+    }
+  }, [book]);
+
+  // Async handleSubmit- fetch is preformed before states are cleared
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Construct the new or updated book object
     const newBook = {
+      id: book ? book.id : undefined, // Ensure ID is included for edits
       title,
-      authors,
+      authors: authors.split(", "), // Convert string back to array
       comments,
       link,
-      image: image.trim() !== "" ? image : defaultImage,
+      image: image.trim() !== "" ? image : book ? book.image : defaultImage, // Use existing image if empty
       type,
-      location: location === "other" ? customLocation :location, // Use customLocation if "other" is selected
+      location: location === "other" ? customLocation : location, // Use customLocation if "other" is selected
       status,
       rating,
     };
-    
-  await libraryAddBook(newBook);// Await 
+    console.log("BookForm newBook", newBook);
+    // Check if we are editing an existing book or adding a new one
 
-    // Reset the form fileds after sent off
+    if (book) {
+      await libraryEditBook(newBook); //Pass ID for editing
+    } else {
+      await libraryAddBook(newBook);
+    }
+
+    resetFields(); // Reset the form fields after saving
+    onClose(); // Close the form
+  };
+  const resetFields = () => {
     setTitle("");
     setAuthors("");
     setComments("");
@@ -64,7 +108,7 @@ function BookForm() {
       }}
     >
       <div>
-        <h2>Add A Book</h2>
+        <h2>{book ? "Edit Book" : "Add Book"}</h2>
         <label>Title: </label>
         <input
           type="text"
@@ -79,7 +123,6 @@ function BookForm() {
           type="text"
           value={authors}
           onChange={(e) => setAuthors(e.target.value)}
-          required
         />
       </div>
       <div>
@@ -144,7 +187,7 @@ function BookForm() {
       <div>
         <label>Status:</label>
         <select value={status} onChange={(e) => setStatus(e.target.value)}>
-        <option value="read">Read</option>
+          <option value="read">Read</option>
           <option value="unread">Unread</option>
           <option value="other">Other</option>
         </select>
@@ -159,7 +202,7 @@ function BookForm() {
           <option value="fiveStar">5 Star</option>
         </select>
       </div>
-      <button type="submit">Add Book</button>
+      <button type="submit">Save Book</button>
     </form>
   );
 }

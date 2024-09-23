@@ -33,24 +33,21 @@ router.get("/:book_id?", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     let newBook = req.body;
-    console.log("newBook, req.body", newBook); 
+    console.log("newBook, req.body", newBook);
     // Send the new book with its ID as the response
     let data = await books.addOne(newBook);
     res.json({
       id: data.book_id,
       title: data.title,
-      authors: data.authors.split(", "),
+      authors: data.authors ? data.authors.split(", ") : [],
       comments: data.comments,
       link: data.link,
-      image: data.image, 
+      image: data.image,
       google_id: data.google_id,
-
-      type: data.type, 
-      location: data.location, 
-      status: data.status, 
-      rating: data.rating, 
-     
-
+      type: data.type,
+      location: data.location,
+      status: data.status,
+      rating: data.rating,
     });
     console.log("router.post data", data);
   } catch (err) {
@@ -58,20 +55,43 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-//requires a user_id to update that user
-//Would need an edit button on the client side
-//Sending a request to update the details of an existing
+router.put("/:book_id", async (req, res, next) => {
+  try {
+    let { book_id } = req.params; // Extract book_id from request params
+    console.log("router.put book_id:", book_id); // Log the book_id to check its value
+    let updatedBook = req.body; // Get updated book data from request body
 
-// router.put("/:book_id", async (req, res, next) => {
-//   try {
-//     let { book_id } = req.params;
-//     let updatedBook = req.body;
-//     let data = await books.updateOne(updatedBook, book_id);
-//     res.json(data);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+    // Update the book in the database
+    const updateResult = await books.updateOne(updatedBook, book_id); // Pass updatedBook directly
+
+    // Check if the update was successful
+    if (!updateResult.affectedRows) {
+      return res
+        .status(404)
+        .json({ message: "Book not found or no changes made." });
+    }
+
+    // Optionally, fetch the updated book details
+    const data = await books.findOne(book_id); // Get the updated book
+
+    // Respond with the updated book data
+    res.json({
+      id: data.book_id,
+      title: data.title,
+      authors: data.authors ? data.authors.split(", ") : [],
+      comments: data.comments,
+      link: data.link,
+      image: data.image,
+      google_id: data.google_id,
+      type: data.type,
+      location: data.location,
+      status: data.status,
+      rating: data.rating,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.delete("/:book_id", async (req, res, next) => {
   try {

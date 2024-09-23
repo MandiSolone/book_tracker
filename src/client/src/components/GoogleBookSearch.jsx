@@ -1,6 +1,5 @@
 //Get addToWishList functional
 // change alert(`${book.volumeInfo.title} was added to your library!`); (try npm react-toastify?)
-
 import React, { useState } from "react";
 import useLibrary from "../hooks/useLibrary";
 import style from "../styles/GoogleBookSearch.module.css";
@@ -44,7 +43,7 @@ function GoogleBooksSearch() {
 
   const reduceDataThenAdd = (book) => {
     const bookData = {
-      book_id: null, // Use null to allow the database to auto-populate an ID
+      book_id: null, // Use null to allow the db to auto-populate an ID
       image:
         book.volumeInfo.imageLinks?.smallThumbnail ||
         "https://via.placeholder.com/128x193.png?text=No+Image",
@@ -92,8 +91,6 @@ function GoogleBooksSearch() {
           }
         }}
       />
-      {/* <button onClick={handleSearch}
-      >Search</button> */}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <div id="results">
@@ -128,10 +125,7 @@ function GoogleBooksSearch() {
                 </div>
               );
             })
-          : noResultsFound && (
-              <p>No results found.</p>
-            ) // Show only if noResultsFound is true
-        }
+          : noResultsFound && <p>No results found.</p>}
       </div>
     </div>
   );
