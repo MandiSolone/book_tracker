@@ -8,6 +8,8 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   // Handle Edit Book Click
   const [selectedBook, setSelectedBook] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState(null);
 
   console.log("BookList.jsx selectedBook", selectedBook);
   console.log("BookList.jsx isEditing", isEditing);
@@ -21,6 +23,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   //     return 0;
   //   });
 
+  //Handle clicks and Modals
   const handleEditClick = (book) => {
     setSelectedBook(book); // Set the selected book object
     setIsEditing(true); //Open the edit form
@@ -29,6 +32,20 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const closeForm = () => {
     setSelectedBook(null);
     setIsEditing(false);
+  };
+
+  const handleDeleteClick = (book) => {
+    setBookToDelete(book);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (bookToDelete) {
+      await blOnDelete(bookToDelete.book_id); // Call the delete function
+      setIsModalOpen(false);
+      setBookToDelete(null);
+      window.location.reload(); // Refresh the page
+    }
   };
 
   // Handle defualtImage if broken
@@ -88,22 +105,17 @@ export default function BookList({ blBooks = [], blOnDelete }) {
               <p><strong>Location:</strong>{book.location}</p>
               <p> <strong>Status:</strong>{book.status}</p>
               <p> <strong>Rating:</strong>{book.rating} </p>
-              <button className="button"
-                onClick={() => {
-                  console.log("Attempting to delete blBook with ID:", book.id);
-                  blOnDelete(book.id);
-                }}
-              >
-                Delete
-              </button>
-              <button className="button"
-                onClick={() => {
+              {/* <button className="button" onClick={() => {
+                  console.log("Attempting to delete blBook with ID:", book.book_id);
+                  blOnDelete(book.book_id);
+                  }}>Delete</button> */}
+              <button className="button" onClick={() => handleDeleteClick(book)}>
+                  Delete
+              </button>    
+              <button className="button"onClick={() => {
                   console.log("Attempting to edit blEditBook:", book);
                   handleEditClick(book);
-                }}
-              >
-                Edit Book
-              </button>
+                }}> Edit Book</button>
               </div>
             </li>
           ))}
@@ -116,6 +128,18 @@ export default function BookList({ blBooks = [], blOnDelete }) {
             book={selectedBook} //Pass the seleted book object
             onClose={closeForm}
           />
+        </Modal>
+      )}
+     {/* Conditionally render the delete confirmation modal */}
+     {isModalOpen && (
+        <Modal
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={handleConfirmDelete} 
+          showConfirm={true} // Ensure this is set to true
+          isOpen={isModalOpen}
+        >
+          <h2>Confirm Deletion</h2>
+          <p>Are you sure you want to delete this book: {bookToDelete ? bookToDelete.title : ''}?</p>
         </Modal>
       )}
     </div>

@@ -50,13 +50,14 @@ function GoogleBooksSearch() {
   };
 
   const reduceDataThenAdd = (book) => {
+    const authorsString = book.volumeInfo.authors.join(", ");// Convert authors array to a string
     const bookData = {
       book_id: null, // Use null to allow the db to auto-populate an ID
       image:
         book.volumeInfo.imageLinks?.smallThumbnail ||
         "https://via.placeholder.com/128x193.png?text=No+Image",
       title: book.volumeInfo.title,
-      authors: book.volumeInfo.authors,
+      authors:  authorsString, // Use the joined string here
       google_id: book.id,
       comments: "",
       link: "",
@@ -75,7 +76,7 @@ function GoogleBooksSearch() {
            // Set timeout to close the modal after 3 seconds (3000 milliseconds)
            setTimeout(() => {
             closeModal();
-          }, 3000);
+          }, 2000);
         setNoResultsFound(false); // Reset no results found
         setGSearchedBooks([]); //Rest Google Fetched books array to 0
       })

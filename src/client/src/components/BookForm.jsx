@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
+import Modal from "./Modal";
 
 function BookForm({ book, onClose, modal }) {
   const { libraryAddBook, libraryEditBook } = useLibrary(); // Hooks to access libraryContext
@@ -13,21 +14,22 @@ function BookForm({ book, onClose, modal }) {
   const [status, setStatus] = useState("Read");
   const [rating, setRating] = useState("5 Star");
   const [customLocation, setCustomLocation] = useState(""); // New state for custom Location
-  const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image";
+  const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image";//default img 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+ 
+  // console.log("BookForm title", title); 
+  // console.log("BookForm authors", authors); 
+  // console.log("BookForm comments", comments); 
+  // console.log("BookForm link", link); 
+  // console.log("BookForm image", image); 
+  // console.log("BookForm type", type); 
+  // console.log("BookForm location", location); 
+  // console.log("BookForm status", status); 
+  // console.log("BookForm rating", rating); 
+  // console.log("BookForm customLocation", customLocation); 
 
-  console.log("BookForm title", title); 
-  console.log("BookForm authors", authors); 
-  console.log("BookForm comments", comments); 
-  console.log("BookForm link", link); 
-  console.log("BookForm image", image); 
-  console.log("BookForm type", type); 
-  console.log("BookForm location", location); 
-  console.log("BookForm status", status); 
-  console.log("BookForm rating", rating); 
-  console.log("BookForm customLocation", customLocation); 
 
-
-  // useEffect to populate book data as initial state for editing an exhisting book
+ // Populate form with existing book data if editing
   useEffect(() => {
     if (book) {
       setTitle(book.title || "");
@@ -45,14 +47,18 @@ function BookForm({ book, onClose, modal }) {
 console.log("BookForm book:", book);
 
   // Async handleSubmit- fetch is preformed before states are cleared
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSaveClick = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    setIsModalOpen(true); // Open confirmation modal
+  }; 
 
     // Construct the new or updated book object
+   const handleConfirmSave = async () => { 
     const newBook = {
       id: book ? book.id : undefined, // Ensure ID is included for edits
       title,
-      authors,  // Convert string back to array
+      authors,  
+      // authors: authors.split(",").map((author) => author.trim()),
       comments,
       link,
       image: image.trim() !== "" ? image : book ? book.image : defaultImage, // Use existing image if empty
@@ -61,22 +67,29 @@ console.log("BookForm book:", book);
       status: status || "Read",
       rating: rating || "1 Star",
     };
+
     console.log("BookForm newBook", newBook);
     // Check if we are editing an existing book or adding a new one
 
+    // Save or update book 
     if (book) {
       await libraryEditBook(newBook); //Pass ID for editing
     } else {
       await libraryAddBook(newBook);
     }
     
+    // Handle Modal 
     if (modal) {
-      onClose(); // Close the modal
-      resetFields();
-    } else {
-      resetFields(); // Reset fields when not in a modal
+      onClose(); // Close the modal if in library context
     }
+    resetFields();
+    setIsModalOpen(false); // Close confirmation modal
   };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const resetFields = () => {
     setTitle("");
     setAuthors("");
@@ -92,10 +105,10 @@ console.log("BookForm book:", book);
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSaveClick}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
-          handleSubmit(e);
+          handleSaveClick(e); // Call handleSaveClick with the event 'e'
         }
       }}
     >
@@ -195,6 +208,19 @@ console.log("BookForm book:", book);
         </select>
       </div>
       <button type="submit">Save Book</button>
+      {/* <button onClick={() => handleSaveClick(yourBook)}>Save Book</button> */}
+        
+        {/* Confirmation Modal */}
+        {isModalOpen && (
+        <Modal
+          onClose={handleCloseModal}
+          onConfirm={handleConfirmSave}
+          showConfirm={true}
+        >
+          <h2>Confirm Save</h2>
+          <p>Are you sure you want to save this book: {title}?</p>
+        </Modal>
+      )}
     </form>
   );
 }

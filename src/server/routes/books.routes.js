@@ -134,7 +134,8 @@ router.post("/", async (req, res, next) => {
     res.json({
       id: data.book_id,
       title: data.title,
-      authors: data.authors ? data.authors : [],
+      // authors: data.authors ? data.authors : [],
+      authors: data.authors || [], //input is an array not a string - ['J. K. Rowling', 'Jack Thorne']
       comments: data.comments,
       link: data.link,
       image: data.image,
@@ -145,6 +146,7 @@ router.post("/", async (req, res, next) => {
       rating: data.rating,
     });
     console.log("router.post data", data);
+    res.status(201).json(result);
   } catch (err) {
     next(err);
   }
@@ -173,7 +175,7 @@ router.put("/:book_id", async (req, res, next) => {
     res.json({
       id: data.book_id,
       title: data.title,
-      authors: data.authors ? data.authors.split(", ") : [],
+      authors: data.authors ? data.authors.split(", ") : [], // split works as input is a string 
       comments: data.comments,
       link: data.link,
       image: data.image,
