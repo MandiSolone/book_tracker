@@ -63,7 +63,8 @@ const LibraryProvider = ({ children }) => {
   };
 
   const libraryEditBook = async (updatedBookData) => {
-    const bookId = updatedBookData.id; // Extract ID from the updated book data
+    console.log("updatedBookDate", updatedBookData);
+    const bookId = updatedBookData.book_id; // Extract ID from the updated book data
     if (!bookId) {
       console.error("No book ID provided for editing");
       return;

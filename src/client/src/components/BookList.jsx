@@ -10,10 +10,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState(null);
-
-  console.log("BookList.jsx selectedBook", selectedBook);
-  console.log("BookList.jsx isEditing", isEditing);
-  console.log("Books in BookList, blBooks:", blBooks);
+  console.log("selectedBook", selectedBook); 
 
   // // Function to sort books
   // const [sortCriteria, setSortCriteria] = useState('title'); // Default sort by title
@@ -92,30 +89,49 @@ export default function BookList({ blBooks = [], blOnDelete }) {
             <li key={book.book_id || book.google_id} className="book-item">
               <BookImage src={book.image} />
               <div className="book-info">
-              <h2>{book.title}</h2>
-              <p><strong>Author(s):</strong> {book.authors} </p>
-              <p><strong>Comments:</strong> {book.comments}</p>
-              <p>
-                <strong>Link:</strong>{" "}
-                <a href={book.link} target="_blank" rel="noopener noreferrer">
-                  {book.link}
-                </a>
-              </p>
-              <p> <strong>Type:</strong> {book.type} </p>
-              <p><strong>Location:</strong>{book.location}</p>
-              <p> <strong>Status:</strong>{book.status}</p>
-              <p> <strong>Rating:</strong>{book.rating} </p>
-              {/* <button className="button" onClick={() => {
-                  console.log("Attempting to delete blBook with ID:", book.book_id);
-                  blOnDelete(book.book_id);
-                  }}>Delete</button> */}
-              <button className="button" onClick={() => handleDeleteClick(book)}>
+                <h2>{book.title}</h2>
+                <p>
+                  <strong>Author(s):</strong> {book.authors}{" "}
+                </p>
+                <p>
+                  <strong>Comments:</strong> {book.comments}
+                </p>
+                <p>
+                  <strong>Link:</strong>{" "}
+                  <a href={book.link} target="_blank" rel="noopener noreferrer">
+                    {book.link}
+                  </a>
+                </p>
+                <p>
+                  {" "}
+                  <strong>Type:</strong> {book.type}{" "}
+                </p>
+                <p>
+                  <strong>Location:</strong>
+                  {book.location}
+                </p>
+                <p>
+                  {" "}
+                  <strong>Status:</strong>
+                  {book.status}
+                </p>
+                <p>
+                  {" "}
+                  <strong>Rating:</strong>
+                  {book.rating}{" "}
+                </p>
+                <button
+                  className="button"
+                  onClick={() => handleDeleteClick(book)}
+                >
                   Delete
-              </button>    
-              <button className="button"onClick={() => {
-                  console.log("Attempting to edit blEditBook:", book);
-                  handleEditClick(book);
-                }}> Edit Book</button>
+                </button>
+                <button
+                  className="button"
+                  onClick={() => handleEditClick(book)}
+                >
+                  Edit Book
+                </button>
               </div>
             </li>
           ))}
@@ -130,16 +146,18 @@ export default function BookList({ blBooks = [], blOnDelete }) {
           />
         </Modal>
       )}
-     {/* Conditionally render the delete confirmation modal */}
-     {isModalOpen && (
+      {/* Conditionally render the delete confirmation modal */}
+      {isModalOpen && (
         <Modal
           onClose={() => setIsModalOpen(false)}
-          onConfirm={handleConfirmDelete} 
+          onConfirm={handleConfirmDelete}
           showConfirm={true} // Ensure this is set to true
-          isOpen={isModalOpen}
         >
           <h2>Confirm Deletion</h2>
-          <p>Are you sure you want to delete this book: {bookToDelete ? bookToDelete.title : ''}?</p>
+          <p>
+            Are you sure you want to delete this book:
+            {bookToDelete ? bookToDelete.title : ""}?
+          </p>
         </Modal>
       )}
     </div>

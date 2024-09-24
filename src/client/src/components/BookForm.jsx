@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
 
-function BookForm({ book, onClose, modal }) {
+function BookForm({ book, onClose, modal, onSave}) {
   const { libraryAddBook, libraryEditBook } = useLibrary(); // Hooks to access libraryContext
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState("");
@@ -16,18 +16,6 @@ function BookForm({ book, onClose, modal }) {
   const [customLocation, setCustomLocation] = useState(""); // New state for custom Location
   const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image";//default img 
   const [isModalOpen, setIsModalOpen] = useState(false);
- 
-  // console.log("BookForm title", title); 
-  // console.log("BookForm authors", authors); 
-  // console.log("BookForm comments", comments); 
-  // console.log("BookForm link", link); 
-  // console.log("BookForm image", image); 
-  // console.log("BookForm type", type); 
-  // console.log("BookForm location", location); 
-  // console.log("BookForm status", status); 
-  // console.log("BookForm rating", rating); 
-  // console.log("BookForm customLocation", customLocation); 
-
 
  // Populate form with existing book data if editing
   useEffect(() => {
@@ -43,19 +31,18 @@ function BookForm({ book, onClose, modal }) {
       setRating(book.rating || "1 Star");
     }
   }, [book]);
-
-console.log("BookForm book:", book);
+  console.log("BookForm book", book); 
 
   // Async handleSubmit- fetch is preformed before states are cleared
   const handleSaveClick = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     setIsModalOpen(true); // Open confirmation modal
-  }; 
+  };
 
     // Construct the new or updated book object
    const handleConfirmSave = async () => { 
     const newBook = {
-      id: book ? book.id : undefined, // Ensure ID is included for edits
+      book_id: book ? book.book_id : undefined, // Ensure ID is included for edits
       title,
       authors,  
       // authors: authors.split(",").map((author) => author.trim()),
@@ -67,9 +54,7 @@ console.log("BookForm book:", book);
       status: status || "Read",
       rating: rating || "1 Star",
     };
-
-    console.log("BookForm newBook", newBook);
-    // Check if we are editing an existing book or adding a new one
+    console.log("bookForm newbook", newBook); 
 
     // Save or update book 
     if (book) {
@@ -77,18 +62,24 @@ console.log("BookForm book:", book);
     } else {
       await libraryAddBook(newBook);
     }
-    
-    // Handle Modal 
-    if (modal) {
-      onClose(); // Close the modal if in library context
-    }
-    resetFields();
-    setIsModalOpen(false); // Close confirmation modal
-  };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+        // Handle Modal 
+        if (modal) {
+          onClose(); // Close the modal if in library context
+        }
+        resetFields();
+        setIsModalOpen(false); // Close confirmation modal
+      };
+    
+      const handleCloseModal = () => {
+        setIsModalOpen(false);
+      };
+
+    // onSave(); // Call onSave to handle closing the modal and refreshing
+    // onClose(); // Close the modal
+  //   resetFields();
+  //   setIsModalOpen(false);
+  // };
 
   const resetFields = () => {
     setTitle("");
@@ -108,7 +99,7 @@ console.log("BookForm book:", book);
       onSubmit={handleSaveClick}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
-          handleSaveClick(e); // Call handleSaveClick with the event 'e'
+          handleSaveClick(e); 
         }
       }}
     >
@@ -208,14 +199,12 @@ console.log("BookForm book:", book);
         </select>
       </div>
       <button type="submit">Save Book</button>
-      {/* <button onClick={() => handleSaveClick(yourBook)}>Save Book</button> */}
-        
         {/* Confirmation Modal */}
         {isModalOpen && (
         <Modal
-          onClose={handleCloseModal}
-          onConfirm={handleConfirmSave}
-          showConfirm={true}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmSave}
+        showConfirm={true}
         >
           <h2>Confirm Save</h2>
           <p>Are you sure you want to save this book: {title}?</p>

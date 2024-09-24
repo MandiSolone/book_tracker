@@ -13,7 +13,6 @@ import Account from "./pages/Account";
 import AddBook from "./pages/AddBook";
 import WishList from "./pages/WishList";
 import { LibraryProvider } from "./contexts/LibraryContext";
-import GoogleBooksSearch from "./components/GoogleBookSearch";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 export default function App() {
@@ -21,7 +20,6 @@ export default function App() {
     <ErrorBoundary>
       <LibraryProvider>
         <Router>
-          <GoogleBooksSearch />
           <NavBar />
           <Routes>
             <Route path="/" element={<Library />} />
