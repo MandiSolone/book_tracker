@@ -143,6 +143,12 @@ export default function BookList({ blBooks = [], blOnDelete }) {
           <BookForm
             book={selectedBook} //Pass the seleted book object
             onClose={closeForm}
+
+            onSave={() => {
+              closeForm(); // Close the modal
+              window.location.reload(); // Refresh the page
+            }}
+            
           />
         </Modal>
       )}

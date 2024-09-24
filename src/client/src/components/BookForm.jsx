@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
 
-function BookForm({ book, onClose, modal, onSave}) {
+function BookForm({ book, onClose, modal, onSave }) {
   const { libraryAddBook, libraryEditBook } = useLibrary(); // Hooks to access libraryContext
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState("");
@@ -14,72 +14,72 @@ function BookForm({ book, onClose, modal, onSave}) {
   const [status, setStatus] = useState("Read");
   const [rating, setRating] = useState("5 Star");
   const [customLocation, setCustomLocation] = useState(""); // New state for custom Location
-  const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image";//default img 
+  const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image"; //default img
   const [isModalOpen, setIsModalOpen] = useState(false);
 
- // Populate form with existing book data if editing
+  // Populate form with existing book data if editing
   useEffect(() => {
     if (book) {
       setTitle(book.title || "");
       setAuthors(book.authors || "");
       setComments(book.comments || "");
       setLink(book.link || "");
-      setImage(book.image || defaultImage);// Keep current image if editing
+      setImage(book.image || defaultImage); // Keep current image if editing
       setType(book.type || "Hardcopy");
       setLocation(book.location || "Google Play Books");
       setStatus(book.status || "Read");
       setRating(book.rating || "1 Star");
     }
   }, [book]);
-  console.log("BookForm book", book); 
+  console.log("BookForm book", book);
 
-  // Async handleSubmit- fetch is preformed before states are cleared
+  // Async handle Save Btn Click - fetch is preformed before states are cleared
   const handleSaveClick = async (e) => {
     e.preventDefault();
     setIsModalOpen(true); // Open confirmation modal
   };
 
-    // Construct the new or updated book object
-   const handleConfirmSave = async () => { 
+  // Construct the new or updated book object - Called on confirm save Modal btn click
+  const handleConfirmSave = async () => {
     const newBook = {
       book_id: book ? book.book_id : undefined, // Ensure ID is included for edits
       title,
-      authors,  
+      authors,
       // authors: authors.split(",").map((author) => author.trim()),
       comments,
       link,
       image: image.trim() !== "" ? image : book ? book.image : defaultImage, // Use existing image if empty
-      type: type || "Hardcopy", 
-      location: location === "other" ? customLocation : location || "Google Play Books", // Use customLocation if "other" is selected
+      type: type || "Hardcopy",
+      location:
+        location === "other" ? customLocation : location || "Google Play Books", // Use customLocation if "other" is selected
       status: status || "Read",
       rating: rating || "1 Star",
     };
-    console.log("bookForm newbook", newBook); 
+    console.log("bookForm newbook", newBook);
 
-    // Save or update book 
+    // Save or update book
     if (book) {
       await libraryEditBook(newBook); //Pass ID for editing
     } else {
       await libraryAddBook(newBook);
     }
 
-        // Handle Modal 
-        if (modal) {
-          onClose(); // Close the modal if in library context
-        }
-        resetFields();
-        setIsModalOpen(false); // Close confirmation modal
-      };
-    
-      const handleCloseModal = () => {
-        setIsModalOpen(false);
-      };
+    // After saving, handle the modal closing and resetting
+    if (onSave) {
+      onSave(); // This will close the modal and refresh the page
+    }
 
-    // onSave(); // Call onSave to handle closing the modal and refreshing
-    // onClose(); // Close the modal
-  //   resetFields();
-  //   setIsModalOpen(false);
-  // };
+    // Handle Modal
+    if (modal) {
+      onClose(); // Close the modal if in library context
+    }
+    resetFields();
+    setIsModalOpen(false); // Close confirmation modal
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const resetFields = () => {
     setTitle("");
@@ -99,7 +99,7 @@ function BookForm({ book, onClose, modal, onSave}) {
       onSubmit={handleSaveClick}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
-          handleSaveClick(e); 
+          handleSaveClick(e);
         }
       }}
     >
@@ -199,12 +199,12 @@ function BookForm({ book, onClose, modal, onSave}) {
         </select>
       </div>
       <button type="submit">Save Book</button>
-        {/* Confirmation Modal */}
-        {isModalOpen && (
+      {/* Confirm Save Modal */}
+      {isModalOpen && (
         <Modal
-        onClose={handleCloseModal}
-        onConfirm={handleConfirmSave}
-        showConfirm={true}
+          onClose={handleCloseModal}
+          onConfirm={handleConfirmSave}
+          showConfirm={true}
         >
           <h2>Confirm Save</h2>
           <p>Are you sure you want to save this book: {title}?</p>
