@@ -25,7 +25,6 @@ export default function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<Library />} />
-            <Route path="/library" element={<Library />} />
             <Route path="/addbook" element={<AddBook />} />
             <Route path="/wishlist" element={<WishList />} />
             <Route path="/account" element={<Account />} />

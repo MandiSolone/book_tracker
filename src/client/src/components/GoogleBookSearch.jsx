@@ -2,16 +2,24 @@
 // change alert(`${book.volumeInfo.title} was added to your library!`); (try npm react-toastify?)
 import React, { useState } from "react";
 import useLibrary from "../hooks/useLibrary";
-import style from "../styles/GoogleBookSearch.module.css";
+import "./GoogleBookSearch.module.css";
+import Modal from "./Modal";
 
 function GoogleBooksSearch() {
-  const { libraryAddBook } = useLibrary(); // Use the hook to access libraryAddBook
-  const [query, setQuery] = useState(""); // Holds the search input
-  const [gSearchedBooks, setGSearchedBooks] = useState([]); // Fetched books from Google API
+  const { libraryAddBook } = useLibrary(); // Use hook to access libraryAddBook
+  const [query, setQuery] = useState(""); // Holds search input
+  const [gSearchedBooks, setGSearchedBooks] = useState([]); // Fetched from Google API
   const [error, setError] = useState("");
   const [noResultsFound, setNoResultsFound] = useState(false); // New state for no results
-
   // const [wishlist, setWishlist] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const closeModal = () => {
+    setIsModalOpen(false); // Close the modal
+  };
+
+  console.log("isModalOpen", isModalOpen); 
+  console.log("modalMessage", modalMessage);
 
   //Search.routes.js handles request via Google API key
   const handleSearch = async () => {
@@ -48,17 +56,26 @@ function GoogleBooksSearch() {
         book.volumeInfo.imageLinks?.smallThumbnail ||
         "https://via.placeholder.com/128x193.png?text=No+Image",
       title: book.volumeInfo.title,
-      authors: book.volumeInfo.authors.join(", "),
+      authors: book.volumeInfo.authors,
       google_id: book.id,
       comments: "",
       link: "",
+      type: "",
+      location: "", 
+      status: "", 
+      rating: "", 
     };
 
     console.log("reduceDataThenAdd, bookData:", bookData);
 
     libraryAddBook(bookData)
       .then(() => {
-        alert(`${book.volumeInfo.title} was added to your library!`);
+        setModalMessage(`${book.volumeInfo.title} was added to your library!`);
+        setIsModalOpen(true);
+           // Set timeout to close the modal after 3 seconds (3000 milliseconds)
+           setTimeout(() => {
+            closeModal();
+          }, 3000);
         setNoResultsFound(false); // Reset no results found
         setGSearchedBooks([]); //Rest Google Fetched books array to 0
       })
@@ -78,8 +95,9 @@ function GoogleBooksSearch() {
   //   });
   // };
 
+
   return (
-    <div class={style.body}>
+    <div className="body">
       <input
         type="text"
         value={query}
@@ -99,20 +117,20 @@ function GoogleBooksSearch() {
               const { title, authors, description, imageLinks } =
                 book.volumeInfo;
               return (
-                <div key={book.id} class={style.bookDiv}>
+                <div key={book.id} className="bookDiv">
                   <img
-                    class={style.bookImg}
+                    className="bookImg"
                     src={
                       imageLinks?.thumbnail || "https://via.placeholder.com/100"
                     }
                     alt={title}
                   />
                   <div>
-                    <h2 className={style.title}>{title}</h2>
-                    <p className={style.bookParagraph}>
-                      <strong>Author(s):</strong> {authors.join(", ")}
+                    <h2 className="title">{title}</h2>
+                    <p className="bookParagraph">
+                      <strong>Author(s):</strong> {authors}
                     </p>
-                    <p className={style.bookParagraph}>
+                    <p className="bookParagraph">
                       {truncateDescription(description)}
                     </p>
                     <button onClick={() => reduceDataThenAdd(book)}>
@@ -127,6 +145,14 @@ function GoogleBooksSearch() {
             })
           : noResultsFound && <p>No results found.</p>}
       </div>
+      
+       {/* Modal for notifications */}
+       {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <h2>Notification</h2>
+          <p>{modalMessage}</p>
+        </Modal>
+      )}
     </div>
   );
 }

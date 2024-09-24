@@ -5,30 +5,125 @@ import books from "../controllers/books.controllers";
 const router = express.Router();
 
 //? means id is optional
+// router.get("/:book_id?", async (req, res, next) => {
+//   try {
+//     let { book_id } = req.params;
+//     let data;
+//     if (book_id) {
+//       data = await books.findOne(book_id);
+//     } else {
+//       data = await books.findAll();
+//     }
+//     return res.json(
+//       data.map((book) => ({
+//         id: book.book_id,
+//         title: book.title,
+//         authors: book.authors,
+//         comments: book.comments,
+//         link: book.link,
+//         image: book.image,
+//         google_id: book.google_id,
+//         type: book.type,
+//         location: book.location,
+//         status: book.status,
+//         rating: book.rating,
+//       }))
+//     );
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
+
+//remove if !data error as throws and exits before load
+// router.get("/:book_id?", async (req, res, next) => {
+//   try {
+//     let { book_id } = req.params;
+//     console.log(`Received request for book_id: ${book_id}`);
+//     let data;
+//     if (book_id) {
+//       console.log(`Fetching book with ID: ${book_id}`);
+//       data = await books.findOne(book_id);
+//       return res.json({
+//         id: data.book_id,
+//         title: data.title,
+//         authors: data.authors,
+//         comments: data.comments,
+//         link: data.link,
+//         image: data.image,
+//         google_id: data.google_id,
+//         type: data.type,
+//         location: data.location,
+//         status: data.status,
+//         rating: data.rating,
+//       });
+//     } else {
+//       console.log("Fetching all books");
+//       data = await books.findAll();
+//       console.log(`Fetched ${data.length} books`);
+
+//       return res.json(data.map((book) => ({
+//         id: book.book_id,
+//         title: book.title,
+//         authors: book.authors,
+//         comments: book.comments,
+//         link: book.link,
+//         image: book.image,
+//         google_id: book.google_id,
+//         type: book.type,
+//         location: book.location,
+//         status: book.status,
+//         rating: book.rating,
+//       })));
+//     }
+//   } catch (err) {
+//     console.error("Error fetching book data:", err);
+//     return next(err);
+//   }
+// });
+
 router.get("/:book_id?", async (req, res, next) => {
   try {
-    let { book_id } = req.params;
-    let data;
+    const { book_id } = req.params;
+    console.log(`Received request for book_id: ${book_id}`);
+
+    const formatBookData = (book) => ({
+      book_id: book.book_id,
+      title: book.title,
+      authors: book.authors,
+      comments: book.comments,
+      link: book.link,
+      image: book.image,
+      google_id: book.google_id,
+      type: book.type,
+      location: book.location,
+      status: book.status,
+      rating: book.rating,
+    });
+
     if (book_id) {
-      data = await books.findOne(book_id);
+      console.log(`Fetching book with ID: ${book_id}`);
+      const data = await books.findOne(book_id);
+      
+      if (!data) {
+        console.log(`Book with ID ${book_id} not found`);
+        return res.status(404).json({ message: "Book not found" });
+      }
+
+      return res.json(formatBookData(data));
     } else {
-      data = await books.findAll();
+      console.log("Fetching all books");
+      const data = await books.findAll();
+      console.log(`Fetched ${data.length} books`);
+      console.log("Fetched data from DB:", data);
+
+      return res.json(data.map(formatBookData));
     }
-    return res.json(
-      data.map((book) => ({
-        id: book.book_id,
-        title: book.title,
-        authors: book.authors.split(", "),
-        comments: book.comments,
-        link: book.link,
-        image: book.image,
-        google_id: book.google_id,
-      }))
-    );
   } catch (err) {
+    console.error("Error fetching book data:", err);
     return next(err);
   }
 });
+
 
 router.post("/", async (req, res, next) => {
   try {
@@ -39,7 +134,7 @@ router.post("/", async (req, res, next) => {
     res.json({
       id: data.book_id,
       title: data.title,
-      authors: data.authors ? data.authors.split(", ") : [],
+      authors: data.authors ? data.authors : [],
       comments: data.comments,
       link: data.link,
       image: data.image,
@@ -60,7 +155,7 @@ router.put("/:book_id", async (req, res, next) => {
     let { book_id } = req.params; // Extract book_id from request params
     console.log("router.put book_id:", book_id); // Log the book_id to check its value
     let updatedBook = req.body; // Get updated book data from request body
-
+    console.log("router.put req.body", req.body);
     // Update the book in the database
     const updateResult = await books.updateOne(updatedBook, book_id); // Pass updatedBook directly
 

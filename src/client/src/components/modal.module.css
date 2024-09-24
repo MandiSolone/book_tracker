@@ -1,0 +1,52 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px; /* Adjust width as needed */
+  max-height: 80vh; /* Limit height to 80% of the viewport height */
+  overflow-y: auto; /* Allow vertical scrolling if content exceeds max-height */
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none; /* No background */
+  border: none; /* No border */
+  color: #333; /* Dark color for visibility */
+  font-size: 24px; /* Larger font size for easy clicking */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.close-btn:hover {
+  color: #dc3545; /* Change color on hover (e.g., a red shade) */
+}
+
+.close-btn:focus {
+  outline: none; /* Remove outline on focus for a cleaner look */
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import BookForm from "./BookForm";
 import Modal from "./Modal";
+import "./BookList.module.css";
 
 // blBooks=[] set to empty array while awaiting db API fetch from Library
 export default function BookList({ blBooks = [], blOnDelete }) {
@@ -23,6 +24,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const handleEditClick = (book) => {
     setSelectedBook(book); // Set the selected book object
     setIsEditing(true); //Open the edit form
+    console.log("Editing book:", book);
   };
   const closeForm = () => {
     setSelectedBook(null);
@@ -35,6 +37,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
       "https://via.placeholder.com/128x193.png?text=No+Image";
     return (
       <img
+        className="book-image"
         src={src}
         onError={(e) => {
           e.target.onerror = null; // Prevent looping
@@ -47,8 +50,8 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   };
 
   return (
-    <div>
-      <h2>Your Library</h2>
+    <div className="booklist-container">
+      <h2 className="booklist-header">Your Books</h2>
 
       {/* <label> */}
       {/* Sort by: 
@@ -58,7 +61,6 @@ export default function BookList({ blBooks = [], blOnDelete }) {
           <option value="rating">Rating</option>
         </select>
       </label>
-
       {sortedBooks.length === 0 ? (
         <p>No Books available</p>
       ) : (
@@ -66,41 +68,27 @@ export default function BookList({ blBooks = [], blOnDelete }) {
           {sortedBooks.map((book) => ( */}
 
       {blBooks.length === 0 ? (
-        <p>No Books available</p>
+        <p className="no-books">No Books available</p>
       ) : (
         <ul>
           {blBooks.map((book) => (
-            <li key={book.id}>
+            <li key={book.book_id || book.google_id} className="book-item">
               <BookImage src={book.image} />
+              <div className="book-info">
               <h2>{book.title}</h2>
-              <p>
-                <strong>Author(s):</strong> {book.authors}
-              </p>
-              <p>
-                <strong>Comments:</strong> {book.comments}
-              </p>
+              <p><strong>Author(s):</strong> {book.authors} </p>
+              <p><strong>Comments:</strong> {book.comments}</p>
               <p>
                 <strong>Link:</strong>{" "}
                 <a href={book.link} target="_blank" rel="noopener noreferrer">
                   {book.link}
                 </a>
               </p>
-              <p>
-                <strong>Type:</strong> {book.type}
-              </p>
-              <p>
-                <strong>Location:</strong>
-                {book.location}
-              </p>
-              <p>
-                <strong>Status:</strong>
-                {book.status}
-              </p>
-              <p>
-                <strong>Rating:</strong>
-                {book.rating}
-              </p>
-              <button
+              <p> <strong>Type:</strong> {book.type} </p>
+              <p><strong>Location:</strong>{book.location}</p>
+              <p> <strong>Status:</strong>{book.status}</p>
+              <p> <strong>Rating:</strong>{book.rating} </p>
+              <button className="button"
                 onClick={() => {
                   console.log("Attempting to delete blBook with ID:", book.id);
                   blOnDelete(book.id);
@@ -108,7 +96,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
               >
                 Delete
               </button>
-              <button
+              <button className="button"
                 onClick={() => {
                   console.log("Attempting to edit blEditBook:", book);
                   handleEditClick(book);
@@ -116,6 +104,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
               >
                 Edit Book
               </button>
+              </div>
             </li>
           ))}
         </ul>

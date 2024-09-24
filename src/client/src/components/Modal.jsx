@@ -1,11 +1,11 @@
 import React from "react";
-import style from "../styles/modal.module.css";
+import style from "./modal.module.css"; // Ensure the path is correct
 
 const Modal = ({ onClose, children }) => {
   return (
     <div className={style.overlay}>
       <div className={style.content}>
-        <button className={style.close} onClick={onClose}>
+        <button className={style.closeBtn} onClick={onClose}>
           &times; {/* Close icon */}
         </button>
         {children}

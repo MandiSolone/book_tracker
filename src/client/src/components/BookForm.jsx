@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
 
-function BookForm({ book, onClose }) {
+function BookForm({ book, onClose, modal }) {
   const { libraryAddBook, libraryEditBook } = useLibrary(); // Hooks to access libraryContext
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState("");
@@ -11,49 +11,38 @@ function BookForm({ book, onClose }) {
   const [type, setType] = useState("Hardcopy");
   const [location, setLocation] = useState("Google Play Books");
   const [status, setStatus] = useState("Read");
-  const [rating, setRating] = useState("1 Star");
+  const [rating, setRating] = useState("5 Star");
   const [customLocation, setCustomLocation] = useState(""); // New state for custom Location
   const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image";
 
-  console.log(
-    "BookForm const--",
-    "title:",
-    title,
-    "author:",
-    authors,
-    "comments:",
-    comments,
-    "link:",
-    link,
-    "image:",
-    image,
-    "type:",
-    type,
-    "location:",
-    location,
-    "status:",
-    status,
-    "rating:",
-    rating,
-    "customLocation:",
-    customLocation
-  );
-  console.log("BookForm book:", book);
+  console.log("BookForm title", title); 
+  console.log("BookForm authors", authors); 
+  console.log("BookForm comments", comments); 
+  console.log("BookForm link", link); 
+  console.log("BookForm image", image); 
+  console.log("BookForm type", type); 
+  console.log("BookForm location", location); 
+  console.log("BookForm status", status); 
+  console.log("BookForm rating", rating); 
+  console.log("BookForm customLocation", customLocation); 
 
-  // useEffect to populate book data as initial state for editing
+
+  // useEffect to populate book data as initial state for editing an exhisting book
   useEffect(() => {
     if (book) {
-      setTitle(book.title);
-      setAuthors(book.authors.join(", ")); // Convert array to string for input
-      setComments(book.comments);
-      setLink(book.link);
-      setImage(book.image); // Keep current image if editing
-      setType(book.type);
-      setLocation(book.location);
-      setStatus(book.status);
-      setRating(book.rating);
+      setTitle(book.title || "");
+      setAuthors(book.authors || "");
+      setComments(book.comments || "");
+      setLink(book.link || "");
+      setImage(book.image || defaultImage);// Keep current image if editing
+      setType(book.type || "Hardcopy");
+      setLocation(book.location || "Google Play Books");
+      setStatus(book.status || "Read");
+      setRating(book.rating || "1 Star");
     }
   }, [book]);
+
+console.log("BookForm book:", book);
 
   // Async handleSubmit- fetch is preformed before states are cleared
   const handleSubmit = async (e) => {
@@ -63,14 +52,14 @@ function BookForm({ book, onClose }) {
     const newBook = {
       id: book ? book.id : undefined, // Ensure ID is included for edits
       title,
-      authors: authors.split(", "), // Convert string back to array
+      authors,  // Convert string back to array
       comments,
       link,
       image: image.trim() !== "" ? image : book ? book.image : defaultImage, // Use existing image if empty
-      type,
-      location: location === "other" ? customLocation : location, // Use customLocation if "other" is selected
-      status,
-      rating,
+      type: type || "Hardcopy", 
+      location: location === "other" ? customLocation : location || "Google Play Books", // Use customLocation if "other" is selected
+      status: status || "Read",
+      rating: rating || "1 Star",
     };
     console.log("BookForm newBook", newBook);
     // Check if we are editing an existing book or adding a new one
@@ -80,9 +69,13 @@ function BookForm({ book, onClose }) {
     } else {
       await libraryAddBook(newBook);
     }
-
-    resetFields(); // Reset the form fields after saving
-    onClose(); // Close the form
+    
+    if (modal) {
+      onClose(); // Close the modal
+      resetFields();
+    } else {
+      resetFields(); // Reset fields when not in a modal
+    }
   };
   const resetFields = () => {
     setTitle("");
@@ -90,11 +83,10 @@ function BookForm({ book, onClose }) {
     setComments("");
     setLink("");
     setImage("");
-
-    setType("");
-    setLocation("");
-    setStatus("");
-    setRating("");
+    setType("Hardcopy");
+    setLocation("Google Play Books");
+    setStatus("Read");
+    setRating("1 Star");
     setCustomLocation("");
   };
 
@@ -158,7 +150,7 @@ function BookForm({ book, onClose }) {
         </select>
       </div>
       <div>
-        <label>Location:</label>
+        <label>Location: </label>
         <select
           value={location}
           onChange={(e) => {
@@ -185,7 +177,7 @@ function BookForm({ book, onClose }) {
         )}
       </div>
       <div>
-        <label>Status:</label>
+        <label>Status: </label>
         <select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value="read">Read</option>
           <option value="unread">Unread</option>
@@ -193,7 +185,7 @@ function BookForm({ book, onClose }) {
         </select>
       </div>
       <div>
-        <label>Rating</label>
+        <label>Rating: </label>
         <select value={rating} onChange={(e) => setRating(e.target.value)}>
           <option value="oneStar">1 Star</option>
           <option value="twoStar">2 Star</option>
