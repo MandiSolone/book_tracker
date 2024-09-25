@@ -12,8 +12,25 @@ router.get('/google/callback',
     (req, res) => {
         // Successful authentication
         console.log("User authenticated successfully:", req.user); // Add this line
-        res.redirect('/api/success'); // Change this to your desired route
+        res.redirect('http://localhost:3000/account'); // Redirect to the profile page after authentication
     }
 );
+
+// User profile route
+router.get('/profile', async (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json(req.user); // Return the authenticated user
+    } else {
+        res.status(401).json({ message: 'User not authenticated' });
+    }
+});
+
+// Logout endpoint
+router.post('/logout', (req, res) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        res.redirect('/loggedout'); // Redirect after logout
+    });
+});
 
 export default router;

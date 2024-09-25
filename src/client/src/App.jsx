@@ -12,12 +12,14 @@ import Library from "./pages/Library";
 import Account from "./pages/Account";
 import AddBook from "./pages/AddBook";
 import WishList from "./pages/WishList";
-import { LibraryProvider } from "./contexts/LibraryContext";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { LibraryProvider } from "./contexts/LibraryContext";
+import { UserProfileProvider } from "./contexts/UserProfileContext";
 
 export default function App() {
   return (
     <ErrorBoundary>
+      <UserProfileProvider>
       <LibraryProvider>
         <Router>
           <NavBar />
@@ -29,6 +31,7 @@ export default function App() {
           </Routes>
         </Router>
       </LibraryProvider>
+      </UserProfileProvider>
     </ErrorBoundary>
   );
 }

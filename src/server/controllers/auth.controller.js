@@ -28,7 +28,8 @@ export const googleAuthCallback = async (accessToken, refreshToken, profile, don
 
 // Serialize and deserialize user functions
 export const serializeUser = (user, done) => {
-    done(null, user.id); // Assuming you have a user ID
+    done(null, user.id); // Use user.id to identify the user
+    console.log("user.id",user.id);
 };
 
 export const deserializeUser = async (id, done) => {

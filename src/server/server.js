@@ -29,8 +29,15 @@ app.use(passport.session());
 // Middleware
 // Parses inc req and attaches JSON to body parameter of the request object
 app.use(express.json()); 
-// Enables incoming requests from corss origin domains
-app.use(cors()); 
+
+// Enables incoming requests from cors origin domains
+//CORS is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the resource originated. By specifying an exact origin, you allow requests only from that domain, while blocking others.
+const corsOptions = {
+  origin: 'http://localhost:3000', // Your React app URL
+  credentials: true, // Allow credentials to be sent
+};
+app.use(cors(corsOptions)); 
+
 // Logs incoming request information to the dev console (url, resp, req)
 app.use(morgan("dev"));
 
