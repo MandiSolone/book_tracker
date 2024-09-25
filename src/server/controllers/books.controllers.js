@@ -1,3 +1,4 @@
+// connects mysql wrapped in a promise from db query 
 import query from "../db/utils";
 
 const findAll = async () => {
@@ -51,7 +52,6 @@ const updateOne = async (updatedBook, book_id) => {
       book_id,
     ]
   );
-
   console.log(updateResult.affectedRows);
   return updateResult;
 };

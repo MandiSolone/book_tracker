@@ -1,14 +1,13 @@
 //A Node.js package depenecy that needs to be instaled
 import dotenv from "dotenv";
 
-//Ensures that env variables are loaded from .env file into Node.js app
+// Load environment variables
 const envFound = dotenv.config();
-
 if (!envFound) {
   throw new Error("Couldn't find .env!");
 }
 
-// exports env variables for use
+// exports configuration 
 export default {
   mysql: {
     host: process.env.DB_HOST,
@@ -16,5 +15,11 @@ export default {
     password: process.env.DB_PASS,
     database: process.env.DB_SCHEMA,
   },
-  port: parseInt(process.env.PORT),
+  port: parseInt(process.env.PORT), 
+  oauth: {
+    googleClientId: process.env.GOOGLE_CLIENT_ID,
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    sessionSecret: process.env.SESSION_SECRET,
+  },
 };
+

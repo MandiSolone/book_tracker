@@ -1,47 +1,75 @@
 import express from "express";
-import morgan from "morgan";
+import morgan from "morgan"; // For logging
 import cors from "cors";
-import apiRouter from "./routes/index";
-import config from "./config";
+import apiRouter from "./routes/index"; // Aggregated routes 
+import config from "./config"; // the config file
 import { errorHandler } from "./middlewares/errorHandler";
+//OAuth
+import authRouter from "./routes/auth.routes"; // Import the new auth routes
+import passport from "passport"; // did in auth.routes
+import session from "express-session"; 
+import { googleAuthCallback, serializeUser, deserializeUser } from "./controllers/auth.controller";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20"; 
 
 const app = express();
 
-/**
- * Parses incoming request body as json if header indicates application/json
- * Middlewear that parses incoming request data to JSON
- *  Attaches JSON to body parameter of the request object
- */
-app.use(express.json());
+// OAuth Set up session middleware
+//Has to be at the top, before initalizing Passport and defining any routes 
+app.use(session({
+  secret: config.oauth.sessionSecret, // Use your session secret
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set true in production if using HTTPS
+}));
 
-/**
- * Enables incoming requests from cross origin domains
- */
-app.use(cors());
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
-/**
- * Logs incoming request information to the dev console
- * http request logger middleware for Node.js used with Express.js, it logs url, resp, req
- */
+// Middleware
+// Parses inc req and attaches JSON to body parameter of the request object
+app.use(express.json()); 
+// Enables incoming requests from corss origin domains
+app.use(cors()); 
+// Logs incoming request information to the dev console (url, resp, req)
 app.use(morgan("dev"));
 
-/**
- * Directs all routes starting with /api to the top level api express router
- * Uses the imported apiRouter to handle all requests
- */
-// http://localhost:8080/api/...
-app.use("/api", apiRouter);
+// Passport configuration for Google OAuth
+passport.use(new GoogleStrategy({
+  clientID: config.oauth.googleClientId,
+  clientSecret: config.oauth.googleClientSecret,
+  callbackURL: "http://localhost:8080/api/auth/google/callback",
+}, googleAuthCallback));
 
-/**
- * Directs incoming static asset requests to the public folder
- */
+// Serialize and deserialize user
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser); 
+
+//Directs all routes starting with /api to the top level api express router http://localhost:8080/api/...
+app.use("/api", apiRouter); 
+// Attach the auth router
+app.use(authRouter); 
+//Default Error handler middleware
+app.use(errorHandler); 
+
+// Bind the app to a specified port
+//You can access your app at http://localhost:<port>
+app.listen(config.port || 8080, () =>
+  console.log(`Server listening on port ${config.port}...`)
+);
+
+// In dev create-react-app's built in server handles these routes (everything) but in deployment you need these to ensure app can serve static files and client-side routing works correctly 
+
+// /**
+//  * Directs incoming static asset requests to the public folder
+//  */
 
 // app.use(express.static(join(__dirname, "../client/build")));
 
-/**
- * Sends the react app index.html for page requests
- * Only needed in production when you are not using the react dev server
- */
+// /**
+//  * Sends the react app index.html for page requests
+//  * Only needed in production when you are not using the react dev server
+//  */
 
 // app.use((req, res, next) => {
 //   try {
@@ -51,15 +79,3 @@ app.use("/api", apiRouter);
 //   }
 // });
 
-/**
- * Default Error handler middleware
- */
-app.use(errorHandler);
-
-/**
- * Bind the app to a specified port
- * You can access your app at http://localhost:<port>
- */
-app.listen(config.port || 8080, () =>
-  console.log(`Server listening on port ${config.port}...`)
-);
