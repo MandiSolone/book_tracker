@@ -1,9 +1,9 @@
 //Get addToWishList functional
-// change alert(`${book.volumeInfo.title} was added to your library!`); (try npm react-toastify?)
+//Add exit btn at top after entering search 
 import React, { useState } from "react";
 import useLibrary from "../hooks/useLibrary";
-import "./GoogleBookSearch.module.css";
 import Modal from "./Modal";
+import style from "./GoogleBookSearch.module.css";
 
 function GoogleBooksSearch() {
   const { libraryAddBook } = useLibrary(); // Use hook to access libraryAddBook
@@ -11,15 +11,12 @@ function GoogleBooksSearch() {
   const [gSearchedBooks, setGSearchedBooks] = useState([]); // Fetched from Google API
   const [error, setError] = useState("");
   const [noResultsFound, setNoResultsFound] = useState(false); // New state for no results
-  // const [wishlist, setWishlist] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  // const [wishlist, setWishlist] = useState([]);
   const closeModal = () => {
     setIsModalOpen(false); // Close the modal
   };
-
-  console.log("isModalOpen", isModalOpen); 
-  console.log("modalMessage", modalMessage);
 
   //Search.routes.js handles request via Google API key
   const handleSearch = async () => {
@@ -28,7 +25,6 @@ function GoogleBooksSearch() {
       const response = await fetch(`http://localhost:8080/api/search/${query}`);
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
-      console.log("HandleSearch data", data);
       setGSearchedBooks(data.items || []);
       setError("");
       setNoResultsFound(data.items.length === 0); // Set no results based on fetched data
@@ -40,7 +36,7 @@ function GoogleBooksSearch() {
     }
   };
 
-  //Reduce book desscriiption < 50 words
+  //Reduce book description < 50 words
   const truncateDescription = (description) => {
     if (!description) return ""; // If undefined, null, or an empty string, return an empty string.
     const words = description.split(" ");
@@ -50,33 +46,30 @@ function GoogleBooksSearch() {
   };
 
   const reduceDataThenAdd = (book) => {
-    const authorsString = book.volumeInfo.authors.join(", ");// Convert authors array to a string
+    const authorsString = book.volumeInfo.authors.join(", "); // Convert authors array to a string
     const bookData = {
       book_id: null, // Use null to allow the db to auto-populate an ID
       image:
         book.volumeInfo.imageLinks?.smallThumbnail ||
         "https://via.placeholder.com/128x193.png?text=No+Image",
       title: book.volumeInfo.title,
-      authors:  authorsString, // Use the joined string here
+      authors: authorsString, // Use the joined string from above here
       google_id: book.id,
       comments: "",
       link: "",
       type: "",
-      location: "", 
-      status: "", 
-      rating: "", 
+      location: "",
+      status: "",
+      rating: "",
     };
-
-    console.log("reduceDataThenAdd, bookData:", bookData);
 
     libraryAddBook(bookData)
       .then(() => {
         setModalMessage(`${book.volumeInfo.title} was added to your library!`);
         setIsModalOpen(true);
-           // Set timeout to close the modal after 3 seconds (3000 milliseconds)
-           setTimeout(() => {
-            closeModal();
-          }, 2000);
+        setTimeout(() => { // Set timeout 
+          closeModal();
+        }, 2000);
         setNoResultsFound(false); // Reset no results found
         setGSearchedBooks([]); //Rest Google Fetched books array to 0
       })
@@ -96,9 +89,8 @@ function GoogleBooksSearch() {
   //   });
   // };
 
-
   return (
-    <div className="body">
+    <div className={style.body}>
       <input
         type="text"
         value={query}
@@ -118,20 +110,20 @@ function GoogleBooksSearch() {
               const { title, authors, description, imageLinks } =
                 book.volumeInfo;
               return (
-                <div key={book.id} className="bookDiv">
+                <div key={book.id} className={style.bookDiv}>
                   <img
-                    className="bookImg"
+                    className={style.bookImg}
                     src={
                       imageLinks?.thumbnail || "https://via.placeholder.com/100"
                     }
                     alt={title}
                   />
                   <div>
-                    <h2 className="title">{title}</h2>
+                    <h2 className={style.title}>{title}</h2>
                     <p className="bookParagraph">
                       <strong>Author(s):</strong> {authors}
                     </p>
-                    <p className="bookParagraph">
+                    <p className={style.bookParagraph}>
                       {truncateDescription(description)}
                     </p>
                     <button onClick={() => reduceDataThenAdd(book)}>
@@ -146,9 +138,9 @@ function GoogleBooksSearch() {
             })
           : noResultsFound && <p>No results found.</p>}
       </div>
-      
-       {/* Modal for notifications */}
-       {isModalOpen && (
+
+      {/* Modal for notification message */}
+      {isModalOpen && (
         <Modal onClose={closeModal}>
           <h2>Notification</h2>
           <p>{modalMessage}</p>

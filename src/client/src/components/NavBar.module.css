@@ -1,52 +1,51 @@
 .navbar {
-    position: sticky; /* Makes the navbar stick to the top */
-    top: 0; /* Position it at the top */
-    background-color: #333; 
-    padding: 10px 20px; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    z-index: 1000; /* Ensure it stays above other content */
-    color: #fff; 
-    font-size: 12px; 
-    border-radius: 8px; 
+  position: sticky; /* Makes the navbar stick to the top */
+  top: 0; /* Position it at the top */
+  background-color: #333;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it stays above other content */
+  color: #fff;
+  font-size: 12px;
+  border-radius: 8px;
 }
 
-  .nav {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-  }
+.nav {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+}
 
 .fullWidth {
-    width: 100%; /* Make the search component take full width */
-    margin-bottom: 10px; /* Space between search and links */
+  width: 100%; /* Make the search component take full width */
+  margin-bottom: 10px; /* Space between search and links */
+}
+
+.linkContainer {
+  display: flex;
+  justify-content: space-around; /* Distribute links evenly */
+  background-color: #444; /* Different background for links */
+  padding: 5px 0;
+}
+
+.linkContainer a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.linkContainer a:hover {
+  background-color: #555;
+}
+
+@media (max-width: 600px) {
+  .nav {
+    flex-direction: column; /* Stack items vertically on small screens */
+    padding: 10px;
   }
 
-  .linkContainer {
-    display: flex;
-    justify-content: space-around; /* Distribute links evenly */
-    background-color: #444; /* Different background for links */
-    padding: 5px 0; /* Padding around links */
+  .nav a {
+    padding: 8px 12px;
   }
-  
-  .linkContainer a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .linkContainer a:hover {
-    background-color: #555; /* Hover effect */
-  }
-  
-  /* Optional: Make the navbar responsive */
-  @media (max-width: 600px) {
-    .nav {
-      flex-direction: column; /* Stack items vertically on small screens */
-      padding: 10px; /* Adjust padding */
-    }
-  
-    .nav a {
-      padding: 8px 12px; /* Adjust padding for smaller screens */
-    }
-  }
+}

@@ -10,7 +10,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState(null);
-  console.log("selectedBook", selectedBook); 
+  console.log("selectedBook", selectedBook);
 
   // // Function to sort books
   // const [sortCriteria, setSortCriteria] = useState('title'); // Default sort by title
@@ -137,18 +137,16 @@ export default function BookList({ blBooks = [], blOnDelete }) {
           ))}
         </ul>
       )}
-
+      {/* Conditionally render the edit modal */}
       {isEditing && (
         <Modal onClose={closeForm}>
           <BookForm
             book={selectedBook} //Pass the seleted book object
             onClose={closeForm}
-
             onSave={() => {
               closeForm(); // Close the modal
               window.location.reload(); // Refresh the page
             }}
-            
           />
         </Modal>
       )}

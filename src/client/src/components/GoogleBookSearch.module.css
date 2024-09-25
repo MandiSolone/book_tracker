@@ -1,4 +1,3 @@
-/* fix syntax */
 .body {
   padding: 10px;
   background-color: #333;
@@ -11,9 +10,17 @@ h1 {
   margin-bottom: 20px;
   font-size: 24px;
 }
+
+h2 {
+  color: #60926b;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
 html {
   color: #f5f0f0;
 }
+
 input[type="text"] {
   width: 100%;
   padding: 10px;
@@ -23,7 +30,7 @@ input[type="text"] {
 }
 
 button {
-  background-color: #007bff; /* Bootstrap primary color */
+  background-color: #60926b; 
   color: white;
   border: none;
   border-radius: 4px;
@@ -34,7 +41,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color: #37553d; /* Darker shade on hover */
 }
 
 #error {

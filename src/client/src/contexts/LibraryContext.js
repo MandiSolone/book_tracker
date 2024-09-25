@@ -8,30 +8,27 @@ const LibraryProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log("libraryBooks", libraryBooks);
-  console.log("libraryProvider loading", loading);
-  console.log("library error", error);
-
   // Fetch library books from API & db
   const fetchBooks = async () => {
-    setLoading(true); //Start loading
+    setLoading(true);
     setError(null); // Reset error state before fetching
     try {
       const response = await axios.get("http://localhost:8080/api/books");
-      // setLibraryBooks(response.data);
-      setLibraryBooks(response.data.map(book => ({
-        book_id: book.book_id,
-        title: book.title,
-        authors: book.authors,
-        comments: book.comments,
-        link: book.link,
-        image: book.image,
-        google_id: book.google_id,
-        type: book.type, // Ensure this field is included
-        location: book.location,
-        status: book.status,
-        rating: book.rating,
-      })));
+      setLibraryBooks(
+        response.data.map((book) => ({
+          book_id: book.book_id,
+          title: book.title,
+          authors: book.authors,
+          comments: book.comments,
+          link: book.link,
+          image: book.image,
+          google_id: book.google_id,
+          type: book.type,
+          location: book.location,
+          status: book.status,
+          rating: book.rating,
+        }))
+      );
     } catch (error) {
       console.error("Error fetching books:", error);
       setError("Failed to load books. Please try again later.");
@@ -54,7 +51,6 @@ const LibraryProvider = ({ children }) => {
         "http://localhost:8080/api/books",
         book
       );
-      console.log("Added book response:", response.data);
       setLibraryBooks((prevBooks) => [...prevBooks, response.data]); // Update state immediately
     } catch (error) {
       console.error("Error adding book:", error);
@@ -63,18 +59,12 @@ const LibraryProvider = ({ children }) => {
   };
 
   const libraryEditBook = async (updatedBookData) => {
-    console.log("updatedBookDate", updatedBookData);
     const bookId = updatedBookData.book_id; // Extract ID from the updated book data
     if (!bookId) {
       console.error("No book ID provided for editing");
       return;
     }
     try {
-      console.log(
-        "LibraryContext-libraryEditBook-updatedBookData",
-        updatedBookData
-      );
-      console.log("LibraryContext-libraryEditBook-bookId", bookId);
       const response = await axios.put(
         `http://localhost:8080/api/books/${bookId}`,
         updatedBookData

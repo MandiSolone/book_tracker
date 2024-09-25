@@ -15,7 +15,7 @@
   background: white;
   padding: 20px;
   border-radius: 5px;
-  width: 300px; /* Adjust width as needed */
+  width: 300px;
   max-height: 80vh; /* Limit height to 80% of the viewport height */
   overflow-y: auto; /* Allow vertical scrolling if content exceeds max-height */
   position: relative;
@@ -37,14 +37,14 @@
   right: 10px;
   background: none; /* No background */
   border: none; /* No border */
-  color: #333; /* Dark color for visibility */
-  font-size: 24px; /* Larger font size for easy clicking */
+  color: #333;
+  font-size: 24px;
   cursor: pointer; /* Pointer cursor for interactivity */
   transition: color 0.3s ease; /* Smooth color transition */
 }
 
 .close-btn:hover {
-  color: #dc3545; /* Change color on hover (e.g., a red shade) */
+  color: #dc3545;
 }
 
 .close-btn:focus {
