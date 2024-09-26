@@ -10,7 +10,9 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState(null);
+  console.log("blBooks", blBooks);
   console.log("selectedBook", selectedBook);
+
 
   // // Function to sort books
   // const [sortCriteria, setSortCriteria] = useState('title'); // Default sort by title

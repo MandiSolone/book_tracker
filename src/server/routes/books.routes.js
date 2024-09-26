@@ -6,21 +6,18 @@ import books from "../controllers/books.controllers";
 const BooksRouter = express.Router();
 
 //? means id is optional
-//remove if !data error as throws and exits before load
 BooksRouter.get("/:book_id?", async (req, res, next) => {
 
-  // if (!req.isAuthenticated()) {
-  //   return res.status(401).json({ message: 'User not authenticated' });
-  // }
-// console.log("req.user.id", req.user.id); 
-  // const userId = req.user.id; // This comes from the session/auth middleware
-  // console.log(userId); 
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: 'User not authenticated' });
+  }
+  const userId = req.user.id; // This comes from the session/auth middleware
   const { book_id } = req.params;
 
   try {
     const formatBookData = (book) => ({
       book_id: book.book_id,
-      // user_id: book.user_id, 
+      user_id: book.user_id, 
       title: book.title,
       authors: book.authors,
       comments: book.comments,
@@ -35,17 +32,16 @@ BooksRouter.get("/:book_id?", async (req, res, next) => {
     });
 
     if (book_id) {
-      const data = await books.findOne(book_id);
-      if (!data) {
+      const data = await books.findOne(book_id, userId);
+      if (!data) { 
         return res.status(404).json({ message: "Book not found" });
       }
       return res.json(formatBookData(data));
-
-    } else {
-      const data = await books.findAll();
-            return res.json(data.map(formatBookData));
-      // const booksList = await books.findAll({ where: { user_id: userId } });
-      // return res.json(booksList.map(formatBookData));
+    } 
+    else {
+      const booksList = await books.findAll
+      ({ user_id: userId }); // Fetch books for the authenticated user
+      return res.json(booksList.map(formatBookData));
     }
   } catch (err) {
     console.error("Error fetching book data:", err);
@@ -55,59 +51,26 @@ BooksRouter.get("/:book_id?", async (req, res, next) => {
 
 
 BooksRouter.post("/", async (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: 'User not authenticated' });
+  }
+  const userId = req.user.id;
+  const newBook = req.body;
+
   try {
-    let newBook = req.body;
-    console.log("newBook, req.body", newBook);
-    // Send the new book with its ID as the response
-    let data = await books.addOne(newBook);
-    console.log("BooksRouter.post data", data);
-    // res.json({
+       // Include user_id in the book data
+       const bookWithUserId = {
+        ...newBook,
+        user_id: userId, // Add the user ID to the new book data
+      };
+
+let data = await books.addOne(bookWithUserId); // Pass newBook to addOne
+    
     res.status(201).json({
       id: data.book_id,
       title: data.title,
-      // user_id: data.user_id,
-      // authors: data.authors ? data.authors : [],
-      authors: data.authors || [], //input is an array not a string - ['J. K. Rowling', 'Jack Thorne']
-      comments: data.comments,
-      link: data.link,
-      image: data.image,
-      google_id: data.google_id,
-      type: data.type,
-      location: data.location,
-      status: data.status,
-      rating: data.rating,
-    });
-    // res.status(201).json(data);
-  } catch (err) {
-    next(err);
-  }
-});
-
-BooksRouter.put("/:book_id", async (req, res, next) => {
-  try {
-    let { book_id } = req.params; // Extract book_id from request params
-    console.log("BooksRouter.put book_id:", book_id); // Log the book_id to check its value
-    let updatedBook = req.body; // Get updated book data from request body
-    console.log("BooksRouter.put req.body", req.body);
-    // Update the book in the database
-    const updateResult = await books.updateOne(updatedBook, book_id); // Pass updatedBook directly
-
-    // Check if the update was successful
-    if (!updateResult.affectedRows) {
-      return res
-        .status(404)
-        .json({ message: "Book not found or no changes made." });
-    }
-
-    // Optionally, fetch the updated book details
-    const data = await books.findOne(book_id); // Get the updated book
-
-    // Respond with the updated book data
-    res.json({
-      id: data.book_id,
-      // user_us: data.user_is, 
-      title: data.title,
-      authors: data.authors ? data.authors.split(", ") : [], // split works as input is a string 
+      user_id: data.user_id,
+      authors: data.authors || [],
       comments: data.comments,
       link: data.link,
       image: data.image,
@@ -121,6 +84,7 @@ BooksRouter.put("/:book_id", async (req, res, next) => {
     next(err);
   }
 });
+
 
 BooksRouter.delete("/:book_id", async (req, res, next) => {
   try {
@@ -131,4 +95,64 @@ BooksRouter.delete("/:book_id", async (req, res, next) => {
     next(err);
   }
 });
+
+BooksRouter.put("/:book_id", async (req, res, next) => {
+ 
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
+
+  const userId = req.user.id;
+  const updatedBook = req.body; // Get updated book data from request body
+  const { book_id } = req.params; // Extract book_id from request param
+  console.log("userId", userId); 
+  console.log("updatedBook", updatedBook); 
+  console.log("book_id", book_id); 
+
+  try {
+    // // Fetch the existing book
+    // const existingBook = await books.findOne(book_id); // Fetch the book by book_id
+    // console.log("Existing Book:", existingBook);
+
+    // if (!existingBook) {
+    //   return res.status(404).json({ message: "Book not found." });
+    // }
+    // if (existingBook.user_id !== userId) {
+    //   return res.status(403).json({ message: "You do not have permission to edit this book." });
+    // }
+
+    // Update the book in the database
+    const updatedResult = await books.updateOne(updatedBook, book_id, userId); // Pass updatedBook directly
+    console.log("updateResults", updatedResult);
+
+    // Check if the update was successful
+    if (!updatedResult.affectedRows) {
+      return res.status(404).json({ message: "Book not found or no changes made." });
+    }
+
+    // // Optionally, fetch the updated book details
+    // const updatedData = await books.findOne(book_id); // Get the updated book
+    // console.log("Updated Data:", updatedData);
+
+    // Respond with the updated book data
+    res.json({
+      id: updatedResult.book_id,
+      user_id: updatedResult.user_id, 
+      title: updatedResult.title,
+      authors: updatedResult.authors ? updatedResult.authors.split(", ") : [], // split works as input is a string 
+      comments: updatedResult.comments,
+      link: updatedResult.link,
+      image: updatedResult.image,
+      google_id: updatedResult.google_id,
+      type: updatedResult.type,
+      location: updatedResult.location,
+      status: updatedResult.status,
+      rating: updatedResult.rating,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 export default BooksRouter;

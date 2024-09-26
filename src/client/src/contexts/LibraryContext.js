@@ -17,7 +17,7 @@ const LibraryProvider = ({ children }) => {
 
      if (!user) {
       setLoading(false); 
-      return;} // Don't fetch if user is not authenticated
+      return;} // Don't fetch if user is not authenticated//allows page to load and login btn to appear 
 
     try {
       const response = await axios.get("http://localhost:8080/api/books", {
@@ -51,25 +51,32 @@ const LibraryProvider = ({ children }) => {
     fetchBooks(); // Fetch books when the component mounts
   }, [fetchBooks]); // Dependency on user to re-fetch when user change
 
-  const libraryAddBook = async (book) => {
-    if (!book) {
-      console.error("No book provided for addition");
-      return;
-    }
+  const libraryAddBook = async (bookData) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/books",
-        { ...book, user_id: user.id } // Include user_id
-      );
-      setLibraryBooks((prevBooks) => [...prevBooks, response.data]); // Update state immediately
+      const response = await fetch('http://localhost:8080/api/books', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookData), // No user_id here
+        credentials: 'include', // Ensure cookies are sent
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to add book');
+      }
+      const data = await response.json();
+      setLibraryBooks((prevBooks) => [...prevBooks, data]); 
+      // Handle successful response
     } catch (error) {
-      console.error("Error adding book:", error);
-      setError("Failed to add book. Please try again.");
+      console.error(error);
     }
   };
 
+
   const libraryEditBook = async (updatedBookData) => {
     const bookId = updatedBookData.book_id; // Extract ID from the updated book data
+    console.log("bookId", bookId); 
     if (!bookId) {
       console.error("No book ID provided for editing");
       return;
@@ -77,8 +84,11 @@ const LibraryProvider = ({ children }) => {
     try {
       const response = await axios.put(
         `http://localhost:8080/api/books/${bookId}`,
-        updatedBookData
+        updatedBookData,
+        { withCredentials: true } // Ensure credentials are sent with the request
       );
+      console.log("response", response); 
+      
       setLibraryBooks(
         (prevBooks) =>
           prevBooks.map((book) => (book.id === bookId ? response.data : book)) // Update state immediately
