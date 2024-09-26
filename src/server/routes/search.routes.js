@@ -3,13 +3,13 @@ import dotenv from "dotenv";
 import axios from "axios";
 
 // requests will reach these routes already matching /api/search
-const router = express.Router();
+const SearchRouter = express.Router();
 
 dotenv.config();
 const GOOGLE_BOOKS_API = "https://www.googleapis.com/books/v1/volumes?q=";
 const API_KEY = process.env.GOOGLE_BOOKS_API_KEY;
 
-router.get("/:query", async (req, res, next) => {
+SearchRouter.get("/:query", async (req, res, next) => {
   try {
     const query = req.params.query;
     const response = await axios.get(
@@ -24,4 +24,4 @@ router.get("/:query", async (req, res, next) => {
   }
 });
 
-export default router;
+export default SearchRouter;

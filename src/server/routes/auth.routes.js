@@ -1,13 +1,14 @@
+// Using Google OAuth to sign in 
 import express from "express";
 import passport from "passport";
 
-const router = express.Router();
+const AuthRouter = express.Router();
 
 // Redirect to Google for authentication
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+AuthRouter.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 // Callback route for Google to redirect to
-router.get('/google/callback', 
+AuthRouter.get('/google/callback', 
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         // Successful authentication
@@ -17,7 +18,7 @@ router.get('/google/callback',
 );
 
 // User profile route
-router.get('/profile', async (req, res) => {
+AuthRouter.get('/profile', async (req, res) => {
     if (req.isAuthenticated()) {
         res.json(req.user); // Return the authenticated user
     } else {
@@ -26,11 +27,11 @@ router.get('/profile', async (req, res) => {
 });
 
 // Logout endpoint
-router.post('/logout', (req, res) => {
+AuthRouter.post('/logout', (req, res) => {
     req.logout((err) => {
         if (err) return next(err);
         res.redirect('/loggedout'); // Redirect after logout
     });
 });
 
-export default router;
+export default AuthRouter;

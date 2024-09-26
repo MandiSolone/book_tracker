@@ -3,7 +3,6 @@ import booksRouter from "./books.routes";
 import searchRouter from "./search.routes";
 import authRouter from "./auth.routes"; 
 
-
 //Express framework creates new router objects
 //Defines routes and handles request
 const router = express.Router();

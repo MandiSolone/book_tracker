@@ -1,4 +1,4 @@
-// controllers/auth.controller.js
+// query is my db. senting commands to user table. 
 import query from "../db/utils";
 
 // Google OAuth callback function

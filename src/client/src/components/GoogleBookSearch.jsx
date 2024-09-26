@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
 import style from "./GoogleBookSearch.module.css";
+import useUser  from "../hooks/useUser";
 
 function GoogleBooksSearch() {
   const { libraryAddBook } = useLibrary(); // Use hook to access libraryAddBook
+  const { user } = useUser(); // Get the logged-in user
   const [query, setQuery] = useState(""); // Holds search input
   const [gSearchedBooks, setGSearchedBooks] = useState([]); // Fetched from Google API
   const [error, setError] = useState("");
@@ -46,9 +48,15 @@ function GoogleBooksSearch() {
   };
 
   const reduceDataThenAdd = (book) => {
+    if (!user) {
+      console.error("User not logged in.");
+      return; // Don't proceed if the user is not logged in
+    }
+
     const authorsString = book.volumeInfo.authors.join(", "); // Convert authors array to a string
     const bookData = {
       book_id: null, // Use null to allow the db to auto-populate an ID
+      user_id: user.id, 
       image:
         book.volumeInfo.imageLinks?.smallThumbnail ||
         "https://via.placeholder.com/128x193.png?text=No+Image",
@@ -63,7 +71,7 @@ function GoogleBooksSearch() {
       rating: "",
     };
 
-    libraryAddBook(bookData)
+    libraryAddBook(bookData) //call LibraryAddBook from LibraryContext and feed bookData
       .then(() => {
         setModalMessage(`${book.volumeInfo.title} was added to your library!`);
         setIsModalOpen(true);

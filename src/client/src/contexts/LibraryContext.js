@@ -1,22 +1,32 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import useUser from "../hooks/useUser";
 
 const LibraryContext = createContext();
 
 const LibraryProvider = ({ children }) => {
+  const { user } = useUser(); // Get the user from UserProfileContext
   const [libraryBooks, setLibraryBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   // Fetch library books from API & db
-  const fetchBooks = async () => {
+  const fetchBooks = useCallback(async () => {
     setLoading(true);
     setError(null); // Reset error state before fetching
+
+     if (!user) {
+      setLoading(false); 
+      return;} // Don't fetch if user is not authenticated
+
     try {
-      const response = await axios.get("http://localhost:8080/api/books");
+      const response = await axios.get("http://localhost:8080/api/books", {
+      withCredentials: true, // Include credentials for authentication
+      });
       setLibraryBooks(
         response.data.map((book) => ({
           book_id: book.book_id,
+          user_id: book.user_id, 
           title: book.title,
           authors: book.authors,
           comments: book.comments,
@@ -35,11 +45,11 @@ const LibraryProvider = ({ children }) => {
     } finally {
       setLoading(false); // Stop loading regardless of success or failure
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     fetchBooks(); // Fetch books when the component mounts
-  }, []);
+  }, [fetchBooks]); // Dependency on user to re-fetch when user change
 
   const libraryAddBook = async (book) => {
     if (!book) {
@@ -49,7 +59,7 @@ const LibraryProvider = ({ children }) => {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/books",
-        book
+        { ...book, user_id: user.id } // Include user_id
       );
       setLibraryBooks((prevBooks) => [...prevBooks, response.data]); // Update state immediately
     } catch (error) {

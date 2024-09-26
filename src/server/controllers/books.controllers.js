@@ -3,13 +3,13 @@ import query from "../db/utils";
 
 const findAll = async () => {
   return await query(
-    "SELECT book_id, title, authors, comments, link, image, google_id, type, location, status, rating FROM books"
+    "SELECT book_id, title, authors, comments, link, image, google_id, type, location, status, rating, user_id FROM books"
   );
 };
 
 const findOne = async (book_id) => {
   return await query(
-    "SELECT book_id, title, authors, comments, link, image, google_id, type, location, status, rating  FROM books WHERE book_id = ?",
+    "SELECT book_id, title, authors, comments, link, image, google_id, type, location, status, rating, user_id  FROM books WHERE book_id = ?",
     [book_id]
   );
 };
@@ -21,12 +21,14 @@ const addOne = async (newBook) => {
     book_id: result.insertId, // Use insertId from the result
     ...newBook, // Spread other book properties
   };
+  console.log("addOne BookWithId", bookWithId);
   return bookWithId; // Return the new book object
 };
 
 const updateOne = async (updatedBook, book_id) => {
   const {
     title,
+    // user_id, ////
     authors,
     comments,
     link,
@@ -38,9 +40,10 @@ const updateOne = async (updatedBook, book_id) => {
   } = updatedBook;
 
   const updateResult = await query(
-    "UPDATE books SET title = ?, authors = ?, comments = ?, link = ?, image = ?, type = ?, location = ?, status = ?, rating = ? WHERE book_id = ?",
+    "UPDATE books SET title = ?, authors = ?, comments = ?, link = ?, image = ?, type = ?, location = ?, status = ?, rating = ? user_is = ? WHERE book_id = ?",
     [
       title,
+      // user_id, 
       authors,
       comments,
       link,

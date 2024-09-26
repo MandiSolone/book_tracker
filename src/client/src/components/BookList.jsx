@@ -2,18 +2,9 @@ import React, { useState } from "react";
 import BookForm from "./BookForm";
 import Modal from "./Modal";
 import "./BookList.module.css";
-// import useUser from "../hooks/useUser";
 
 // blBooks=[] set to empty array while awaiting db API fetch from Library
 export default function BookList({ blBooks = [], blOnDelete }) {
-
-  // // Call the user profile hook first
-  // const { userState } = useUser();
-  // // Check if user is logged in
-  // if (!userState) {
-  //   return <p>No books listed, please log in to see your books.</p>;
-  // }
-
   // Handle Edit Book Click
   const [selectedBook, setSelectedBook] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
