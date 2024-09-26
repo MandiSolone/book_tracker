@@ -1,5 +1,5 @@
 // contexts/UserProfileContext.js
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 
 export const UserProfileContext = createContext();
 
@@ -8,15 +8,19 @@ export const UserProfileProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback (async () => {
     setLoading(true);
-    setError(null); // Reset error state before fetching
+    setError(null);
+    // if (!user) {
+    //   return; // Don't fetch if not authenticated
+    // }
       try {
         const response = await fetch('http://localhost:8080/api/auth/profile', { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
           setUser(data);
-          console.log("user", user); 
+          console.log(loading); 
+          console.log(error); 
         } else {
           setUser(null); // Clear user if not authenticated
         }
@@ -26,11 +30,11 @@ export const UserProfileProvider = ({ children }) => {
       } finally {
         setLoading(false); // Stop loading regardless of success or failure
       }
-    };
+    }, [setUser, loading, error]);
 
   useEffect(() => {
     fetchUser();// FetchUser when the component mounts
-  }, []);
+  }, [fetchUser]);
 
   const logout = async () => {
     // Call your logout endpoint
@@ -39,7 +43,7 @@ export const UserProfileProvider = ({ children }) => {
   };
 
   return (
-    <UserProfileContext.Provider value={{ user, setUser, logout }}>
+    <UserProfileContext.Provider value={{ user, setUser, logout, loading, error }}>
       {children}
     </UserProfileContext.Provider>
   );

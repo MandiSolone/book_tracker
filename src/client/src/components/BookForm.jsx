@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
+// import useUser from "../hooks/useUser";
 
 function BookForm({ book, onClose, modal, onSave }) {
-  const { libraryAddBook, libraryEditBook } = useLibrary(); // Hooks to access libraryContext
+
+  // // Call both hooks first 
+  // const { userState } = useUser(); 
+  // const { libraryAddBook, libraryEditBook } = useLibrary(); 
+  // // Check if user is logged in
+  // if (!userState) {
+  //   return <p>Page is not available, please log in.</p>;
+  // }
+  const { libraryAddBook, libraryEditBook } = useLibrary(); 
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState("");
   const [comments, setComments] = useState("");
