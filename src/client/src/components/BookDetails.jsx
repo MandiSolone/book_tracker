@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import useLibrary from '../hooks/useLibrary';
 
-const BookDetails = ({ bookId }) => {
-    const { libraryGetBook } = useLibrary(); // Use hook to access
+const BookDetails = () => {
+  const { bookId } = useParams(); // Get bookId from URL parameters
+  const { libraryGetBook } = useLibrary(); // Use hook to access
   const [bookDetails, setBookDetails] = useState(null);
   const [error, setError] = useState(null); // State for error handling
 
@@ -13,6 +15,7 @@ const BookDetails = ({ bookId }) => {
         const bookData = await libraryGetBook(bookId);
         if (bookData) {
           setBookDetails(bookData);
+          console.log("BookDetails bookData", bookData); 
         }
       } catch (err) {
         setError("Failed to fetch book details."); // Set error if fetch fails
@@ -34,7 +37,7 @@ const BookDetails = ({ bookId }) => {
   return (
     <div>
       <h2>{bookDetails.title}</h2>
-      <p>Authors: {bookDetails.authors.join(", ")}</p>
+      <p>Authors: {bookDetails.authors}</p>
       <p>Comments: {bookDetails.comments}</p>
       <p>Link: <a href={bookDetails.link}>View Book</a></p>
       <img src={bookDetails.image} alt={bookDetails.title} />

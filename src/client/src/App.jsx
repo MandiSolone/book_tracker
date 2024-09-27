@@ -25,7 +25,7 @@ export default function App() {
             <Route path="/addbook" element={<AddBook />} />
             <Route path="/wishlist" element={<WishList />} />
             <Route path="/account" element={<Account />} />
-            <Route path="/bookdetails" element={<BookDetails />} />
+            <Route path="/bookdetails/:bookId" element={<BookDetails />} />
             </Routes>
           </Router>
         </LibraryProvider>

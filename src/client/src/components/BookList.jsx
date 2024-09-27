@@ -6,15 +6,10 @@ import "./BookList.module.css";
 
 // blBooks=[] set to empty array while awaiting db API fetch from Library
 export default function BookList({ blBooks = [], blOnDelete }) {
-  const navigate = useNavigate(); // Initialize navigate for navigation
-  // Handle Edit Book Click
   const [selectedBook, setSelectedBook] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState(null);
-  console.log("blBooks", blBooks);
-  console.log("selectedBook", selectedBook);
-
 
   // // Function to sort books
   // const [sortCriteria, setSortCriteria] = useState('title'); // Default sort by title
@@ -51,6 +46,8 @@ export default function BookList({ blBooks = [], blOnDelete }) {
 
   // Handle defualtImage if broken
   const BookImage = ({ src, bookId }) => {
+    const navigate = useNavigate(); // Get the navigate function
+
     const defaultImage =
       "https://via.placeholder.com/128x193.png?text=No+Image";
     return (
@@ -63,7 +60,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
         }}
         alt="Book cover"
         style={{ width: "128px", height: "193px" }}
-        onClick={() => navigate(`/bookdetails/${bookId}`)} // Navigate on click
+        onClick={() => navigate(`/bookdetails/${bookId}`)} // Navigate to BookDetails on click
         />
     );
   };
@@ -92,7 +89,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
         <ul>
           {blBooks.map((book) => (
             <li key={book.book_id || book.google_id} className="book-item">
-              <BookImage src={book.image} bookId={book.book_id} /> {/* Pass bookId */}
+              <BookImage src={book.image} bookId={book.book_id} /> {/*Pass bookId */}
               <div className="book-info">
                 <h2>{book.title}</h2>
                 <p>

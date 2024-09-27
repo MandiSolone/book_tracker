@@ -126,7 +126,7 @@ const LibraryProvider = ({ children }) => {
         withCredentials: true, // Include credentials for authentication
       });
   
-      // Assuming your API returns the book in the same format as your libraryBooks state
+      // API returns the book in the same format as your libraryBooks state
       const bookData = response.data;
       console.log("Fetched book data:", bookData);
   
