@@ -1,9 +1,13 @@
-Here's a sample README file for your book tracker project. You can modify it as needed:
-
-```markdown
 # Book Tracker
 
-A web application for tracking books, allowing users to add, edit, and delete book entries. The application provides a user-friendly interface for managing your reading list.
+A web application for tracking the books you've read, want to read, and where they are located, all in one central spot. Book Tracker helps you manage your personal library effortlessly.
+
+Key Features:
+Comprehensive Library Management: Keep track of all your books in a single location, including titles, authors and locations (e.g., home library, Kindle, etc.).
+
+Reading Progress: Monitor your reading progress by marking books as "Read," "Currently Reading," or "Want to Read." Add Comments and ratings to remeber what you liked or didn't like. 
+
+With Book Tracker, you'll never lose track of where your books are or what you want to read next. This application simplifies your reading journey, making it easier to focus on what matters most: enjoying your books!
 
 ## Table of Contents
 
@@ -18,7 +22,6 @@ A web application for tracking books, allowing users to add, edit, and delete bo
 - Add new books to your library
 - Edit existing book details
 - Delete books from your library
-- Filter and search through your book collection
 - Responsive design for mobile and desktop
 
 ## Technologies Used
@@ -70,4 +73,4 @@ This will start the development server and open the application in your default 
 - To add a new book, click on the "Add Book" button and fill out the form.
 - Use the edit button to modify existing book entries.
 - Delete books you no longer want in your library.
-- You can filter your collection by title or author.
+
