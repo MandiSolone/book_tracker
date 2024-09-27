@@ -9,6 +9,7 @@ import Account from "./pages/Account";
 import AddBook from "./pages/AddBook";
 import WishList from "./pages/WishList";
 import ErrorBoundary from "./components/ErrorBoundary";
+import BookDetails from "./components/BookDetails";
 import { LibraryProvider } from "./contexts/LibraryContext";
 import { UserProfileProvider } from "./contexts/UserProfileContext";
 
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/addbook" element={<AddBook />} />
             <Route path="/wishlist" element={<WishList />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/bookdetails" element={<BookDetails />} />
             </Routes>
           </Router>
         </LibraryProvider>

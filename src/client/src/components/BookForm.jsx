@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
+import useUser from "../hooks/useUser";
 
 function BookForm({ book, onClose, modal, onSave }) {
-
-  const { libraryAddBook, libraryEditBook } = useLibrary(); 
+  const { user } = useUser(); // Hook - get the user from UserProfileContext
+  const { libraryAddBook, libraryEditBook } = useLibrary(); // Hook 
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState("");
   const [comments, setComments] = useState("");
@@ -32,6 +33,11 @@ function BookForm({ book, onClose, modal, onSave }) {
       setRating(book.rating || "1 Star");
     }
   }, [book]);
+
+  // User must sign in to see BookForm and add books 
+  if (!user) {
+    return <div><h3>Please sign in to add books to your library.</h3></div>
+  }
 
   // Async handle Save Btn Click - fetch is preformed before states are cleared
   const handleSaveClick = async (e) => {

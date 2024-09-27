@@ -15,6 +15,12 @@ function GoogleBooksSearch() {
   const [noResultsFound, setNoResultsFound] = useState(false); // New state for no results
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+
+  // Doesn't show search bar if user isn't signed in 
+  if (!user) {
+    return
+  }
+
   // const [wishlist, setWishlist] = useState([]);
   const closeModal = () => {
     setIsModalOpen(false); // Close the modal

@@ -88,7 +88,7 @@ const LibraryProvider = ({ children }) => {
         { withCredentials: true } // Ensure credentials are sent with the request
       );
       console.log("response", response); 
-      
+
       setLibraryBooks(
         (prevBooks) =>
           prevBooks.map((book) => (book.id === bookId ? response.data : book)) // Update state immediately
@@ -115,6 +115,29 @@ const LibraryProvider = ({ children }) => {
     }
   };
 
+  const libraryGetBook = async (bookId) => {
+    if (!bookId) {
+      console.error("No book ID provided for fetching");
+      return;
+    }
+  
+    try {
+      const response = await axios.get(`http://localhost:8080/api/books/${bookId}`, {
+        withCredentials: true, // Include credentials for authentication
+      });
+  
+      // Assuming your API returns the book in the same format as your libraryBooks state
+      const bookData = response.data;
+      console.log("Fetched book data:", bookData);
+  
+      // Handle the fetched book data (you might want to store it in a separate state)
+      return bookData; // Return the fetched book data for use in the component
+    } catch (error) {
+      console.error("Error fetching book:", error);
+      setError("Failed to fetch book details. Please try again.");
+    }
+  };
+
   // Conditional rendering for loading state
   if (loading) {
     return (
@@ -131,6 +154,7 @@ const LibraryProvider = ({ children }) => {
         libraryAddBook,
         libraryHandleDelete,
         libraryEditBook,
+        libraryGetBook, // Add this line
         error, // Pass the error state
         setError, // Optional: Provide a way to clear the error
       }}

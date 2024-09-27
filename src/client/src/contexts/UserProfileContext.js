@@ -12,15 +12,15 @@ export const UserProfileProvider = ({ children }) => {
     if (user) {
       return; // User already exists, no need to fetch
     }
+
     setLoading(true);
     setError(null);
+
       try {
         const response = await fetch('http://localhost:8080/api/auth/profile', { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
           setUser(data);
-          console.log(loading); 
-          console.log(error); 
         } else {
           setUser(null); // Clear user if not authenticated
         }
@@ -30,14 +30,14 @@ export const UserProfileProvider = ({ children }) => {
       } finally {
         setLoading(false); // Stop loading regardless of success or failure
       }
-    }, [user, loading, error]);
+    }, [user]);
 
   useEffect(() => {
     fetchUser();// FetchUser when the component mounts
   }, [fetchUser]);
 
+ // Call logout endpoint
   const logout = async () => {
-    // Call your logout endpoint
     await fetch('http://localhost:8080/api/auth/logout', { credentials: 'include', method: 'POST' });
     setUser(null);
     window.location.reload(); // Refresh the page
