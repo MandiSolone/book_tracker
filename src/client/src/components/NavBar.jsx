@@ -1,4 +1,3 @@
-//Update with NavLink?
 import React, { useContext } from "react";
 import style from "./NavBar.module.css";
 import GoogleBookSearch from "./GoogleBookSearch";
@@ -11,8 +10,7 @@ function NavBar() {
   return (
     <nav className={style.navbar}>
       <div className={style.nav}>
-        
-      {user ? (
+        {user ? (
           <div>
             <span>Welcome, {user.name}</span>
             <button onClick={logout}>Logout</button>

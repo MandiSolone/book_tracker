@@ -1,10 +1,10 @@
 import React from "react";
-import ProfilePage from "../components/ProfilePage.jsx"
+import ProfilePage from "../components/ProfilePage.jsx";
 import SignInButton from "../components/SignInButton.jsx";
 import useUser from "../hooks/useUser.js";
 
 export default function Account() {
-  const { user } = useUser();//Call the user profile hook 
+  const { user } = useUser(); //Call the user profile hook
 
   return (
     <div>

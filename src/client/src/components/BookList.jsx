@@ -47,7 +47,6 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   // Handle defualtImage if broken
   const BookImage = ({ src, bookId }) => {
     const navigate = useNavigate(); // Get the navigate function
-
     const defaultImage =
       "https://via.placeholder.com/128x193.png?text=No+Image";
     return (
@@ -61,7 +60,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
         alt="Book cover"
         style={{ width: "128px", height: "193px" }}
         onClick={() => navigate(`/bookdetails/${bookId}`)} // Navigate to BookDetails on click
-        />
+      />
     );
   };
 
@@ -89,7 +88,8 @@ export default function BookList({ blBooks = [], blOnDelete }) {
         <ul>
           {blBooks.map((book) => (
             <li key={book.book_id || book.google_id} className="book-item">
-              <BookImage src={book.image} bookId={book.book_id} /> {/*Pass bookId */}
+              <BookImage src={book.image} bookId={book.book_id} />{" "}
+              {/*Pass bookId */}
               <div className="book-info">
                 <h2>{book.title}</h2>
                 <p>

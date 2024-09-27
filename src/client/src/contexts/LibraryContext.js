@@ -5,7 +5,7 @@ import useUser from "../hooks/useUser";
 const LibraryContext = createContext();
 
 const LibraryProvider = ({ children }) => {
-  const { user } = useUser(); // Get the user from UserProfileContext
+  const { user } = useUser(); // Hook to UserProfileContext
   const [libraryBooks, setLibraryBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,18 +15,20 @@ const LibraryProvider = ({ children }) => {
     setLoading(true);
     setError(null); // Reset error state before fetching
 
-     if (!user) {
-      setLoading(false); 
-      return;} // Don't fetch if user is not authenticated//allows page to load and login btn to appear 
+  // Don't fetch if user is not authenticated//allows page to load and login btn to appear
+    if (!user) {
+      setLoading(false);
+      return;
+    } 
 
     try {
       const response = await axios.get("http://localhost:8080/api/books", {
-      withCredentials: true, // Include credentials for authentication
+        withCredentials: true, // Include credentials for authentication
       });
       setLibraryBooks(
         response.data.map((book) => ({
           book_id: book.book_id,
-          user_id: book.user_id, 
+          user_id: book.user_id,
           title: book.title,
           authors: book.authors,
           comments: book.comments,
@@ -53,30 +55,28 @@ const LibraryProvider = ({ children }) => {
 
   const libraryAddBook = async (bookData) => {
     try {
-      const response = await fetch('http://localhost:8080/api/books', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8080/api/books", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(bookData), // No user_id here
-        credentials: 'include', // Ensure cookies are sent
+        credentials: "include", // Ensure cookies are sent
       });
-  
+
       if (!response.ok) {
-        throw new Error('Failed to add book');
+        throw new Error("Failed to add book");
       }
       const data = await response.json();
-      setLibraryBooks((prevBooks) => [...prevBooks, data]); 
+      setLibraryBooks((prevBooks) => [...prevBooks, data]);
       // Handle successful response
     } catch (error) {
       console.error(error);
     }
   };
 
-
   const libraryEditBook = async (updatedBookData) => {
     const bookId = updatedBookData.book_id; // Extract ID from the updated book data
-    console.log("bookId", bookId); 
     if (!bookId) {
       console.error("No book ID provided for editing");
       return;
@@ -87,7 +87,6 @@ const LibraryProvider = ({ children }) => {
         updatedBookData,
         { withCredentials: true } // Ensure credentials are sent with the request
       );
-      console.log("response", response); 
 
       setLibraryBooks(
         (prevBooks) =>
@@ -120,17 +119,16 @@ const LibraryProvider = ({ children }) => {
       console.error("No book ID provided for fetching");
       return;
     }
-  
+
     try {
-      const response = await axios.get(`http://localhost:8080/api/books/${bookId}`, {
-        withCredentials: true, // Include credentials for authentication
-      });
-  
-      // API returns the book in the same format as your libraryBooks state
+      const response = await axios.get(
+        `http://localhost:8080/api/books/${bookId}`,
+        {
+          withCredentials: true, // Include credentials for authentication
+        }
+      );
+      // API returns the book in the same format as libraryBooks state
       const bookData = response.data;
-      console.log("Fetched book data:", bookData);
-  
-      // Handle the fetched book data (you might want to store it in a separate state)
       return bookData; // Return the fetched book data for use in the component
     } catch (error) {
       console.error("Error fetching book:", error);
@@ -154,14 +152,14 @@ const LibraryProvider = ({ children }) => {
         libraryAddBook,
         libraryHandleDelete,
         libraryEditBook,
-        libraryGetBook, // Add this line
-        error, // Pass the error state
-        setError, // Optional: Provide a way to clear the error
+        libraryGetBook, 
+        error, 
+        setError, 
       }}
     >
-      {children}
-      {error && <div className="error-message">{error}</div>}{" "}
+      {children} 
       {/* Display error message */}
+      {error && <div className="error-message">{error}</div>}{" "}
     </LibraryContext.Provider>
   );
 };

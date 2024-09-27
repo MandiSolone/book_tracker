@@ -4,8 +4,8 @@ import Modal from "./Modal";
 import useUser from "../hooks/useUser";
 
 function BookForm({ book, onClose, modal, onSave }) {
-  const { user } = useUser(); // Hook - get the user from UserProfileContext
-  const { libraryAddBook, libraryEditBook } = useLibrary(); // Hook 
+  const { user } = useUser(); // Hook to UserProfileContext
+  const { libraryAddBook, libraryEditBook } = useLibrary(); // Hook to LibraryContext
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState("");
   const [comments, setComments] = useState("");
@@ -34,9 +34,13 @@ function BookForm({ book, onClose, modal, onSave }) {
     }
   }, [book]);
 
-  // User must sign in to see BookForm and add books 
+  // User must sign in to see BookForm and add books
   if (!user) {
-    return <div><h3>Please sign in to add books to your library.</h3></div>
+    return (
+      <div>
+        <h3>Please sign in to add books to your library.</h3>
+      </div>
+    );
   }
 
   // Async handle Save Btn Click - fetch is preformed before states are cleared
@@ -51,7 +55,6 @@ function BookForm({ book, onClose, modal, onSave }) {
       book_id: book ? book.book_id : undefined, // Ensure ID is included for edits
       title,
       authors,
-      // authors: authors.split(",").map((author) => author.trim()),
       comments,
       link,
       image: image.trim() !== "" ? image : book ? book.image : defaultImage, // Use existing image if empty
@@ -61,7 +64,6 @@ function BookForm({ book, onClose, modal, onSave }) {
       status: status || "Read",
       rating: rating || "1 Star",
     };
-    console.log("bookForm newbook", newBook);
 
     // Save or update book
     if (book) {

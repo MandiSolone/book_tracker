@@ -1,7 +1,7 @@
 .body {
   padding: 10px;
   background-color: #333;
-  border-radius: 8px 8px 0 0; /* Rounded corners at the top */
+  border-radius: 8px 8px 0 0; 
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -30,7 +30,7 @@ input[type="text"] {
 }
 
 button {
-  background-color: #60926b; 
+  background-color: #60926b;
   color: white;
   border: none;
   border-radius: 4px;

@@ -1,4 +1,3 @@
-//add a page/link for .get find 1 (server:http://localhost:8080/api/books/1), code client side
 //Add a sort by ; type, location, author name,
 import React from "react";
 import BookList from "../components/BookList";

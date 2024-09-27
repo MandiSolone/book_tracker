@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import useLibrary from '../hooks/useLibrary';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import useLibrary from "../hooks/useLibrary";
 
 const BookDetails = () => {
   const { bookId } = useParams(); // Get bookId from URL parameters
-  const { libraryGetBook } = useLibrary(); // Use hook to access
+  const { libraryGetBook } = useLibrary(); // Use hook to access LibraryContext
   const [bookDetails, setBookDetails] = useState(null);
-  const [error, setError] = useState(null); // State for error handling
-
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -15,19 +14,17 @@ const BookDetails = () => {
         const bookData = await libraryGetBook(bookId);
         if (bookData) {
           setBookDetails(bookData);
-          console.log("BookDetails bookData", bookData); 
         }
       } catch (err) {
-        setError("Failed to fetch book details."); // Set error if fetch fails
+        setError("Failed to fetch book details.");
       }
     };
-
 
     fetchBookDetails();
   }, [bookId, libraryGetBook]);
 
   if (error) {
-    return <div>{error}</div>; // Display error message
+    return <div>{error}</div>; 
   }
 
   if (!bookDetails) {
@@ -39,7 +36,9 @@ const BookDetails = () => {
       <h2>{bookDetails.title}</h2>
       <p>Authors: {bookDetails.authors}</p>
       <p>Comments: {bookDetails.comments}</p>
-      <p>Link: <a href={bookDetails.link}>View Book</a></p>
+      <p>
+        Link: <a href={bookDetails.link}>View Book</a>
+      </p>
       <img src={bookDetails.image} alt={bookDetails.title} />
       <p>Status: {bookDetails.status}</p>
       <p>Rating: {bookDetails.rating}</p>

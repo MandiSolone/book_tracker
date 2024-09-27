@@ -1,14 +1,14 @@
 //Get addToWishList functional
-//Add exit btn at top after entering search 
+//Add exit btn at top after entering search
 import React, { useState } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
 import style from "./GoogleBookSearch.module.css";
-import useUser  from "../hooks/useUser";
+import useUser from "../hooks/useUser";
 
 function GoogleBooksSearch() {
-  const { libraryAddBook } = useLibrary(); // Use hook to access libraryAddBook
-  const { user } = useUser(); // Get the logged-in user
+  const { libraryAddBook } = useLibrary(); // Hook libraryAddBook
+  const { user } = useUser(); // Hook logged-in user info
   const [query, setQuery] = useState(""); // Holds search input
   const [gSearchedBooks, setGSearchedBooks] = useState([]); // Fetched from Google API
   const [error, setError] = useState("");
@@ -16,12 +16,11 @@ function GoogleBooksSearch() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
-  // Doesn't show search bar if user isn't signed in 
+  // Doesn't show search bar if user isn't signed in
   if (!user) {
-    return
+    return;
   }
 
-  // const [wishlist, setWishlist] = useState([]);
   const closeModal = () => {
     setIsModalOpen(false); // Close the modal
   };
@@ -44,7 +43,7 @@ function GoogleBooksSearch() {
     }
   };
 
-  //Reduce book description < 50 words
+  // Reduce book description < 50 words
   const truncateDescription = (description) => {
     if (!description) return ""; // If undefined, null, or an empty string, return an empty string.
     const words = description.split(" ");
@@ -62,7 +61,7 @@ function GoogleBooksSearch() {
     const authorsString = book.volumeInfo.authors.join(", "); // Convert authors array to a string
     const bookData = {
       book_id: null, // Use null to allow the db to auto-populate an ID
-      user_id: user.id, 
+      user_id: user.id,
       image:
         book.volumeInfo.imageLinks?.smallThumbnail ||
         "https://via.placeholder.com/128x193.png?text=No+Image",
@@ -81,16 +80,16 @@ function GoogleBooksSearch() {
       .then(() => {
         setModalMessage(`${book.volumeInfo.title} was added to your library!`);
         setIsModalOpen(true);
-        setTimeout(() => { // Set timeout 
+        setTimeout(() => {
           closeModal();
-        }, 2000);
+        }, 2000);// Set timeout
         setNoResultsFound(false); // Reset no results found
         setGSearchedBooks([]); //Rest Google Fetched books array to 0
       })
       .catch((error) => {
         console.error("Error adding book to library:", error);
         setNoResultsFound(true); // Show no results if there was an error
-        setGSearchedBooks([]); //Rest Google Fetched books array to
+        setGSearchedBooks([]); // Rest Google Fetched books array to
       });
   };
 

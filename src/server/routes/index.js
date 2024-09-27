@@ -1,7 +1,7 @@
 import express from "express";
 import booksRouter from "./books.routes";
 import searchRouter from "./search.routes";
-import authRouter from "./auth.routes"; 
+import authRouter from "./auth.routes";
 
 //Express framework creates new router objects
 //Defines routes and handles request
@@ -12,7 +12,7 @@ router.get("/test", (req, res, next) => {
   res.json("Hello World!");
 });
 
-// Route handlers 
+// Route handlers
 router.use("/books", booksRouter);
 router.use("/search", searchRouter);
 router.use("/auth", authRouter);
