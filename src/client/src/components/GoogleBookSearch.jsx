@@ -15,6 +15,7 @@ function GoogleBooksSearch() {
   const [noResultsFound, setNoResultsFound] = useState(false); // New state for no results
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  // const [showResults, setShowResults] = useState(false); // State for controlling search results visibility
 
   // Doesn't show search bar if user isn't signed in
   if (!user) {
@@ -23,6 +24,12 @@ function GoogleBooksSearch() {
 
   const closeModal = () => {
     setIsModalOpen(false); // Close the modal
+  };
+
+  // Close Btn
+  const closeResults = () => {
+    setGSearchedBooks([]); // Clear searched books
+    // setShowResults(false); // Hide results
   };
 
   //Search.routes.js handles request via Google API key
@@ -58,7 +65,12 @@ function GoogleBooksSearch() {
       return; // Don't proceed if the user is not logged in
     }
 
-    const authorsString = book.volumeInfo.authors.join(", "); // Convert authors array to a string
+     // Check if authors exist and are not empty
+  const authorsString = 
+  book.volumeInfo.authors && book.volumeInfo.authors.length > 0
+    ? book.volumeInfo.authors.join(", ") // Convert authors array to a string
+    : "Unknown Author"; // Default value if authors are null, blank, or empty
+    
     const bookData = {
       book_id: null, // Use null to allow the db to auto-populate an ID
       user_id: user.id,
@@ -82,7 +94,7 @@ function GoogleBooksSearch() {
         setIsModalOpen(true);
         setTimeout(() => {
           closeModal();
-        }, 2000);// Set timeout
+        }, 2000); // Set timeout
         setNoResultsFound(false); // Reset no results found
         setGSearchedBooks([]); //Rest Google Fetched books array to 0
       })
@@ -117,41 +129,47 @@ function GoogleBooksSearch() {
       />
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <div id="results">
-        {gSearchedBooks.length > 0
-          ? gSearchedBooks.map((book) => {
-              const { title, authors, description, imageLinks } =
-                book.volumeInfo;
-              return (
-                <div key={book.id} className={style.bookDiv}>
-                  <img
-                    className={style.bookImg}
-                    src={
-                      imageLinks?.thumbnail || "https://via.placeholder.com/100"
-                    }
-                    alt={title}
-                  />
-                  <div>
-                    <h2 className={style.title}>{title}</h2>
-                    <p className="bookParagraph">
-                      <strong>Author(s):</strong> {authors}
-                    </p>
-                    <p className={style.bookParagraph}>
-                      {truncateDescription(description)}
-                    </p>
-                    <button onClick={() => reduceDataThenAdd(book)}>
-                      Add to Library
-                    </button>
-                    {/* <button onClick={() => addToWishlist(book)}>
-                    Add to Wishlist */}
-                    {/* </button> */}
-                  </div>
-                </div>
-              );
-            })
-          : noResultsFound && <p>No results found.</p>}
-      </div>
+      <div>
+        <button  className={gSearchedBooks.length > 0 ? style.visible : style.hidden} onClick={closeResults}>
+          &times;
+        </button>
 
+        <div id="results">
+          {gSearchedBooks.length > 0
+            ? gSearchedBooks.map((book) => {
+                const { title, authors, description, imageLinks } =
+                  book.volumeInfo;
+                return (
+                  <div key={book.id} className={style.bookDiv}>
+                    <img
+                      className={style.bookImg}
+                      src={
+                        imageLinks?.thumbnail ||
+                        "https://via.placeholder.com/100"
+                      }
+                      alt={title}
+                    />
+                    <div>
+                      <h2 className={style.title}>{title}</h2>
+                      <p className="bookParagraph">
+                        <strong>Author(s):</strong> {authors}
+                      </p>
+                      <p className={style.bookParagraph}>
+                        {truncateDescription(description)}
+                      </p>
+                      <button onClick={() => reduceDataThenAdd(book)}>
+                        Add to Library
+                      </button>
+                      {/* <button onClick={() => addToWishlist(book)}>
+                    Add to Wishlist */}
+                      {/* </button> */}
+                    </div>
+                  </div>
+                );
+              })
+            : noResultsFound && <p>No results found.</p>}
+        </div>
+      </div>
       {/* Modal for notification message */}
       {isModalOpen && (
         <Modal onClose={closeModal}>

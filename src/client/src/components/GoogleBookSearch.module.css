@@ -44,6 +44,14 @@ button:hover {
   background-color: #37553d; /* Darker shade on hover */
 }
 
+.hidden {
+  display: none; /* Hides the button */
+}
+
+.visible {
+  display: inline-block; /* Shows the button */
+}
+
 #error {
   color: red;
   margin-top: 10px;
