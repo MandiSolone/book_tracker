@@ -9,7 +9,15 @@ export default function Account() {
   return (
     <div>
       <h1>Account</h1>
-      {user ? <ProfilePage /> : <SignInButton />}
+      {user ? (
+        <ProfilePage />
+      ) : (
+        <>
+          <h2>Welcome Back!</h2>
+          <p>Sign in to access your account and library.</p>
+          <SignInButton />
+        </>
+      )}
     </div>
   );
-}
+};

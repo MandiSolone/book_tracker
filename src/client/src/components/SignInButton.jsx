@@ -1,11 +1,13 @@
 import React from "react";
 
 const SignInButton = () => {
-  const handleSignIn = () => {
-    window.location.href = "http://localhost:8080/api/auth/google";
-  };
-
-  return <button onClick={handleSignIn}>Sign in</button>;
+  return (
+    <div>
+      <a href="http://localhost:8080/api/auth/google">
+        <button>Sign In with Google</button>
+      </a>
+    </div>
+  );
 };
 
 export default SignInButton;

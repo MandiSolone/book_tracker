@@ -1,7 +1,7 @@
 import express from "express";
 import books from "../controllers/books.controllers";
 
-// requests will reach these routes already matching /api/books
+// Requests will reach these routes already matching /api/books
 const BooksRouter = express.Router();
 
 //? means id is optional
@@ -93,18 +93,13 @@ BooksRouter.put("/:book_id", async (req, res, next) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: "User not authenticated" });
   }
-
   const userId = req.user.id;
   const updatedBook = req.body; // Get updated book data from request body
   const { book_id } = req.params; // Extract book_id from request param
-  console.log("userId", userId);
-  console.log("updatedBook", updatedBook);
-  console.log("book_id", book_id);
 
   try {
     // Update the book in the database
     const updatedResult = await books.updateOne(updatedBook, book_id, userId); // Pass updatedBook directly
-    console.log("updateResults", updatedResult);
 
     // Check if the update was successful
     if (!updatedResult.affectedRows) {

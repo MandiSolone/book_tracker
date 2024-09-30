@@ -2,6 +2,7 @@ import React from "react";
 import style from "./modal.module.css";
 
 const Modal = ({ onClose, onConfirm, children, showConfirm }) => {
+
   return (
     <div className={style.overlay}>
       <div className={style.content}>

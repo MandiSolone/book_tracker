@@ -1,4 +1,3 @@
-//change from context to hook
 import React, { useContext } from "react";
 import { UserProfileContext } from "../contexts/UserProfileContext"; // Import the context
 

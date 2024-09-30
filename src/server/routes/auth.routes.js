@@ -11,8 +11,6 @@ AuthRouter.get('/google', passport.authenticate('google', { scope: ['profile', '
 AuthRouter.get('/google/callback', 
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
-        // Successful authentication
-        console.log("User authenticated successfully:", req.user); // Add this line
         res.redirect('http://localhost:3000/account'); // Redirect to the profile page after authentication
     }
 );

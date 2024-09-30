@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"; // Import useHistory
 import BookForm from "./BookForm";
 import Modal from "./Modal";
 import "./BookList.module.css";
+import { Link } from 'react-router-dom'; // Import Link for navigation
 
 // blBooks=[] set to empty array while awaiting db API fetch from Library
 export default function BookList({ blBooks = [], blOnDelete }) {
@@ -11,19 +12,10 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState(null);
 
-  // // Function to sort books
-  // const [sortCriteria, setSortCriteria] = useState('title'); // Default sort by title
-  //   const sortedBooks = [...blBooks].sort((a, b) => {
-  //     if (a[sortCriteria] < b[sortCriteria]) return -1;
-  //     if (a[sortCriteria] > b[sortCriteria]) return 1;
-  //     return 0;
-  //   });
-
   //Handle clicks and Modals
   const handleEditClick = (book) => {
     setSelectedBook(book); // Set the selected book object
     setIsEditing(true); //Open the edit form
-    console.log("Editing book:", book);
   };
   const closeForm = () => {
     setSelectedBook(null);
@@ -68,22 +60,8 @@ export default function BookList({ blBooks = [], blOnDelete }) {
     <div className="booklist-container">
       <h2 className="booklist-header">Your Books</h2>
 
-      {/* <label> */}
-      {/* Sort by: 
-        <select onChange={(e) => setSortCriteria(e.target.value)} value={sortCriteria}>
-          <option value="title">Title</option>
-          <option value="authors">Authors</option>
-          <option value="rating">Rating</option>
-        </select>
-      </label>
-      {sortedBooks.length === 0 ? (
-        <p>No Books available</p>
-      ) : (
-        <ul>
-          {sortedBooks.map((book) => ( */}
-
       {blBooks.length === 0 ? (
-        <p className="no-books">No Books available</p>
+        <p className="no-books">No Books available. <Link to="/account">Sign In</Link> {/* Link to the sign-in page */} </p>
       ) : (
         <ul>
           {blBooks.map((book) => (

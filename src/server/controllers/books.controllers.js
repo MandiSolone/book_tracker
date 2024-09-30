@@ -1,5 +1,4 @@
-// connects mysql wrapped in a promise from db query
-import query from "../db/utils";
+import query from "../db/utils";// Connects mysql wrapped in a promise from db query
 
 export const findAll = async ({ user_id }) => {
   const sql = "SELECT * FROM books WHERE user_id = ?";
@@ -11,11 +10,7 @@ export const findAll = async ({ user_id }) => {
 const findOne = async (book_id, user_id) => {
   const sql = "SELECT * FROM books WHERE book_id = ? AND user_id = ?";
   const params = [book_id, user_id];
-  console.log("params", params);
-
   const results = await query(sql, params);
-  console.log("results", results);
-
   // Return the first result, or null if not found
   return results.length > 0 ? results[0] : null;
 };
@@ -30,7 +25,6 @@ const addOne = async (newBook) => {
     book_id: result.insertId, // Use insertId from the result
     ...newBook,
   };
-  console.log("addOne BookWithId", bookWithId);
   return bookWithId; // Return the new book object
 };
 

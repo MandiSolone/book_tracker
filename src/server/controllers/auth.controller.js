@@ -9,25 +9,21 @@ export const googleAuthCallback = async (
   done
 ) => {
   const userEmail = profile.emails[0].value;
-  console.log("userEmail", userEmail);
 
   try {
     // Check if user exists
     const results = await query("SELECT * FROM users WHERE email = ?", [
       userEmail,
     ]);
-    console.log("results", results);
 
     if (results.length > 0) {
       return done(null, results[0]);
     } else {
       const newUser = { email: userEmail, name: profile.displayName };
-      console.log("newUser", newUser);
       await query("INSERT INTO users SET ?", newUser);
       const insertedUser = await query("SELECT * FROM users WHERE email = ?", [
         userEmail,
       ]);
-      console.log("insertedUser", insertedUser);
       return done(null, insertedUser[0]);
     }
   } catch (err) {
@@ -38,7 +34,6 @@ export const googleAuthCallback = async (
 // Serialize and deserialize user functions
 export const serializeUser = (user, done) => {
   done(null, user.id); // Use user.id to identify the user
-  console.log("user.id", user.id);
 };
 
 export const deserializeUser = async (id, done) => {

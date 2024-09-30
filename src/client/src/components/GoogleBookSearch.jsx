@@ -1,5 +1,3 @@
-//Get addToWishList functional
-//Add exit btn at top after entering search
 import React, { useState } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
@@ -15,7 +13,6 @@ function GoogleBooksSearch() {
   const [noResultsFound, setNoResultsFound] = useState(false); // New state for no results
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  // const [showResults, setShowResults] = useState(false); // State for controlling search results visibility
 
   // Doesn't show search bar if user isn't signed in
   if (!user) {
@@ -29,7 +26,6 @@ function GoogleBooksSearch() {
   // Close Btn
   const closeResults = () => {
     setGSearchedBooks([]); // Clear searched books
-    // setShowResults(false); // Hide results
   };
 
   //Search.routes.js handles request via Google API key
@@ -88,7 +84,7 @@ function GoogleBooksSearch() {
       rating: "",
     };
 
-    libraryAddBook(bookData) //call LibraryAddBook from LibraryContext and feed bookData
+    libraryAddBook(bookData) // Call LibraryAddBook from LibraryContext and feed bookData
       .then(() => {
         setModalMessage(`${book.volumeInfo.title} was added to your library!`);
         setIsModalOpen(true);
@@ -104,15 +100,6 @@ function GoogleBooksSearch() {
         setGSearchedBooks([]); // Rest Google Fetched books array to
       });
   };
-
-  // const addToWishlist = (book) => {
-  //   setWishlist((prev) => {
-  //     const updatedWishlist = [...prev, book];
-  //     alert(`${book.volumeInfo.title} was added to your wishlist!`);
-  //     console.log("Updated Wishlist:", updatedWishlist); // Log the updated wishlist
-  //     return updatedWishlist;
-  //   });
-  // };
 
   return (
     <div className={style.body}>
@@ -160,9 +147,6 @@ function GoogleBooksSearch() {
                       <button onClick={() => reduceDataThenAdd(book)}>
                         Add to Library
                       </button>
-                      {/* <button onClick={() => addToWishlist(book)}>
-                    Add to Wishlist */}
-                      {/* </button> */}
                     </div>
                   </div>
                 );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
 import useUser from "../hooks/useUser";
+import { Link } from 'react-router-dom'; //Import Link for navigation 
 
 function BookForm({ book, onClose, modal, onSave }) {
   const { user } = useUser(); // Hook to UserProfileContext
@@ -16,8 +17,8 @@ function BookForm({ book, onClose, modal, onSave }) {
   const [status, setStatus] = useState("Read");
   const [rating, setRating] = useState("5 Star");
   const [customLocation, setCustomLocation] = useState(""); // New state for custom Location
-  const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image"; //default img
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image"; // Default img
 
   // Populate form with existing book data if editing
   useEffect(() => {
@@ -39,6 +40,7 @@ function BookForm({ book, onClose, modal, onSave }) {
     return (
       <div>
         <h3>Please sign in to add books to your library.</h3>
+        <Link to="/account">Sign In</Link> {/* Link to the sign-in page */}
       </div>
     );
   }

@@ -26,12 +26,12 @@
 .img {
   max-width: 100%; /* Make images responsive */
   height: auto; /* Maintain aspect ratio */
-  margin-bottom: 10px; /* Space below the image */
+  margin-bottom: 10px; 
 }
 
 h2, p {
-  font-size: 1rem; /* Adjust font size as needed */
-  margin: 5px 0; /* Space between text elements */
+  font-size: 1rem; 
+  margin: 5px 0; 
 }
 
 .close {
@@ -45,9 +45,9 @@ h2, p {
 }
 
 .saveBtn {
-  margin-top: 10px; /* Space before the button */
-  background-color: #007bff; /* Example button color */
-  color: white; /* Button text color */
+  margin-top: 10px; 
+  background-color: #007bff; 
+  color: white; 
   border: none;
   padding: 10px;
   border-radius: 5px;

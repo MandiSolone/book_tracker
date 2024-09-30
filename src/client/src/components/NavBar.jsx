@@ -21,10 +21,10 @@ function NavBar() {
 
         <GoogleBookSearch className={style.fullWidth} />
         <div className={style.linkContainer}>
-          <a href="/">Library</a>
+          <a href="/">Account</a>
+          <a href="/library">Library</a>
           <a href="/addbook">Add Book</a>
           <a href="/wishlist">Wishlist</a>
-          <a href="/account">Account</a>
         </div>
       </div>
     </nav>
