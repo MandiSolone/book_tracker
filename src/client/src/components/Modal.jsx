@@ -5,13 +5,13 @@ const Modal = ({ onClose, onConfirm, children, showConfirm }) => {
   return (
     <div className={style.overlay}>
       <div className={style.content}>
-        <button className={style.closeBtn} onClick={onClose}>
+        <button className={style.close} onClick={onClose}>
           &times; {/* Close icon */}
         </button>
         {children}
         {showConfirm && (
           <div>
-            <button onClick={onConfirm}>Confirm</button>
+            <button className={style.saveBtn} onClick={onConfirm}>Confirm</button>
           </div>
         )}
       </div>
