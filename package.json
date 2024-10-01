@@ -1,22 +1,26 @@
 {
-    "name": "book-tracker",
-    "version": "1.0.0",
-    "description": "Keep track of your books and their locations",
-    "main": "src/server/server.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "dev:client": "cd src/client && npm start",
-      "dev:server": "cd src/server && npm start",
-      "start": "node src/server/server.js",  
-      "build:client": "cd src/client && npm run build", 
-      "heroku-postbuild": "npm run build:client", 
-      "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"" 
-    },
-    "keywords": [
-      "express",
-      "mern",
-      "node",
-      "react"
-    ],
-    "author": "Mandi Solone"
-  }
+  "name": "book-tracker",
+  "version": "1.0.0",
+  "description": "Keep track of your books and their locations",
+  "main": "src/server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:client": "cd src/client && npm start",
+    "dev:server": "cd src/server && npm start",
+    "start": "node src/server/server.js",
+    "build:client": "cd src/client && npm run build",
+    "heroku-postbuild": "npm run build:client",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
+  },
+  "keywords": [
+    "express",
+    "mern",
+    "node",
+    "react"
+  ],
+  "author": "Mandi Solone"
+}
