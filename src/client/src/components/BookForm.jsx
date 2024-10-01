@@ -3,6 +3,7 @@ import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
 import useUser from "../hooks/useUser";
 import { Link } from 'react-router-dom'; //Import Link for navigation 
+import "./BookForm.module.css"; 
 
 function BookForm({ book, onClose, modal, onSave }) {
   const { user } = useUser(); // Hook to UserProfileContext

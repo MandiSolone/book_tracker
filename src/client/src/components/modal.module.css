@@ -21,6 +21,7 @@
   overflow-y: auto; /* Allow vertical scrolling */
   display: flex;
   flex-direction: column; /* Stack elements vertically */
+  position: relative; /* Added to allow absolute positioning of close button */
 }
 
 .img {
@@ -36,12 +37,16 @@ h2, p {
 
 .close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 10px; /* Adjust if needed */
+  right: 10px; /* Adjust if needed */
   border: none;
-  background: none;
+  background: rgba(133, 192, 156, 0.8); /* White with some transparency */
   font-size: 20px;
   cursor: pointer;
+  z-index: 1010; /* Ensure the button is above the content */
+  padding: 5px 10px; /* Add some padding for a better appearance */
+  border-radius: 5px; /* Optional: rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: add shadow for depth */
 }
 
 .saveBtn {

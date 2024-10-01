@@ -1,4 +1,4 @@
-// query is my db. sending commands to user table.
+// query is mySQL db sending commands to user table.
 import query from "../db/utils";
 
 // Google OAuth callback function

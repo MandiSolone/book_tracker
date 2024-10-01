@@ -59,6 +59,7 @@ passport.use(
   )
 );
 
+
 // Serialize and deserialize user
 passport.serializeUser(serializeUser);
 passport.deserializeUser(deserializeUser);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useHistory
 import BookForm from "./BookForm";
 import Modal from "./Modal";
-import "./BookList.module.css";
+import style from "./BookList.module.css";
 import { Link } from 'react-router-dom'; // Import Link for navigation
 
 // blBooks=[] set to empty array while awaiting db API fetch from Library
@@ -41,9 +41,10 @@ export default function BookList({ blBooks = [], blOnDelete }) {
     const navigate = useNavigate(); // Get the navigate function
     const defaultImage =
       "https://via.placeholder.com/128x193.png?text=No+Image";
+
     return (
       <img
-        className="book-image"
+        className={style.image}
         src={src}
         onError={(e) => {
           e.target.onerror = null; // Prevent looping
@@ -57,18 +58,18 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   };
 
   return (
-    <div className="booklist-container">
-      <h2 className="booklist-header">Your Books</h2>
+    <div className={style.container}>
+      <h2 className={style.header}>Your Books</h2>
 
       {blBooks.length === 0 ? (
-        <p className="no-books">No Books available. <Link to="/account">Sign In</Link> {/* Link to the sign-in page */} </p>
+        <p>No Books available. <Link to="/account">Sign In</Link> {/* Link to the sign-in page */} </p>
       ) : (
-        <ul>
+        <ul className={style.list}>
           {blBooks.map((book) => (
-            <li key={book.book_id || book.google_id} className="book-item">
-              <BookImage src={book.image} bookId={book.book_id} />{" "}
+            <li className={style.item} key={book.book_id || book.google_id} >
+              <BookImage className={style.image} src={book.image} bookId={book.book_id} />{" "}
               {/*Pass bookId */}
-              <div className="book-info">
+              <div className={style.info}>
                 <h2>{book.title}</h2>
                 <p>
                   <strong>Author(s):</strong> {book.authors}{" "}
@@ -101,13 +102,11 @@ export default function BookList({ blBooks = [], blOnDelete }) {
                   {book.rating}{" "}
                 </p>
                 <button
-                  className="button"
                   onClick={() => handleDeleteClick(book)}
                 >
                   Delete
                 </button>
                 <button
-                  className="button"
                   onClick={() => handleEditClick(book)}
                 >
                   Edit Book

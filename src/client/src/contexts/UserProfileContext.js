@@ -38,12 +38,16 @@ export const UserProfileProvider = ({ children }) => {
   }, [fetchUser]);
 
   // Call logout endpoint
+  // When a user logs out, any session cookies or local storage entries are cleared.
   const logout = async () => {
     await fetch("http://localhost:8080/api/auth/logout", {
       credentials: "include",
       method: "POST",
     });
     setUser(null);
+    // Clear cookies or local storage if needed
+    // e.g., document.cookie.split(";").forEach(c => { document.cookie = c.replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+    window.localStorage.clear(); // Clear local storage if you store tokens there
     window.location.reload(); // Refresh the page
   };
 

@@ -1,68 +1,72 @@
-.booklist-container {
+.container {
   padding: 20px;
   background-color: #f5f5f5;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap onto the next line */
 }
 
-.booklist-header {
+.header {
   text-align: center;
-  color: #333;
+  color: rgba(67, 108, 83, 0.8);
   font-size: 2rem;
   margin-bottom: 20px;
 }
 
-.book-item {
-  display: flex;
-  align-items: flex-start;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
-  transition: transform 0.2s;
+.list {
+  display: flex; /* Use flexbox for alignment */
+  flex-wrap: wrap; /* Allow items to wrap onto the next line */
+  justify-content: space-between; 
+  margin: 0; 
+  padding: 0; 
+  list-style: none; /* Remove default list styling */
 }
 
-.book-item:hover {
-  transform: scale(1.02);
+.item {
+  flex: 1 1 calc(30% - 15px); 
+  margin: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  border-radius: 5px; 
+  padding: 10px; 
+  background: #fffafa; 
+  transition: transform 0.2s; /* Hover effect */
 }
 
-.book-image {
-  width: 128px;
-  height: 193px;
-  margin-right: 15px;
-  border-radius: 4px;
+.item:hover {
+  transform: scale(1.02); /* Slight zoom on hover */
 }
 
-.book-info {
-  flex: 1;
+.image {
+  width: 128px; 
+  height: 193px; 
+  margin-right: 15px; 
+  border-radius: 4px; 
 }
 
-.book-info h2 {
+.info {
+  flex: 1; /* Allow text info to take remaining space */
+}
+
+.info h2 {
   font-size: 1.5rem;
   margin: 0;
 }
 
-.book-info p {
+.info p {
   margin: 5px 0;
 }
 
-.button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-right: 10px;
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .item {
+    flex: 1 1 calc(45% - 10px); /* Two items per row on smaller screens */
+  }
 }
 
-.button:hover {
-  background-color: #0056b3;
-}
-
-.no-books {
-  text-align: center;
-  color: #999;
+@media (max-width: 480px) {
+  .item {
+    flex: 1 1 calc(100% - 10px); /* One item per row on mobile */
+  }
 }
