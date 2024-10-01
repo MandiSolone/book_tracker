@@ -6,7 +6,11 @@
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
       "dev:client": "cd src/client && npm start",
-      "dev:server": "cd src/server && npm start"
+      "dev:server": "cd src/server && npm start",
+      "start": "node src/server/server.js",  
+      "build:client": "cd src/client && npm run build", 
+      "heroku-postbuild": "npm run build:client", 
+      "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"" 
     },
     "keywords": [
       "express",
