@@ -9,7 +9,7 @@
     "dev:server": "cd src/server && npm start",
     "start": "node src/server/server.js",
     "build:client": "cd src/client && npm run build",
-    "heroku-postbuild": "npm run build:client",
+    "heroku-postbuild": "cd src/client && npm install && npm run build",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
   },
   "engines": {
