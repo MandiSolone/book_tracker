@@ -16,7 +16,7 @@ export const UserProfileProvider = ({ children }) => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:8080/api/auth/profile", {
+      const response = await fetch ((`${process.env.REACT_APP_API_URL}/auth/profile`),{
         credentials: "include",
       });
       if (response.ok) {
@@ -40,7 +40,7 @@ export const UserProfileProvider = ({ children }) => {
   // Call logout endpoint
   // When a user logs out, any session cookies or local storage entries are cleared.
   const logout = async () => {
-    await fetch("http://localhost:8080/api/auth/logout", {
+    await fetch ((`${process.env.REACT_APP_API_URL}/auth/logout`), {
       credentials: "include",
       method: "POST",
     });

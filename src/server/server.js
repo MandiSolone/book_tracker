@@ -6,7 +6,7 @@ import config from "./config"; // the config file
 import { errorHandler } from "./middlewares/errorHandler";
 //OAuth
 import authRouter from "./routes/auth.routes"; // Import the new auth routes
-import passport from "passport"; // did in auth.routes
+import passport from "passport"; // From auth.routes
 import session from "express-session";
 import {
   googleAuthCallback,
@@ -21,7 +21,7 @@ const app = express();
 // Has to be at the top, before initalizing Passport and defining any routes
 app.use(
   session({
-    secret: config.oauth.sessionSecret, // Use your session secret
+    secret: config.oauth.sessionSecret, // Use session secret
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }, // Set true in production if using HTTPS
@@ -39,7 +39,7 @@ app.use(express.json());
 // Enables incoming requests from cors origin domains
 // CORS is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the resource originated. By specifying an exact origin, you allow requests only from that domain, while blocking others.
 const corsOptions = {
-  origin: "http://localhost:3000", // Your React app URL
+  origin: process.env.CLIENT_URL || "http://localhost:3000", // React app URL
   credentials: true, // Allow credentials to be sent
 };
 app.use(cors(corsOptions));
@@ -53,12 +53,11 @@ passport.use(
     {
       clientID: config.oauth.googleClientId,
       clientSecret: config.oauth.googleClientSecret,
-      callbackURL: "http://localhost:8080/api/auth/google/callback",
+      callbackURL: process.env.GOOGLE_CALLBACK_URL, // Google Callback URL in .env
     },
     googleAuthCallback
   )
 );
-
 
 // Serialize and deserialize user
 passport.serializeUser(serializeUser);

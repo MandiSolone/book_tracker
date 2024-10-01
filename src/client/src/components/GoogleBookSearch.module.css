@@ -41,7 +41,7 @@ button {
 }
 
 button:hover {
-  background-color: #37553d; /* Darker shade on hover */
+  background-color: #37553d; 
 }
 
 .hidden {
@@ -89,5 +89,5 @@ button:hover {
 
 .bookParagraph {
   margin: 5px 0; /* Space between paragraphs */
-  color: #666; /* Lighter color for text */
+  color: #666; 
 }

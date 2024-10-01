@@ -32,7 +32,7 @@ function GoogleBooksSearch() {
   const handleSearch = async () => {
     if (!query) return;
     try {
-      const response = await fetch(`http://localhost:8080/api/search/${query}`);
+      const response = await fetch ((`${process.env.REACT_APP_API_URL}/search/${query}`));
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
       setGSearchedBooks(data.items || []);
@@ -90,14 +90,14 @@ function GoogleBooksSearch() {
         setIsModalOpen(true);
         setTimeout(() => {
           closeModal();
-        }, 2000); // Set timeout
+        }, 1000); // Set timeout
         setNoResultsFound(false); // Reset no results found
-        setGSearchedBooks([]); //Rest Google Fetched books array to 0
+        setGSearchedBooks([]); // Rest Google Fetched books array to 0
       })
       .catch((error) => {
         console.error("Error adding book to library:", error);
         setNoResultsFound(true); // Show no results if there was an error
-        setGSearchedBooks([]); // Rest Google Fetched books array to
+        setGSearchedBooks([]); // Rest Google Fetched books array 
       });
   };
 

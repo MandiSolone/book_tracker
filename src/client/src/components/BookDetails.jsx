@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useLibrary from "../hooks/useLibrary";
+
 
 const BookDetails = () => {
   const { bookId } = useParams(); // Get bookId from URL parameters
   const { libraryGetBook } = useLibrary(); // Use hook to access LibraryContext
   const [bookDetails, setBookDetails] = useState(null);
   const [error, setError] = useState(null);
+  const history = useNavigate(); // Use history for navigation
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -22,6 +24,10 @@ const BookDetails = () => {
 
     fetchBookDetails();
   }, [bookId, libraryGetBook]);
+
+  const handleReturn = () => {
+    history(-1); // Navigate back to the previous page
+  };
 
   if (error) {
     return <div>{error}</div>; 
@@ -42,6 +48,9 @@ const BookDetails = () => {
       <img src={bookDetails.image} alt={bookDetails.title} />
       <p>Status: {bookDetails.status}</p>
       <p>Rating: {bookDetails.rating}</p>
+      <button onClick={handleReturn}>
+        Back
+      </button>
     </div>
   );
 };

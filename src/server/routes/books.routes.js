@@ -113,7 +113,7 @@ BooksRouter.put("/:book_id", async (req, res, next) => {
       id: updatedResult.book_id,
       user_id: updatedResult.user_id,
       title: updatedResult.title,
-      authors: updatedResult.authors ? updatedResult.authors.split(", ") : [], // split works as input is a string
+      authors: updatedResult.authors ? updatedResult.authors.split(", ") : [], // split works as input if a string
       comments: updatedResult.comments,
       link: updatedResult.link,
       image: updatedResult.image,

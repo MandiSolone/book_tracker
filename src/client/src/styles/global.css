@@ -45,12 +45,12 @@ h3 {
 
 p {
   margin: 10px 10px; /* Space between paragraphs*/
-  color: #b4b3b3; /* Lighter color for text */
+  color: #b4b3b3; 
   line-height: 1.5; /* Improve readability */
 }
 
 a {
-  color: #007bff; /* Bootstrap primary color */
+  color: #007bff; 
   text-decoration: none; /* Remove underline */
 }
 
@@ -102,7 +102,7 @@ li {
 
 li img {
   border-radius: 4px;
-  margin-right: 15px; /* Space between image and text */
+  margin-right: 15px; 
 }
 
 .book {
