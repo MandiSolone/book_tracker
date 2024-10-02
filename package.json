@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:client": "cd src/client && npm start",
     "dev:server": "cd src/server && npm start",
-     "start": "node src/server/dist/server.js",
+    "build:server": "babel src/server --out-dir src/server/dist",
+    "start": "npm run build:server && node src/server/dist/server.js",
     "build:client": "cd src/client && npm run build",
     "heroku-postbuild": "cd src/client && npm install && npm run build",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""

@@ -7,6 +7,7 @@
     "start": "node dist/server.js",
     "build": "babel --ignore dist,lectures,public,node_modules -d dist ../server -s"
   },
+  "type": "module",
   "keywords": [
     "express",
     "node",
@@ -16,6 +17,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@babel/runtime": "^7.25.7",
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
