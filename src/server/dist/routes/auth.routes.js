@@ -4,7 +4,7 @@ var _passport = _interopRequireDefault(require("passport")); // Using Google OAu
 // Used Passport Library - middleware for handling authentication
 var AuthRouter = _express["default"].Router();
 
-var redirectUrl = process.env.CLIENT_URL || 'http://localhost:3000/'; // Use the environment variable
+var redirectUrl = process.env.CLIENT_URL || 'http://localhost:8080/'; // Use the environment variable
 
 // Redirect to Google for authentication
 AuthRouter.get('/google', _passport["default"].authenticate('google', {
@@ -16,8 +16,9 @@ AuthRouter.get('/google', _passport["default"].authenticate('google', {
 AuthRouter.get('/google/callback',
 _passport["default"].authenticate('google', { failureRedirect: '/' }), /*#__PURE__*/function () {var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(
     function _callee(req, res) {return _regenerator["default"].wrap(function _callee$(_context) {while (1) switch (_context.prev = _context.next) {case 0:
+            console.log('Authenticated User:', req.user);
             res.redirect(redirectUrl); // Redirect to the account/home page (Client side) after auth
-          case 1:case "end":return _context.stop();}}, _callee);}));return function (_x, _x2) {return _ref.apply(this, arguments);};}()
+          case 2:case "end":return _context.stop();}}, _callee);}));return function (_x, _x2) {return _ref.apply(this, arguments);};}()
 );
 
 // User profile route

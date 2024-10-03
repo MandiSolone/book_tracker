@@ -4,7 +4,7 @@ import passport from "passport";// Used Passport Library - middleware for handli
 
 const AuthRouter = express.Router();
 
-const redirectUrl = process.env.CLIENT_URL || 'http://localhost:3000/'; // Use the environment variable
+const redirectUrl = process.env.CLIENT_URL || 'http://localhost:8080/'; // Use the environment variable
 
 // Redirect to Google for authentication
 AuthRouter.get('/google', passport.authenticate('google', { 
@@ -16,6 +16,7 @@ AuthRouter.get('/google', passport.authenticate('google', {
 AuthRouter.get('/google/callback', 
     passport.authenticate('google', { failureRedirect: '/' }),
     async (req, res) => {
+        console.log('Authenticated User:', req.user);
         res.redirect(redirectUrl); // Redirect to the account/home page (Client side) after auth
     }
 );

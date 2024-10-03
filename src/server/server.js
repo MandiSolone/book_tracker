@@ -19,7 +19,7 @@ import path from "path";
 
 const app = express();
 
-// OAuth Set up session middleware
+// OAuth session middleware
 // Has to be at the top, before initalizing Passport and defining any routes
 app.use(
   session({
@@ -27,10 +27,15 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }, // Set true in production if using HTTPS
-  })
+  }
+)
 );
 
-// Initialize Passport
+console.log('Session Secret:', config.oauth.sessionSecret);
+console.log('Google Client ID:', config.oauth.googleClientId);
+console.log('Google Client Secret:', config.oauth.googleClientSecret);
+
+// Initialize Passport Library
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -40,6 +45,7 @@ app.use(express.json());
 
 // Enables incoming requests from cors origin domains
 // CORS is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the resource originated. By specifying an exact origin, you allow requests only from that domain, while blocking others.
+// Good for using multi domains 
 const corsOptions = {
   origin: process.env.CLIENT_URL || "http://localhost:3000", // React app URL
   credentials: true, // Allow credentials to be sent
@@ -62,35 +68,25 @@ passport.use(
 );
 
 // Serialize and deserialize user
+//add these lines after session middleware and before defining routes
 passport.serializeUser(serializeUser);
 passport.deserializeUser(deserializeUser);
 
-// Directs all routes starting with /api to the top level api express router http://localhost:8080/api/...
+// Define routers 
 app.use("/api", apiRouter);
 // Attach the auth router
-app.use(authRouter);
+app.use("/auth", authRouter);
 
-// Middleware to serve static files from the React app or you can copy/past into server public folder to route there
-// allows the server to serve the static files (like JavaScript, CSS, and images) from the React build folder.
 
-// console.log("Serving static files from:", path.join(__dirname, '../client/build'));
-// app.use(express.static(path.join(__dirname, '../client/build')));
-
-// console.log("Serving static files from:", path.join(process.cwd(), 'client/build'));
-// app.use(express.static(path.join(process.cwd(), 'client/build')));
-
-// Serve static files from the React app
+// Serve static files from the React app (front end)
 const staticPath = path.join(__dirname, '../client/build');
 console.log("Serving static files from:", staticPath);
 app.use(express.static(staticPath));
 
-// Handle all GET requests to serve the React app
+// Handle GET all requests to serve the React app (front end)
 app.get('*', (req, res) => {
   res.sendFile(path.join(staticPath, 'index.html'));
 });
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-// });
 
 // Default Error handler middleware
 // Goes at the bottom

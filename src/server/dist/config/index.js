@@ -1,13 +1,21 @@
 "use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");Object.defineProperty(exports, "__esModule", { value: true });exports["default"] = void 0;
-var _dotenv = _interopRequireDefault(require("dotenv")); //A Node.js package depenecy that needs to be instaled
+var _dotenv = _interopRequireDefault(require("dotenv"));
 
+
+
+
+
+
+
+var _path = _interopRequireDefault(require("path")); //A Node.js package depenecy that needs to be instaled
 // Load environment variables
-var envFound = _dotenv["default"].config();
-if (!envFound) {
-  throw new Error("Couldn't find .env!");
-}
-
-// exports configuration
+// const envFound = dotenv.config();
+// if (!envFound) {
+//   throw new Error("Couldn't find .env!");
+// }
+//Load env var from the .env file in the server directory 
+// Load environment variables from the .env file in the server directory
+var envFound = _dotenv["default"].config({ path: _path["default"].join(__dirname, '..', '.env') });if (envFound.error) {throw new Error("Couldn't find .env!");} // exports configuration
 var _default = exports["default"] = {
   mysql: {
     host: process.env.DB_HOST,

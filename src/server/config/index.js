@@ -2,9 +2,17 @@
 import dotenv from "dotenv";
 
 // Load environment variables
-const envFound = dotenv.config();
-if (!envFound) {
-  throw new Error("Couldn't find .env!");
+// const envFound = dotenv.config();
+// if (!envFound) {
+//   throw new Error("Couldn't find .env!");
+// }
+//Load env var from the .env file in the server directory 
+import path from "path";
+
+// Load environment variables from the .env file in the server directory
+const envFound = dotenv.config({ path: path.join(__dirname, '..', '.env') });
+if (envFound.error) {
+    throw new Error("Couldn't find .env!");
 }
 
 // exports configuration
