@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "comments": "start node dist/server.js/build babel . --out-dir dist",
     "start": "nodemon --exec babel-node --trace-warnings --trace-uncaught --async-stack-traces server.js",
-    "build": "babel --ignore dist,lectures,public,node_modules -d dist ../server -s"
+    "build": "babel --ignore dist,lectures,public,node_modules -d dist ../server -s", 
+    "comment": "babel src/server --out-dir dist/server"
   },
   "keywords": [
     "express",
@@ -19,6 +20,7 @@
   "dependencies": {
     "@babel/runtime": "^7.25.7",
     "axios": "^1.7.7",
+    "babel-preset-env": "^1.7.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
@@ -40,6 +42,7 @@
     "@babel/plugin-transform-runtime": "^7.25.7",
     "@babel/preset-env": "^7.25.7",
     "@babel/preset-react": "^7.25.7",
+    "babel-cli": "^6.26.0",
     "babel-node": "^0.0.1-security",
     "nodemon": "^3.1.4"
   }

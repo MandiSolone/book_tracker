@@ -14,8 +14,8 @@ import {
   deserializeUser,
 } from "./controllers/auth.controller";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-//Static React files 
-import path from "path"; 
+//Static React files
+import path from "path";
 
 const app = express();
 
@@ -27,13 +27,8 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }, // Set true in production if using HTTPS
-  }
-)
+  })
 );
-
-console.log('Session Secret:', config.oauth.sessionSecret);
-console.log('Google Client ID:', config.oauth.googleClientId);
-console.log('Google Client Secret:', config.oauth.googleClientSecret);
 
 // Initialize Passport Library
 app.use(passport.initialize());
@@ -45,7 +40,7 @@ app.use(express.json());
 
 // Enables incoming requests from cors origin domains
 // CORS is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the resource originated. By specifying an exact origin, you allow requests only from that domain, while blocking others.
-// Good for using multi domains 
+// Good for using multi domains
 const corsOptions = {
   origin: process.env.CLIENT_URL || "http://localhost:3000", // React app URL
   credentials: true, // Allow credentials to be sent
@@ -72,20 +67,19 @@ passport.use(
 passport.serializeUser(serializeUser);
 passport.deserializeUser(deserializeUser);
 
-// Define routers 
+// Define routers
 app.use("/api", apiRouter);
 // Attach the auth router
 app.use("/auth", authRouter);
 
-
 // Serve static files from the React app (front end)
-const staticPath = path.join(__dirname, '../client/build');
+const staticPath = path.join(__dirname, "..", "../client/build");
 console.log("Serving static files from:", staticPath);
 app.use(express.static(staticPath));
 
 // Handle GET all requests to serve the React app (front end)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(staticPath, 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(staticPath, "index.html"));
 });
 
 // Default Error handler middleware

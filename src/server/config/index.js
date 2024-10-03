@@ -1,18 +1,19 @@
 //A Node.js package depenecy that needs to be instaled
 import dotenv from "dotenv";
-
-// Load environment variables
-// const envFound = dotenv.config();
-// if (!envFound) {
-//   throw new Error("Couldn't find .env!");
-// }
-//Load env var from the .env file in the server directory 
 import path from "path";
 
-// Load environment variables from the .env file in the server directory
-const envFound = dotenv.config({ path: path.join(__dirname, '..', '.env') });
-if (envFound.error) {
-    throw new Error("Couldn't find .env!");
+// First, try to load .env from one directory up
+const primaryPath = path.join(__dirname, "..", ".env");
+const primaryEnvFound = dotenv.config({ path: primaryPath });
+
+if (primaryEnvFound.error) {
+  // If the first attempt fails, try loading from two directories up
+  const fallbackPath = path.join(__dirname, "..", "..", ".env");
+  const fallbackEnvFound = dotenv.config({ path: fallbackPath });
+
+  if (fallbackEnvFound.error) {
+    throw new Error("Couldn't find .env file!");
+  }
 }
 
 // exports configuration

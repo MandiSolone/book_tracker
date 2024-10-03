@@ -1,7 +1,0 @@
-"use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");Object.defineProperty(exports, "__esModule", { value: true });exports["default"] = void 0;var _config = _interopRequireDefault(require("../config"));
-var _mysql = _interopRequireDefault(require("mysql")); // Connection object we can create queries fro
-// Default built in component
-var connection = _mysql["default"].createPool(_config["default"].mysql);var _default = exports["default"] =
-
-connection;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJfY29uZmlnIiwiX2ludGVyb3BSZXF1aXJlRGVmYXVsdCIsInJlcXVpcmUiLCJfbXlzcWwiLCJjb25uZWN0aW9uIiwiY3JlYXRlUG9vbCIsIm15c3FsIiwiX2RlZmF1bHQiLCJleHBvcnRzIl0sInNvdXJjZXMiOlsiLi4vLi4vZGIvaW5kZXguanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGNvbmZpZyBmcm9tIFwiLi4vY29uZmlnXCI7Ly8gQ29ubmVjdGlvbiBvYmplY3Qgd2UgY2FuIGNyZWF0ZSBxdWVyaWVzIGZyb1xuaW1wb3J0IG15c3FsIGZyb20gXCJteXNxbFwiOy8vIERlZmF1bHQgYnVpbHQgaW4gY29tcG9uZW50XG5cbmNvbnN0IGNvbm5lY3Rpb24gPSBteXNxbC5jcmVhdGVQb29sKGNvbmZpZy5teXNxbCk7XG5cbmV4cG9ydCBkZWZhdWx0IGNvbm5lY3Rpb247XG4iXSwibWFwcGluZ3MiOiI0TEFBQSxJQUFBQSxPQUFBLEdBQUFDLHNCQUFBLENBQUFDLE9BQUE7QUFDQSxJQUFBQyxNQUFBLEdBQUFGLHNCQUFBLENBQUFDLE9BQUEsV0FBMEIsQ0FESztBQUNMO0FBRTFCLElBQU1FLFVBQVUsR0FBR0QsTUFBQSxXQUFLLENBQUNFLFVBQVUsQ0FBQ0wsT0FBQSxXQUFNLENBQUNNLEtBQUssQ0FBQyxDQUFDLElBQUFDLFFBQUEsR0FBQUMsT0FBQTs7QUFFbkNKLFVBQVUiLCJpZ25vcmVMaXN0IjpbXX0=
