@@ -1,7 +1,7 @@
 import express from "express";
 import morgan from "morgan"; // For logging
 import cors from "cors";
-import apiRouter from "./routes/index"; // Aggregated routes
+import apiRouter from "./routes/index.js"; // Aggregated routes
 import config from "./config"; // the config file
 import { errorHandler } from "./middlewares/errorHandler";
 //OAuth
@@ -14,6 +14,8 @@ import {
   deserializeUser,
 } from "./controllers/auth.controller";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+//Static React files 
+import path from "path"; 
 
 const app = express();
 
@@ -67,32 +69,35 @@ passport.deserializeUser(deserializeUser);
 app.use("/api", apiRouter);
 // Attach the auth router
 app.use(authRouter);
+
+// Middleware to serve static files from the React app or you can copy/past into server public folder to route there
+// allows the server to serve the static files (like JavaScript, CSS, and images) from the React build folder.
+
+// console.log("Serving static files from:", path.join(__dirname, '../client/build'));
+// app.use(express.static(path.join(__dirname, '../client/build')));
+
+// console.log("Serving static files from:", path.join(process.cwd(), 'client/build'));
+// app.use(express.static(path.join(process.cwd(), 'client/build')));
+
+// Serve static files from the React app
+const staticPath = path.join(__dirname, '../client/build');
+console.log("Serving static files from:", staticPath);
+app.use(express.static(staticPath));
+
+// Handle all GET requests to serve the React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(staticPath, 'index.html'));
+});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+// });
+
 // Default Error handler middleware
+// Goes at the bottom
 app.use(errorHandler);
 
 // Bind the app to a specified port
-// You can access your app at http://localhost:<port>
+// Access app at http://localhost:<port>
 app.listen(config.port || 8080, () =>
   console.log(`Server listening on port ${config.port}...`)
 );
-
-// In dev create-react-app's built in server handles these routes (everything) but in deployment you need these to ensure app can serve static files and client-side routing works correctly
-
-// /**
-//  * Directs incoming static asset requests to the public folder
-//  */
-
-// app.use(express.static(join(__dirname, "../client/build")));
-
-// /**
-//  * Sends the react app index.html for page requests
-//  * Only needed in production when you are not using the react dev server
-//  */
-
-// app.use((req, res, next) => {
-//   try {
-//     res.sendFile(join(__dirname, "../client/build/index.html"));
-//   } catch (error) {
-//     next(error);
-//   }
-// });
