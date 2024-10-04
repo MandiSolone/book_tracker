@@ -8,17 +8,18 @@ import { dirname } from "path";
 var __filename = fileURLToPath(import.meta.url);
 var __dirname = dirname(__filename);
 
-// First, try to load .env from one directory up
-var primaryPath = path.join(__dirname, "..", ".env");
-var primaryEnvFound = dotenv.config({ path: primaryPath });
+if (process.env.NODE_ENV !== 'production') {
+  // If not production then dev and - First, try to load .env from one server
+  var primaryPath = path.join(__dirname, "..", ".env");
+  var primaryEnvFound = dotenv.config({ path: primaryPath });
+  // If that directory doesn't work, go two up from directory to start from server/dist 
+  if (primaryEnvFound.error) {
+    var fallbackPath = path.join(__dirname, "..", "..", ".env");
+    var fallbackEnvFound = dotenv.config({ path: fallbackPath });
 
-if (primaryEnvFound.error) {
-  // If the first attempt fails, try loading from two directories up
-  var fallbackPath = path.join(__dirname, "..", "..", ".env");
-  var fallbackEnvFound = dotenv.config({ path: fallbackPath });
-
-  if (fallbackEnvFound.error) {
-    throw new Error("Couldn't find .env file!");
+    if (fallbackEnvFound.error) {
+      throw new Error("Couldn't find .env file!");
+    }
   }
 }
 
@@ -30,7 +31,7 @@ export default {
     password: process.env.DB_PASS,
     database: process.env.DB_SCHEMA
   },
-  port: parseInt(process.env.PORT),
+  port: parseInt(process.env.PORT) || 3000,
   oauth: {
     googleClientId: process.env.GOOGLE_CLIENT_ID,
     googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
