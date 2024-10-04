@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
   console.log("Environment: Production");
 
   const clearDBUrl = process.env.CLEARDB_DATABASE_URL;
-  console.log("ClearDB URL:", clearDBUrl); // Log the URL to ensure it's being picked up
+  console.log("ClearDB URL:", clearDBUrl || "Not set"); // Log the URL to ensure it's being picked up
 
   if (!clearDBUrl) {
     console.error("CLEARDB_DATABASE_URL is not defined");
