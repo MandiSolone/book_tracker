@@ -29,7 +29,10 @@ app.use(
     secret: config.oauth.sessionSecret, // Use session secret
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set true in production if using HTTPS
+    // cookie: { secure: false }, // Set true in production if using HTTPS
+    cookie: {
+      secure: process.env.NODE_ENV === 'production' // Set secure to true only in production
+    }
   })
 );
 

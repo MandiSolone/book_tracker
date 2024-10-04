@@ -1,4 +1,5 @@
-// query is mySQL db sending commands to user table.
+// query is mySQL db (local-dev or clear-heroku-production) 
+// sending commands from google oauth to user table during sing in
 import query from "../db/utils.js";
 
 // Google OAuth callback function
@@ -31,7 +32,7 @@ export const googleAuthCallback = async (
   }
 };
 
-// Serialize and deserialize user functions
+// Serialize and deserialize user functions exported
 export const serializeUser = (user, done) => {
   done(null, user.id); // Use user.id to identify the user
 };

@@ -32,6 +32,7 @@ export default {
     database: process.env.DB_SCHEMA
   },
   port: parseInt(process.env.PORT) || 3000,
+
   oauth: {
     googleClientId: process.env.GOOGLE_CLIENT_ID,
     googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
