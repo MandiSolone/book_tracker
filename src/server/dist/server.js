@@ -5,20 +5,18 @@ import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import apiRouter from "./routes/index.js"; // Aggregated routes
-import config from "./config/index.js"; // the config file
+import config from "./config/index.js"; // the config file // mysql, port, oauth
 import { errorHandler } from "./middlewares/errorHandler.js";
 //OAuth
-import authRouter from "./routes/auth.routes.js"; // Import the new auth routes
 import passport from "passport"; // From auth.routes
 import session from "express-session";
-import {
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import authRouter from "./routes/auth.routes.js"; // Import the new auth routes
+import { // resp from mysqlUrls> promise>query>UserDbTable>output here
   googleAuthCallback,
   serializeUser,
   deserializeUser } from
 "./controllers/auth.controller.js";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-//Static React files
-
 
 var app = express();
 
@@ -60,7 +58,7 @@ app.use(morgan("dev"));
 passport.use(
   new GoogleStrategy(
     {
-      clientID: config.oauth.googleClientId,
+      clientID: config.oauth.googleClientId, //config/index.js 
       clientSecret: config.oauth.googleClientSecret,
       callbackURL: process.env.GOOGLE_CALLBACK_URL // Google Callback URL in .env
     },

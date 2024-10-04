@@ -26,17 +26,18 @@ if (process.env.NODE_ENV === 'production') {
     // Use ClearDB_DATABASE_URL from Heroku
     const clearDBUrl = process.env.CLEARDB_DATABASE_URL;
 
-    // Parse the ClearDB URL
-    const parsedUrl = url.parse(clearDBUrl);
-    const [user, password] = parsedUrl.auth.split(':');
+    if (!clearDBUrl) {
+        throw new Error("CLEARDB_DATABASE_URL is not defined");
+    }
 
-    // Create a connection pool from the ClearDB URL
+    const { hostname, username, password, pathname } = new url.URL(clearDBUrl);
+    const database = pathname.slice(1); // Remove leading '/'
+    
     connection = mysql.createPool({
-        host: parsedUrl.hostname,
-        port: parsedUrl.port,
-        user: user,
+        host: hostname,
+        user: username,
         password: password,
-        database: parsedUrl.path.split('/')[1] // Extract the database name
+        database: database,
     });
 } else {
     // Use local MySQL config
