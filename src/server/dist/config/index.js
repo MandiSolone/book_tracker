@@ -1,6 +1,12 @@
 //A Node.js package depenecy that needs to be instaled
 import dotenv from "dotenv";
 import path from "path";
+import { fileURLToPath } from 'url';
+import { dirname } from "path";
+
+// Create __filename and __dirname equivalents
+var __filename = fileURLToPath(import.meta.url);
+var __dirname = dirname(__filename);
 
 // First, try to load .env from one directory up
 var primaryPath = path.join(__dirname, "..", ".env");

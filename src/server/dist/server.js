@@ -1,6 +1,9 @@
 import express from "express";
 import morgan from "morgan"; // For logging
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import apiRouter from "./routes/index.js"; // Aggregated routes
 import config from "./config/index.js"; // the config file
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -15,7 +18,7 @@ import {
 "./controllers/auth.controller.js";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 //Static React files
-import path from "path";
+
 
 var app = express();
 
@@ -71,6 +74,10 @@ passport.deserializeUser(deserializeUser);
 app.use("/api", apiRouter);
 // Attach the auth router
 app.use("/auth", authRouter);
+
+// Create __dirname equivalent
+var __filename = fileURLToPath(import.meta.url);
+var __dirname = dirname(__filename);
 
 // Serve static files from the React app (front end)
 var staticPath = path.join(__dirname, "..", "../client/build");
