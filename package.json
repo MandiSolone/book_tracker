@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Keep track of your books and their locations",
   "main": "src/server/server.js",
+  "type": "module", 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
