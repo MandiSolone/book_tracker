@@ -10,7 +10,7 @@
     "dev:server": "cd src/server && npm start",
     "build:client": "cd src/client && npm run build",
     "build:server": "cd src/server && npm run build",
-    "start": "npm run build:server && node src/server/dist/server.js",
+    "start": "node src/server/dist/server.js",
     "heroku-postbuild": "cd src/client && npm install && npm run build"
   },
   "engines": {
