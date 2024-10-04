@@ -2,17 +2,17 @@ import express from "express";
 import morgan from "morgan"; // For logging
 import cors from "cors";
 import apiRouter from "./routes/index.js"; // Aggregated routes
-import config from "./config"; // the config file
-import { errorHandler } from "./middlewares/errorHandler";
+import config from "./config/index.js"; // the config file
+import { errorHandler } from "./middlewares/errorHandler.js";
 //OAuth
-import authRouter from "./routes/auth.routes"; // Import the new auth routes
+import authRouter from "./routes/auth.routes.js"; // Import the new auth routes
 import passport from "passport"; // From auth.routes
 import session from "express-session";
 import {
   googleAuthCallback,
   serializeUser,
   deserializeUser,
-} from "./controllers/auth.controller";
+} from "./controllers/auth.controller.js";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 //Static React files
 import path from "path";

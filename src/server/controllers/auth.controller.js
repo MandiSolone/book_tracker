@@ -1,5 +1,5 @@
 // query is mySQL db sending commands to user table.
-import query from "../db/utils";
+import query from "../db/utils.js";
 
 // Google OAuth callback function
 export const googleAuthCallback = async (

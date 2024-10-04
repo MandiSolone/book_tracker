@@ -1,7 +1,7 @@
 import express from "express";
-import booksRouter from "./books.routes";
-import searchRouter from "./search.routes";
-import authRouter from "./auth.routes";
+import booksRouter from "./books.routes.js";
+import searchRouter from "./search.routes.js";
+import authRouter from "./auth.routes.js";
 
 //Express framework creates new router objects
 //Defines routes and handles request

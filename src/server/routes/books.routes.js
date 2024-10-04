@@ -1,5 +1,5 @@
 import express from "express";
-import books from "../controllers/books.controllers";
+import books from "../controllers/books.controllers.js";
 
 // Requests will reach these routes already matching /api/books
 const BooksRouter = express.Router();

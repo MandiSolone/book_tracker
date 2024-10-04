@@ -1,4 +1,4 @@
-import connection from "./index";
+import connection from "./index.js";
 
 /**
  * Returns a promise that resolves with the results of SQL query

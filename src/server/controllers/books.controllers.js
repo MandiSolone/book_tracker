@@ -1,4 +1,4 @@
-import query from "../db/utils";// Connects mysql wrapped in a promise from db query
+import query from "../db/utils.js";// Connects mysql wrapped in a promise from db query
 
 export const findAll = async ({ user_id }) => {
   const sql = "SELECT * FROM books WHERE user_id = ?";
