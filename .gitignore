@@ -1,5 +1,6 @@
 .env
 .env.test
+/*.env
 
 # Babel configuration
 .babelrc
@@ -7,6 +8,8 @@ babel.config.js
 
 # Ignore node_modules
 node_modules/
+/node_modules
+npm-debug.log
 
 # Optionally ignore other build artifacts or temporary files
 *.log
