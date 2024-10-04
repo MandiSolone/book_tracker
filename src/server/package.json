@@ -2,11 +2,12 @@
   "name": "server",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "comments": "start node dist/server.js/build babel . --out-dir dist",
     "start": "nodemon --exec babel-node --trace-warnings --trace-uncaught --async-stack-traces server.js",
-    "build": "rimraf dist && babel --ignore dist,lectures,public,node_modules -d dist ../server -s", 
+    "build": "rimraf dist && babel --ignore dist,lectures,public,node_modules -d dist ../server -s --plugins=@babel/plugin-transform-modules-umd", 
     "comment": "babel src/server --out-dir dist/server"
   },
   "keywords": [
