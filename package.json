@@ -10,7 +10,7 @@
     "dev:server": "cd src/server && npm start",
     "build:client": "cd src/client && npm run build",
     "build:server": "cd src/server && npm run build",
-    "start": "node src/server/dist/server.js",
+    "start": "npm run build:server && node src/server/dist/server.js",
     "heroku-postbuild": "cd src/client && npm install && npm run build"
   },
   "engines": {
@@ -25,10 +25,10 @@
   ],
   "author": "Mandi Solone",
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "@babel/runtime": "^7.25.7"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.25.7",
     "@babel/cli": "^7.25.7",
     "@babel/core": "^7.25.7",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
