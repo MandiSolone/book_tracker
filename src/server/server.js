@@ -10,47 +10,48 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 //OAuth
 import passport from "passport"; // From auth.routes
 import session from "express-session"; // Dev & Prod session stors for user info
-// import Redis from 'redis'; //Production Middleware to handle user auth storage 
 import connectRedis from 'connect-redis';
-import RedisStore from "connect-redis";
-import { createClient } from 'redis';
+import RedisStore from 'connect-redis';
+
+import { createClient } from "redis";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import authRouter from "./routes/auth.routes.js"; // Import the new auth routes
-import {  // resp from mysqlUrls> promise>query>UserDbTable>output here
-  googleAuthCallback,
-  serializeUser,
-  deserializeUser,
-} from "./controllers/auth.controller.js";
+import authRouter from "./routes/auth.routes.js"; // Import the new auth routes 
+// resp from mysqlUrls> promise>query>UserDbTable>output here
+import { googleAuthCallback, serializeUser, deserializeUser,} from "./controllers/auth.controller.js";
+
+// Main async function
+const startServer = async () => {
 
 
-// Determine Redis URL based on environment
+// Determine Redis URL based on environment (dev or prod)
 const redisUrl = process.env.REDISCLOUD_URL || 'redis://localhost:6379';
+const redisClient = createClient({url: redisUrl});
 
-// Create Redis client
-const redisClient = createClient({
-  url: redisUrl
-});
+console.log('redisUrl:', redisUrl);
+console.log('redisClient:', redisClient); 
 
-console.log('Redis URL:', redisUrl);
+  // Connect to the Redis client
+try {
+    await redisClient.connect();
+    console.log('Connected to Redis')
 
-// Connect to the Redis client
-await redisClient.connect()
-    .then(() => {
-      console.log('Connected to Redis');
+ // Initialize RedisStore properly
 
-  // Initialize your Express app here
-  const app = express();
+//  const RedisStore = new connectRedis(session); // connect-redis(express-session) 
+//  console.log('redisStore', redisStore); 
 
-  // Now you can create the RedisStore
-  // const RedisStore = connectRedis(session);
-  // const redisStore = require("connect-redis").default;
-  const redisStore = new RedisStore({ client: redisClient });
+    // Initialize your Express app here
+    const app = express();
+    // const RedisStore = connectRedis(session);
+ // Configure the session store
+const sessionStore = new RedisStore({ client: redisClient });
+console.log("sessionStore", sessionStore)
 
 // OAuth session middleware
 // Has to be at the top, before initalizing Passport and defining any routes
 app.use(
   session({
-    store: redisStore,
+    store: sessionStore,
     secret: config.oauth.sessionSecret, // Use session secret
     resave: false,
     saveUninitialized: true,
@@ -73,8 +74,8 @@ app.use(
           }
       };
 
-      // Call the async function
-      testRedisConnection();
+     // Call the async function
+     await testRedisConnection();
 
 
 // Initialize Passport Library
@@ -137,5 +138,11 @@ app.use(errorHandler);
 app.listen(config.port || 8080, () =>
   console.log(`Server listening on port ${config.port}...`)
 );
-    })
-    .catch(err => console.error('Redis Client Connection Error', err));
+
+} catch (err) {
+  console.error('Redis Client Connection Error', err);
+}
+};
+
+// Start the server
+startServer();
