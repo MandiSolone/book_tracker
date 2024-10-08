@@ -9,7 +9,11 @@ import config from "./config/index.js"; // the config file // mysql, port, oauth
 import { errorHandler } from "./middlewares/errorHandler.js";
 //OAuth
 import passport from "passport"; // From auth.routes
-import session from "express-session";
+import session from "express-session"; // Dev & Prod session stors for user info
+// import Redis from 'redis'; //Production Middleware to handle user auth storage 
+import connectRedis from 'connect-redis';
+import RedisStore from "connect-redis";
+import { createClient } from 'redis';
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import authRouter from "./routes/auth.routes.js"; // Import the new auth routes
 import {  // resp from mysqlUrls> promise>query>UserDbTable>output here
@@ -18,21 +22,60 @@ import {  // resp from mysqlUrls> promise>query>UserDbTable>output here
   deserializeUser,
 } from "./controllers/auth.controller.js";
 
-const app = express();
+
+// Determine Redis URL based on environment
+const redisUrl = process.env.REDISCLOUD_URL || 'redis://localhost:6379';
+
+// Create Redis client
+const redisClient = createClient({
+  url: redisUrl
+});
+
+console.log('Redis URL:', redisUrl);
+
+// Connect to the Redis client
+await redisClient.connect()
+    .then(() => {
+      console.log('Connected to Redis');
+
+  // Initialize your Express app here
+  const app = express();
+
+  // Now you can create the RedisStore
+  // const RedisStore = connectRedis(session);
+  // const redisStore = require("connect-redis").default;
+  const redisStore = new RedisStore({ client: redisClient });
 
 // OAuth session middleware
 // Has to be at the top, before initalizing Passport and defining any routes
 app.use(
   session({
+    store: redisStore,
     secret: config.oauth.sessionSecret, // Use session secret
     resave: false,
     saveUninitialized: true,
     // cookie: { secure: false }, // Set true in production if using HTTPS
     cookie: {
-      secure: process.env.NODE_ENV === 'production' // Set secure to true only in production
+      secure: process.env.NODE_ENV === 'production', // Set secure to true only in production
+      httpOnly: true, // Recommended for security
     }
   })
 );
+
+        // Async function to test Redis connection
+        const testRedisConnection = async () => {
+          try {
+              await redisClient.set('test_key', 'test_value');
+              const value = await redisClient.get('test_key');
+              console.log(`Value from Redis: ${value}`); // Should output: test_value
+          } catch (error) {
+              console.error('Redis Operation Error', error);
+          }
+      };
+
+      // Call the async function
+      testRedisConnection();
+
 
 // Initialize Passport Library
 app.use(passport.initialize());
@@ -73,14 +116,11 @@ passport.deserializeUser(deserializeUser);
 
 // Define routers
 app.use("/api", apiRouter);
-// Attach the auth router
 app.use("/auth", authRouter);
 
-// Create __dirname equivalent
+// Serve static files from the React app (front end) __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-// Serve static files from the React app (front end)
 const staticPath = path.join(__dirname, "..", "../client/build");
 console.log("Serving static files from:", staticPath);
 app.use(express.static(staticPath));
@@ -90,12 +130,12 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(staticPath, "index.html"));
 });
 
-// Default Error handler middleware
-// Goes at the bottom
+// Default Error handler middleware, place code at the bottom 
 app.use(errorHandler);
 
 // Bind the app to a specified port
-// Access app at http://localhost:<port>
 app.listen(config.port || 8080, () =>
   console.log(`Server listening on port ${config.port}...`)
 );
+    })
+    .catch(err => console.error('Redis Client Connection Error', err));
