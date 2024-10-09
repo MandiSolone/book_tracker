@@ -10,7 +10,6 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 //OAuth
 import passport from "passport"; // From auth.routes
 import session from "express-session"; // Dev & Prod session stors for user info
-import connectRedis from 'connect-redis';
 import RedisStore from 'connect-redis';
 
 import { createClient } from "redis";
@@ -35,14 +34,9 @@ try {
     await redisClient.connect();
     console.log('Connected to Redis')
 
- // Initialize RedisStore properly
-
-//  const RedisStore = new connectRedis(session); // connect-redis(express-session) 
-//  console.log('redisStore', redisStore); 
-
     // Initialize your Express app here
     const app = express();
-    // const RedisStore = connectRedis(session);
+
  // Configure the session store
 const sessionStore = new RedisStore({ client: redisClient });
 console.log("sessionStore", sessionStore)
@@ -52,7 +46,7 @@ console.log("sessionStore", sessionStore)
 app.use(
   session({
     store: sessionStore,
-    secret: config.oauth.sessionSecret, // Use session secret
+    secret: config.oauth.sessionSecret, // Use session secret from config
     resave: false,
     saveUninitialized: true,
     // cookie: { secure: false }, // Set true in production if using HTTPS

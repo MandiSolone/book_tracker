@@ -23,11 +23,13 @@ passport.authenticate('google', { failureRedirect: '/' }), /*#__PURE__*/function
 
 // User profile route
 AuthRouter.get('/profile', /*#__PURE__*/function () {var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee2(req, res) {return _regeneratorRuntime.wrap(function _callee2$(_context2) {while (1) switch (_context2.prev = _context2.next) {case 0:
+          console.log('User Session:', req.session); // Log the session info
+          console.log('User Authenticated:', req.isAuthenticated()); // Log authentication status
           if (req.isAuthenticated()) {
             res.json(req.user); // Return the authenticated user
           } else {
             res.status(401).json({ message: 'User not authenticated' });
-          }case 1:case "end":return _context2.stop();}}, _callee2);}));return function (_x3, _x4) {return _ref2.apply(this, arguments);};}()
+          }case 3:case "end":return _context2.stop();}}, _callee2);}));return function (_x3, _x4) {return _ref2.apply(this, arguments);};}()
 );
 
 // Logout endpoint

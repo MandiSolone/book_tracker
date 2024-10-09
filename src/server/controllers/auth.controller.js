@@ -42,6 +42,7 @@ export const deserializeUser = async (id, done) => {
     const user = await query("SELECT * FROM users WHERE id = ?", [id]);
     done(null, user[0]); // Pass the user object to the session
   } catch (err) {
+    console.error('Database Error:', err); // Log error for debugging
     done(err);
   }
 };

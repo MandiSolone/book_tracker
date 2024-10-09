@@ -52,7 +52,7 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           app.use(
             session({
               store: sessionStore,
-              secret: config.oauth.sessionSecret, // Use session secret
+              secret: config.oauth.sessionSecret, // Use session secret from config
               resave: false,
               saveUninitialized: true,
               // cookie: { secure: false }, // Set true in production if using HTTPS
