@@ -52,9 +52,10 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
               // cookie: { secure: false }, // Set true in production if using HTTPS
               cookie: {
                 secure: process.env.NODE_ENV === 'production', // Set secure to true only in production
-                httpOnly: true // Recommended for security
+                httpOnly: true, // Recommended for security
+                sameSite: 'lax', // helps mitigate CSRF attacks by allowing cookies to be sent only in first-party contexts
+                maxAge: 24 * 60 * 60 * 1000 // 1 day (optional, adjust as needed)
               },
-              // Add a log to see when sessions are created
               rolling: true, // Reset cookie expiration on each request
               unset: 'destroy' // Destroy sessions when they are no longer needed    
             })
