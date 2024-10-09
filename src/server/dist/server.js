@@ -48,7 +48,7 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
               store: sessionStore,
               secret: config.oauth.sessionSecret, // Use session secret from config
               resave: false,
-              saveUninitialized: true,
+              saveUninitialized: false, //recommended, especially if you're concerned about session storage efficiency and want to avoid creating empty sessions.
               // cookie: { secure: false }, // Set true in production if using HTTPS
               cookie: {
                 secure: process.env.NODE_ENV === 'production', // Set secure to true only in production
@@ -61,11 +61,6 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
             })
           );
 
-          //console.loging the session//delete later 
-          app.use(function (req, res, next) {
-            console.log('Session before authentication:', req.session);
-            next();
-          });
 
           // Async function to test Redis connection
           testRedisConnection = /*#__PURE__*/function () {var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee() {var value;return _regeneratorRuntime.wrap(function _callee$(_context) {while (1) switch (_context.prev = _context.next) {case 0:_context.prev = 0;_context.next = 3;return (
@@ -79,7 +74,13 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
 
 
           // Call the async function
-          _context2.next = 16;return testRedisConnection();case 16:
+          _context2.next = 15;return testRedisConnection();case 15:
+
+          //console.loging the session//delete later 
+          app.use(function (req, res, next) {
+            console.log('Session before authentication:', req.session);
+            next();
+          });
 
 
           // Initialize Passport Library

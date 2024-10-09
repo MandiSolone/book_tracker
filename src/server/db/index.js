@@ -1,25 +1,3 @@
-// import config from "../config/index.js"; // local config file
-// import mysql from "mysql"; // Default built in component
-// import url from "url"; // URL module for parsing, built in Node mod
-
-// const connection = mysql.createPool(config.mysql);
-
-// let connection;
-
-// if (process.env.NODE_ENV === 'production') {
-//     // Use ClearDB_DATABASE_URL from Heroku
-//     const clearDBUrl = process.env.CLEARDB_DATABASE_URL;
-
-//     // Create a connection pool from the ClearDB URL
-//     connection = mysql.createPool({
-//       uri: clearDBUrl,
-//       // Note: May need to parse the URL if using mysql2
-//     });
-//   } else {
-//     // Use local MySQL config
-//     connection = mysql.createPool(config.mysql);
-//   }
-
 import config from "../config/index.js"; // local config file
 import mysql from "mysql"; // Default built in component
 import url from "url"; // URL module for parsing, built in Node mod
@@ -53,6 +31,17 @@ if (process.env.NODE_ENV === 'production') {
       password: password,
       database: database
     });
+
+      // Log when a connection is established
+      connection.getConnection((err, conn) => {
+        if (err) {
+          console.error("Error connecting to ClearDB:", err);
+        } else {
+          console.log("Successfully connected to ClearDB.");
+          conn.release(); // Release the connection back to the pool
+        }
+      });
+       
 
     console.log("Database connection pool created for ClearDB.");
   } catch (error) {

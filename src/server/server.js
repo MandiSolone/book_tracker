@@ -48,7 +48,7 @@ app.use(
     store: sessionStore,
     secret: config.oauth.sessionSecret, // Use session secret from config
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false, //recommended, especially if you're concerned about session storage efficiency and want to avoid creating empty sessions.
     // cookie: { secure: false }, // Set true in production if using HTTPS
     cookie: {
       secure: process.env.NODE_ENV === 'production', // Set secure to true only in production
@@ -61,11 +61,6 @@ app.use(
   })
 );
 
-//console.loging the session//delete later 
-app.use((req, res, next) => {
-  console.log('Session before authentication:', req.session);
-  next();
-});
 
         // Async function to test Redis connection
         const testRedisConnection = async () => {
@@ -80,6 +75,12 @@ app.use((req, res, next) => {
 
      // Call the async function
      await testRedisConnection();
+
+//console.loging the session//delete later 
+app.use((req, res, next) => {
+  console.log('Session before authentication:', req.session);
+  next();
+});
 
 
 // Initialize Passport Library

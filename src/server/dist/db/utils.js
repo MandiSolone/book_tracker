@@ -12,8 +12,10 @@ var query = function query(qryStr, values) {
   return new Promise(function (resolve, reject) {
     connection.query(qryStr, values, function (err, results) {
       if (err) {
+        console.error("Query Error:", err); // Log the query error
         reject(err);
       } else {
+        console.log("Query executed successfully:", qryStr, "with values:", values); // Log successful query
         resolve(results);
       }
     });
