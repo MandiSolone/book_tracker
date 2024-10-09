@@ -53,9 +53,18 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
               cookie: {
                 secure: process.env.NODE_ENV === 'production', // Set secure to true only in production
                 httpOnly: true // Recommended for security
-              }
+              },
+              // Add a log to see when sessions are created
+              rolling: true, // Reset cookie expiration on each request
+              unset: 'destroy' // Destroy sessions when they are no longer needed    
             })
           );
+
+          //console.loging the session//delete later 
+          app.use(function (req, res, next) {
+            console.log('Session before authentication:', req.session);
+            next();
+          });
 
           // Async function to test Redis connection
           testRedisConnection = /*#__PURE__*/function () {var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee() {var value;return _regeneratorRuntime.wrap(function _callee$(_context) {while (1) switch (_context.prev = _context.next) {case 0:_context.prev = 0;_context.next = 3;return (
@@ -69,7 +78,7 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
 
 
           // Call the async function
-          _context2.next = 15;return testRedisConnection();case 15:
+          _context2.next = 16;return testRedisConnection();case 16:
 
 
           // Initialize Passport Library
@@ -131,10 +140,10 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           // Bind the app to a specified port
           app.listen(config.port || 8080, function () {return (
               console.log("Server listening on port ".concat(config.port, "...")));}
-          );_context2.next = 39;break;case 36:_context2.prev = 36;_context2.t0 = _context2["catch"](4);
+          );_context2.next = 40;break;case 37:_context2.prev = 37;_context2.t0 = _context2["catch"](4);
 
 
-          console.error('Redis Client Connection Error', _context2.t0);case 39:case "end":return _context2.stop();}}, _callee2, null, [[4, 36]]);}));return function startServer() {return _ref.apply(this, arguments);};}();
+          console.error('Redis Client Connection Error', _context2.t0);case 40:case "end":return _context2.stop();}}, _callee2, null, [[4, 37]]);}));return function startServer() {return _ref.apply(this, arguments);};}();
 
 
 

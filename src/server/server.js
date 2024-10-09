@@ -53,9 +53,18 @@ app.use(
     cookie: {
       secure: process.env.NODE_ENV === 'production', // Set secure to true only in production
       httpOnly: true, // Recommended for security
-    }
+    }, 
+        // Add a log to see when sessions are created
+        rolling: true, // Reset cookie expiration on each request
+        unset: 'destroy', // Destroy sessions when they are no longer needed    
   })
 );
+
+//console.loging the session//delete later 
+app.use((req, res, next) => {
+  console.log('Session before authentication:', req.session);
+  next();
+});
 
         // Async function to test Redis connection
         const testRedisConnection = async () => {

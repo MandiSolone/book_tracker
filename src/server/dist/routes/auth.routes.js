@@ -31,6 +31,10 @@ AuthRouter.get('/profile', /*#__PURE__*/function () {var _ref2 = _asyncToGenerat
           console.log('Incoming request for profile:', req.method, req.url);
           console.log('User Session:', req.session); // Log session info
           console.log('User Authenticated:', req.isAuthenticated()); // Log authentication status
+          console.log('Session Data:', {
+            userId: req.session.passport ? req.session.passport.user : null // log user ID if available
+            // Optionally log other non-sensitive data
+          });
 
           if (req.isAuthenticated()) {
             console.log('Returning user data:', req.user); // Log user data
@@ -38,7 +42,7 @@ AuthRouter.get('/profile', /*#__PURE__*/function () {var _ref2 = _asyncToGenerat
           } else {
             console.warn('User not authenticated, sending 401 response');
             res.status(401).json({ message: 'User not authenticated' });
-          }case 4:case "end":return _context2.stop();}}, _callee2);}));return function (_x3, _x4) {return _ref2.apply(this, arguments);};}()
+          }case 5:case "end":return _context2.stop();}}, _callee2);}));return function (_x3, _x4) {return _ref2.apply(this, arguments);};}()
 );
 
 // Logout endpoint

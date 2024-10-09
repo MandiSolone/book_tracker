@@ -31,6 +31,10 @@ AuthRouter.get('/profile', async (req, res) => {
     console.log('Incoming request for profile:', req.method, req.url);
     console.log('User Session:', req.session); // Log session info
     console.log('User Authenticated:', req.isAuthenticated()); // Log authentication status
+    console.log('Session Data:', {
+        userId: req.session.passport ? req.session.passport.user : null, // log user ID if available
+        // Optionally log other non-sensitive data
+    });
 
     if (req.isAuthenticated()) {
         console.log('Returning user data:', req.user); // Log user data
