@@ -17,17 +17,26 @@ AuthRouter.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     async (req, res) => {
         console.log('Authenticated User:', req.user);
+        if (!req.user){
+            console.error('Authentication failed, no user returned.');
+            return res.redirect('/'); // Redirect if authentication fails
+        }
+        console.log('User session:', req.session); // Log session data
         res.redirect(redirectUrl); // Redirect to the account/home page (Client side) after auth
     }
 );
 
 // User profile route
 AuthRouter.get('/profile', async (req, res) => {
-    console.log('User Session:', req.session); // Log the session info
+    console.log('Incoming request for profile:', req.method, req.url);
+    console.log('User Session:', req.session); // Log session info
     console.log('User Authenticated:', req.isAuthenticated()); // Log authentication status
+
     if (req.isAuthenticated()) {
+        console.log('Returning user data:', req.user); // Log user data
         res.json(req.user); // Return the authenticated user
     } else {
+        console.warn('User not authenticated, sending 401 response');
         res.status(401).json({ message: 'User not authenticated' });
     }
 });

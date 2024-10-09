@@ -34,14 +34,17 @@ export var googleAuthCallback = /*#__PURE__*/function () {var _ref = _asyncToGen
 
 // Serialize and deserialize user functions exported
 export var serializeUser = function serializeUser(user, done) {
+  console.log('Serializing user:', user); // Log user info being serialized
   done(null, user.id); // Use user.id to identify the user
 };
 
-export var deserializeUser = /*#__PURE__*/function () {var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee2(id, done) {var user;return _regeneratorRuntime.wrap(function _callee2$(_context2) {while (1) switch (_context2.prev = _context2.next) {case 0:_context2.prev = 0;_context2.next = 3;return (
-
-            query("SELECT * FROM users WHERE id = ?", [id]));case 3:user = _context2.sent;
+export var deserializeUser = /*#__PURE__*/function () {var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee2(id, done) {var user;return _regeneratorRuntime.wrap(function _callee2$(_context2) {while (1) switch (_context2.prev = _context2.next) {case 0:
+          console.log('Deserializing user with ID:', id); // Log ID being deserialized
+          _context2.prev = 1;_context2.next = 4;return (
+            query("SELECT * FROM users WHERE id = ?", [id]));case 4:user = _context2.sent;
+          console.log('Deserializing user:', user[0]); // Log user info being deserialized
           done(null, user[0]); // Pass the user object to the session
-          _context2.next = 11;break;case 7:_context2.prev = 7;_context2.t0 = _context2["catch"](0);
+          _context2.next = 13;break;case 9:_context2.prev = 9;_context2.t0 = _context2["catch"](1);
           console.error('Database Error:', _context2.t0); // Log error for debugging
-          done(_context2.t0);case 11:case "end":return _context2.stop();}}, _callee2, null, [[0, 7]]);}));return function deserializeUser(_x5, _x6) {return _ref2.apply(this, arguments);};}();
+          done(_context2.t0);case 13:case "end":return _context2.stop();}}, _callee2, null, [[1, 9]]);}));return function deserializeUser(_x5, _x6) {return _ref2.apply(this, arguments);};}();
 //# sourceMappingURL=auth.controller.js.map

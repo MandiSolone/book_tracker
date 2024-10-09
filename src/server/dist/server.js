@@ -10,7 +10,6 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 //OAuth
 import passport from "passport"; // From auth.routes
 import session from "express-session"; // Dev & Prod session stors for user info
-import connectRedis from 'connect-redis';
 import RedisStore from 'connect-redis';
 
 import { createClient } from "redis";
@@ -35,14 +34,9 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
             redisClient.connect());case 7:
           console.log('Connected to Redis');
 
-          // Initialize RedisStore properly
-
-          //  const RedisStore = new connectRedis(session); // connect-redis(express-session) 
-          //  console.log('redisStore', redisStore); 
-
           // Initialize your Express app here
           app = express();
-          // const RedisStore = connectRedis(session);
+
           // Configure the session store
           sessionStore = new RedisStore({ client: redisClient });
           console.log("sessionStore", sessionStore);
