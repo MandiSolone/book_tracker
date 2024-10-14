@@ -16,7 +16,7 @@ export const UserProfileProvider = ({ children }) => {
     setError(null);
 
     try {
-      const response = await fetch ((`${process.env.REACT_APP_API_URL}/auth/profile`),{
+      const response = await fetch ((`${process.env.API_URL}/auth/profile`),{
         credentials: "include",
       });
       if (response.ok) {
