@@ -8,8 +8,9 @@ import { dirname } from "path";
 var __filename = fileURLToPath(import.meta.url);
 var __dirname = dirname(__filename);
 
+// Heroku automatically sets NODE_ENV=production by default
+// If not production then dev and - First, try to load .env from one server
 if (process.env.NODE_ENV !== 'production') {
-  // If not production then dev and - First, try to load .env from one server
   var primaryPath = path.join(__dirname, "..", ".env");
   var primaryEnvFound = dotenv.config({ path: primaryPath });
   // If that directory doesn't work, go two up from directory to start from server/dist 

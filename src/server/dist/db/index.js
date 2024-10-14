@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
     var pathname = _url.pathname;
     var database = pathname.slice(1); // Remove leading '/'
 
-    console.log("DB Config - Host:", hostname, "User:", username, "Database:", database); // Log the DB config
+    console.log("DB Config - Host:", hostname, "Database:", database); // Log the DB config
 
     connection = mysql.createPool({
       host: hostname,
@@ -47,9 +47,11 @@ if (process.env.NODE_ENV === 'production') {
   } catch (error) {
     console.error("Error parsing ClearDB URL:", error);
   }
+
+  // If not prod(ClearDB), then local MySQL
 } else {
   console.log("Environment: Development");
-  console.log("Using local MySQL config:", config.mysql);
+  console.log("Using local MySQL config");
 
   connection = mysql.createPool(config.mysql);
   console.log("Database connection pool created for local MySQL.");

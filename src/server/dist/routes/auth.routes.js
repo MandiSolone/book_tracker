@@ -34,6 +34,7 @@ passport.authenticate('google', { failureRedirect: '/' }), /*#__PURE__*/function
 AuthRouter.get('/profile',
 passport.authenticate('session'), /*#__PURE__*/ // Ensure user is authenticated
 function () {var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee2(req, res) {return _regeneratorRuntime.wrap(function _callee2$(_context2) {while (1) switch (_context2.prev = _context2.next) {case 0:
+          console.log("UserProfileContext.js - REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
           console.log('/profile - Incoming request:', req.method, req.url);
           console.log('/profile - User Session:', req.session); // Log session info
           console.log('/profile - User Authenticated:', req.isAuthenticated()); // Log authentication status
@@ -48,7 +49,7 @@ function () {var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark
           } else {
             console.warn('/profile - User not authenticated, sending 401 response');
             res.status(401).json({ message: 'User not authenticated' });
-          }case 5:case "end":return _context2.stop();}}, _callee2);}));return function (_x3, _x4) {return _ref2.apply(this, arguments);};}()
+          }case 6:case "end":return _context2.stop();}}, _callee2);}));return function (_x3, _x4) {return _ref2.apply(this, arguments);};}()
 );
 
 // Logout endpoint
