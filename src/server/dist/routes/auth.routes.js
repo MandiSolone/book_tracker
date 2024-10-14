@@ -31,7 +31,9 @@ passport.authenticate('google', { failureRedirect: '/' }), /*#__PURE__*/function
 );
 
 // User profile route
-AuthRouter.get('/profile', /*#__PURE__*/function () {var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee2(req, res) {return _regeneratorRuntime.wrap(function _callee2$(_context2) {while (1) switch (_context2.prev = _context2.next) {case 0:
+AuthRouter.get('/profile',
+passport.authenticate('session'), /*#__PURE__*/ // Ensure user is authenticated
+function () {var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee2(req, res) {return _regeneratorRuntime.wrap(function _callee2$(_context2) {while (1) switch (_context2.prev = _context2.next) {case 0:
           console.log('/profile - Incoming request:', req.method, req.url);
           console.log('/profile - User Session:', req.session); // Log session info
           console.log('/profile - User Authenticated:', req.isAuthenticated()); // Log authentication status

@@ -31,7 +31,9 @@ AuthRouter.get('/google/callback',
 );
 
 // User profile route
-AuthRouter.get('/profile', async (req, res) => {
+AuthRouter.get('/profile',
+    passport.authenticate('session'), // Ensure user is authenticated
+    async (req, res) => {
     console.log('/profile - Incoming request:', req.method, req.url);
     console.log('/profile - User Session:', req.session); // Log session info
     console.log('/profile - User Authenticated:', req.isAuthenticated()); // Log authentication status
