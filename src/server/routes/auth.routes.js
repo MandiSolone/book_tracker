@@ -22,7 +22,7 @@ AuthRouter.get('/google/callback',
             return res.redirect('/'); // Redirect if authentication fails
         }
         console.log('google/callback User session:', {
-            store: sessionStore,
+            // store: sessionStore //not defined here 
             session: req.session, 
             passport: req.session.passport,
         }); // Log session data

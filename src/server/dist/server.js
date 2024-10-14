@@ -80,7 +80,6 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           app.use(function (req, res, next) {
             console.log('server - Session before authentication: - delete this console.log later', {
               store: sessionStore,
-              secret: config.oauth.sessionSecret,
               session: req.session
             });
             next();

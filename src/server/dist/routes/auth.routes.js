@@ -21,7 +21,11 @@ passport.authenticate('google', { failureRedirect: '/' }), /*#__PURE__*/function
             console.error('google/callback Authentication failed, no user returned.');return _context.abrupt("return",
             res.redirect('/'));case 4:
 
-            console.log('google/callback User session:', req.session); // Log session data
+            console.log('google/callback User session:', {
+              // store: sessionStore //not defined here 
+              session: req.session,
+              passport: req.session.passport
+            }); // Log session data
             res.redirect(redirectUrl); // Redirect to the account/home page (Client side) after auth
           case 6:case "end":return _context.stop();}}, _callee);}));return function (_x, _x2) {return _ref.apply(this, arguments);};}()
 );
