@@ -16,31 +16,35 @@ AuthRouter.get('/google', passport.authenticate('google', {
 AuthRouter.get('/google/callback', 
     passport.authenticate('google', { failureRedirect: '/' }),
     async (req, res) => {
-        console.log('Authenticated User:', req.user);
+        console.log('google/callback Authenticated User:', req.user);
         if (!req.user){
-            console.error('Authentication failed, no user returned.');
+            console.error('google/callback Authentication failed, no user returned.');
             return res.redirect('/'); // Redirect if authentication fails
         }
-        console.log('User session:', req.session); // Log session data
+        console.log('google/callback User session:', {
+            store: sessionStore,
+            session: req.session, 
+            passport: req.session.passport,
+        }); // Log session data
         res.redirect(redirectUrl); // Redirect to the account/home page (Client side) after auth
     }
 );
 
 // User profile route
 AuthRouter.get('/profile', async (req, res) => {
-    console.log('Incoming request for profile:', req.method, req.url);
-    console.log('User Session:', req.session); // Log session info
-    console.log('User Authenticated:', req.isAuthenticated()); // Log authentication status
-    console.log('Session Data:', {
+    console.log('/profile - Incoming request:', req.method, req.url);
+    console.log('/profile - User Session:', req.session); // Log session info
+    console.log('/profile - User Authenticated:', req.isAuthenticated()); // Log authentication status
+    console.log('/profile - Session Data:', {
         userId: req.session.passport ? req.session.passport.user : null, // log user ID if available
         // Optionally log other non-sensitive data
     });
 
     if (req.isAuthenticated()) {
-        console.log('Returning user data:', req.user); // Log user data
+        console.log('/profile - Returning user data:', req.user); // Log user data
         res.json(req.user); // Return the authenticated user
     } else {
-        console.warn('User not authenticated, sending 401 response');
+        console.warn('/profile - User not authenticated, sending 401 response');
         res.status(401).json({ message: 'User not authenticated' });
     }
 });

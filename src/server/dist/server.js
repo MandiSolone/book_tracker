@@ -26,20 +26,20 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           redisUrl = process.env.REDISCLOUD_URL || 'redis://localhost:6379';
           redisClient = createClient({ url: redisUrl });
 
-          console.log('redisUrl:', redisUrl);
-          console.log('redisClient:', redisClient);
+          console.log('server - redisUrl:', redisUrl);
+          console.log('server - redisClient:', redisClient);
 
           // Connect to the Redis client
           _context2.prev = 4;_context2.next = 7;return (
             redisClient.connect());case 7:
-          console.log('Connected to Redis');
+          console.log('server - Connected to Redis');
 
           // Initialize your Express app here
           app = express();
 
           // Configure the session store
           sessionStore = new RedisStore({ client: redisClient });
-          console.log("sessionStore", sessionStore);
+          console.log("server - sessionStore", sessionStore);
 
           // OAuth session middleware
           // Has to be at the top, before initalizing Passport and defining any routes
@@ -67,9 +67,9 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
 
                       redisClient.set('test_key', 'test_value'));case 3:_context.next = 5;return (
                       redisClient.get('test_key'));case 5:value = _context.sent;
-                    console.log("Value from Redis: ".concat(value)); // Should output: test_value
+                    console.log("server - Value from Redis: ".concat(value)); // Should output: test_value
                     _context.next = 12;break;case 9:_context.prev = 9;_context.t0 = _context["catch"](0);
-                    console.error('Redis Operation Error', _context.t0);case 12:case "end":return _context.stop();}}, _callee, null, [[0, 9]]);}));return function testRedisConnection() {return _ref2.apply(this, arguments);};}();
+                    console.error('server - Redis Operation Error', _context.t0);case 12:case "end":return _context.stop();}}, _callee, null, [[0, 9]]);}));return function testRedisConnection() {return _ref2.apply(this, arguments);};}();
 
 
 
@@ -78,7 +78,11 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
 
           //console.loging the session//delete later 
           app.use(function (req, res, next) {
-            console.log('Session before authentication:', req.session);
+            console.log('server - Session before authentication: - delete this console.log later', {
+              store: sessionStore,
+              secret: config.oauth.sessionSecret,
+              session: req.session
+            });
             next();
           });
 
@@ -128,7 +132,7 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           __filename = fileURLToPath(import.meta.url);
           __dirname = dirname(__filename);
           staticPath = path.join(__dirname, "..", "../client/build");
-          console.log("Serving static files from:", staticPath);
+          console.log("server - Serving static files from:", staticPath);
           app.use(express["static"](staticPath));
 
           // Handle GET all requests to serve the React app (front end)
@@ -145,7 +149,7 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           );_context2.next = 40;break;case 37:_context2.prev = 37;_context2.t0 = _context2["catch"](4);
 
 
-          console.error('Redis Client Connection Error', _context2.t0);case 40:case "end":return _context2.stop();}}, _callee2, null, [[4, 37]]);}));return function startServer() {return _ref.apply(this, arguments);};}();
+          console.error('server - Redis Client Connection Error', _context2.t0);case 40:case "end":return _context2.stop();}}, _callee2, null, [[4, 37]]);}));return function startServer() {return _ref.apply(this, arguments);};}();
 
 
 

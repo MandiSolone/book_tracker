@@ -26,20 +26,20 @@ const startServer = async () => {
 const redisUrl = process.env.REDISCLOUD_URL || 'redis://localhost:6379';
 const redisClient = createClient({url: redisUrl});
 
-console.log('redisUrl:', redisUrl);
-console.log('redisClient:', redisClient); 
+console.log('server - redisUrl:', redisUrl);
+console.log('server - redisClient:', redisClient); 
 
   // Connect to the Redis client
 try {
     await redisClient.connect();
-    console.log('Connected to Redis')
+    console.log('server - Connected to Redis')
 
     // Initialize your Express app here
     const app = express();
 
  // Configure the session store
 const sessionStore = new RedisStore({ client: redisClient });
-console.log("sessionStore", sessionStore)
+console.log("server - sessionStore", sessionStore)
 
 // OAuth session middleware
 // Has to be at the top, before initalizing Passport and defining any routes
@@ -67,9 +67,9 @@ app.use(
           try {
               await redisClient.set('test_key', 'test_value');
               const value = await redisClient.get('test_key');
-              console.log(`Value from Redis: ${value}`); // Should output: test_value
+              console.log(`server - Value from Redis: ${value}`); // Should output: test_value
           } catch (error) {
-              console.error('Redis Operation Error', error);
+              console.error('server - Redis Operation Error', error);
           }
       };
 
@@ -78,7 +78,10 @@ app.use(
 
 //console.loging the session//delete later 
 app.use((req, res, next) => {
-  console.log('Session before authentication:', req.session);
+  console.log('server - Session before authentication: - delete this console.log later', {
+    store: sessionStore,
+    session: req.session
+  });
   next();
 });
 
@@ -128,7 +131,7 @@ app.use("/auth", authRouter);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const staticPath = path.join(__dirname, "..", "../client/build");
-console.log("Serving static files from:", staticPath);
+console.log("server - Serving static files from:", staticPath);
 app.use(express.static(staticPath));
 
 // Handle GET all requests to serve the React app (front end)
@@ -145,7 +148,7 @@ app.listen(config.port || 8080, () =>
 );
 
 } catch (err) {
-  console.error('Redis Client Connection Error', err);
+  console.error('server - Redis Client Connection Error', err);
 }
 };
 

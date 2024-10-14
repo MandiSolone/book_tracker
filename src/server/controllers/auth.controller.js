@@ -34,18 +34,18 @@ export const googleAuthCallback = async (
 
 // Serialize and deserialize user functions exported
 export const serializeUser = (user, done) => {
-  console.log('Serializing user:', user); // Log user info being serialized
+  console.log('auth.controllers - Serializing user:', user); // Log user info being serialized
   done(null, user.id); // Use user.id to identify the user
 };
 
 export const deserializeUser = async (id, done) => {
-  console.log('Deserializing user with ID:', id); // Log ID being deserialized
+  console.log('auth.controllers - Deserializing user with ID:', id); // Log ID being deserialized
   try {
     const user = await query("SELECT * FROM users WHERE id = ?", [id]);
-    console.log('Deserializing user:', user[0]); // Log user info being deserialized
+    console.log('auth.controllers - B - Deserializing user:', user[0]); // Log user info being deserialized
     done(null, user[0]); // Pass the user object to the session
   } catch (err) {
-    console.error('Database Error:', err); // Log error for debugging
+    console.error('auth.controllers - Database Error:', err); // Log error for debugging
     done(err);
   }
 };
