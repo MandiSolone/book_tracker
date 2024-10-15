@@ -8,6 +8,8 @@
   color: #fff;
   font-size: 10px;
   border-radius: 8px;
+  min-width: 200px; /* Minimum width for smaller screens */
+  overflow: hidden; /* Prevent content from overflowing */
 }
 
 .nav {

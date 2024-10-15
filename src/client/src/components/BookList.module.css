@@ -5,6 +5,8 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-wrap: wrap; /* Allows items to wrap onto the next line */
+  min-width: 300px; /* Minimum width for the container */
+  overflow-x: auto; /* Allow horizontal scrolling if items overflow */
 }
 
 .header {

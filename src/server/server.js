@@ -49,10 +49,10 @@ const startServer = async () => {
         store: sessionStore,
         secret: config.oauth.sessionSecret, // Use session secret from config
         resave: false,
-        saveUninitialized: true, // Create a seesion for every user that accesse site, even if they haven't auth. 
+        saveUninitialized: true, // Create a seesion for every user that accesse site, even if they haven't auth.
         // saveUninitialized: false, //recommended, especially if you're concerned about session storage efficiency and want to avoid creating empty sessions.
         cookie: {
-          secure: false, // Tempararily set to dales for debugging 
+          secure: false, // Tempararily set to dales for debugging
           // secure: process.env.NODE_ENV === "production", // Set secure to true only in production
           httpOnly: true, // Recommended for security
           sameSite: "lax", // helps mitigate CSRF attacks by allowing cookies to be sent only in first-party contexts
@@ -78,16 +78,16 @@ const startServer = async () => {
     // await testRedisConnection();
 
     //console.loging the session//delete later
-    app.use((req, res, next) => {
-      console.log(
-        "server - Session before authentication: - delete this console.log later",
-        {
-          store: sessionStore,
-          session: req.session,
-        }
-      );
-      next();
-    });
+    // app.use((req, res, next) => {
+    //   console.log(
+    //     "server - Session before authentication: - delete this console.log later",
+    //     {
+    //       store: sessionStore,
+    //       session: req.session,
+    //     }
+    //   );
+    //   next();
+    // });
 
     // Initialize Passport Library
     app.use(passport.initialize());

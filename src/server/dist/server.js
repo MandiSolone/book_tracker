@@ -49,10 +49,10 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
               store: sessionStore,
               secret: config.oauth.sessionSecret, // Use session secret from config
               resave: false,
-              saveUninitialized: true, // Create a seesion for every user that accesse site, even if they haven't auth. 
+              saveUninitialized: true, // Create a seesion for every user that accesse site, even if they haven't auth.
               // saveUninitialized: false, //recommended, especially if you're concerned about session storage efficiency and want to avoid creating empty sessions.
               cookie: {
-                secure: false, // Tempararily set to dales for debugging 
+                secure: false, // Tempararily set to dales for debugging
                 // secure: process.env.NODE_ENV === "production", // Set secure to true only in production
                 httpOnly: true, // Recommended for security
                 sameSite: "lax", // helps mitigate CSRF attacks by allowing cookies to be sent only in first-party contexts
@@ -78,16 +78,16 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           // await testRedisConnection();
 
           //console.loging the session//delete later
-          app.use(function (req, res, next) {
-            console.log(
-              "server - Session before authentication: - delete this console.log later",
-              {
-                store: sessionStore,
-                session: req.session
-              }
-            );
-            next();
-          });
+          // app.use((req, res, next) => {
+          //   console.log(
+          //     "server - Session before authentication: - delete this console.log later",
+          //     {
+          //       store: sessionStore,
+          //       session: req.session,
+          //     }
+          //   );
+          //   next();
+          // });
 
           // Initialize Passport Library
           app.use(passport.initialize());
@@ -146,9 +146,9 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           // Bind the app to a specified port
           app.listen(config.port || 8080, function () {return (
               console.log("Server listening on port ".concat(config.port, "...")));}
-          );_context.next = 37;break;case 34:_context.prev = 34;_context.t0 = _context["catch"](4);
+          );_context.next = 36;break;case 33:_context.prev = 33;_context.t0 = _context["catch"](4);
 
-          console.error("server - Redis Client Connection Error", _context.t0);case 37:case "end":return _context.stop();}}, _callee, null, [[4, 34]]);}));return function startServer() {return _ref.apply(this, arguments);};}();
+          console.error("server - Redis Client Connection Error", _context.t0);case 36:case "end":return _context.stop();}}, _callee, null, [[4, 33]]);}));return function startServer() {return _ref.apply(this, arguments);};}();
 
 
 
