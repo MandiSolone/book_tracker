@@ -4,6 +4,7 @@ import BookForm from "./BookForm";
 import Modal from "./Modal";
 import style from "./BookList.module.css";
 import SignInButton from "./SignInButton";
+import useUser from "../hooks/useUser";
 
 // blBooks=[] set to empty array while awaiting db API fetch from Library
 export default function BookList({ blBooks = [], blOnDelete }) {
@@ -11,6 +12,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState(null);
+  const { user } = useUser(); //Call the user profile hook
 
   //Handle clicks and Modals
   const handleEditClick = (book) => {
@@ -42,7 +44,8 @@ export default function BookList({ blBooks = [], blOnDelete }) {
     const defaultImage =
       "https://via.placeholder.com/128x193.png?text=No+Image";
 
-    return (
+
+  return (
       <img
         className={style.image}
         src={src}
@@ -59,74 +62,68 @@ export default function BookList({ blBooks = [], blOnDelete }) {
 
   return (
     <div className={style.container}>
-
-      {blBooks.length === 0 ? (
-        <div className="login">
-          <h3>It Looks Like Your Library is Empty</h3>
-    <p>
-      Don't worry! Sign in to start adding books and build your collection.
-      <br />
-      <SignInButton />
-    </p>
-        </div>
+      {user ? (
+        blBooks.length === 0 ? (
+          <div className="login">
+            <h3>It Looks Like Your Library is Empty</h3>
+            <p>
+              Don't worry! Start adding books and build your collection.
+            </p>
+          </div>
+        ) : (
+          <ul className={style.list}>
+            {blBooks.map((book) => (
+              <li className={style.item} key={book.book_id || book.google_id}>
+                <BookImage className={style.image} src={book.image} bookId={book.book_id} />
+                <div className={style.info}>
+                  <h2>{book.title}</h2>
+                  <p>
+                    <strong>Author(s):</strong> {book.authors}
+                  </p>
+                  <p>
+                    <strong>Comments:</strong> {book.comments}
+                  </p>
+                  <p>
+                    <strong>Link:</strong>{" "}
+                    <a href={book.link} target="_blank" rel="noopener noreferrer">
+                      {book.link}
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Type:</strong> {book.type}
+                  </p>
+                  <p>
+                    <strong>Location:</strong> {book.location}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {book.status}
+                  </p>
+                  <p>
+                    <strong>Rating:</strong> {book.rating}
+                  </p>
+                  <button onClick={() => handleDeleteClick(book)}>Delete</button>
+                  <button onClick={() => handleEditClick(book)}>Edit Book</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
       ) : (
-        <ul className={style.list}>
-          {blBooks.map((book) => (
-            <li className={style.item} key={book.book_id || book.google_id} >
-              <BookImage className={style.image} src={book.image} bookId={book.book_id} />{" "}
-              {/*Pass bookId */}
-              <div className={style.info}>
-                <h2>{book.title}</h2>
-                <p>
-                  <strong>Author(s):</strong> {book.authors}{" "}
-                </p>
-                <p>
-                  <strong>Comments:</strong> {book.comments}
-                </p>
-                <p>
-                  <strong>Link:</strong>{" "}
-                  <a href={book.link} target="_blank" rel="noopener noreferrer">
-                    {book.link}
-                  </a>
-                </p>
-                <p>
-                  {" "}
-                  <strong>Type:</strong> {book.type}{" "}
-                </p>
-                <p>
-                  <strong>Location:</strong>
-                  {book.location}
-                </p>
-                <p>
-                  {" "}
-                  <strong>Status:</strong>
-                  {book.status}
-                </p>
-                <p>
-                  {" "}
-                  <strong>Rating:</strong>
-                  {book.rating}{" "}
-                </p>
-                <button
-                  onClick={() => handleDeleteClick(book)}
-                >
-                  Delete
-                </button>
-                <button
-                  onClick={() => handleEditClick(book)}
-                >
-                  Edit Book
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="login">
+          <h3>Log In to Access Your Library</h3>
+          <p>
+            To add books to your library, please sign in.
+            <br />
+            <SignInButton />
+          </p>
+        </div>
       )}
+  
       {/* Conditionally render the edit modal */}
       {isEditing && (
         <Modal onClose={closeForm}>
           <BookForm
-            book={selectedBook} // Pass the seleted book object
+            book={selectedBook} // Pass the selected book object
             onClose={closeForm}
             onSave={() => {
               closeForm(); // Close the modal
@@ -135,6 +132,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
           />
         </Modal>
       )}
+  
       {/* Conditionally render the delete confirmation modal */}
       {isModalOpen && (
         <Modal
@@ -144,8 +142,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
         >
           <h2>Confirm Deletion</h2>
           <p>
-            Are you sure you want to delete this book:
-            {bookToDelete ? bookToDelete.title : ""}?
+            Are you sure you want to delete this book: {bookToDelete ? bookToDelete.title : ""}?
           </p>
         </Modal>
       )}
