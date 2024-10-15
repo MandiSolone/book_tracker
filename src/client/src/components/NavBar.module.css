@@ -12,62 +12,62 @@
 }
 
 .navbarContent {
-      display: flex;
-      flex-direction: column; /* Stack navbar content vertically */
-      width: 100%; /* Full width */
-    }
+  display: flex;
+  flex-direction: column; /* Stack navbar content vertically */
+  width: 100%; /* Full width */
+}
 .welcomeContainer {
-      display: flex;
-      align-items: center; /* Center items vertically */
-      justify-content: space-between; /* Space between left and right */
-      width: 100%; /* Ensure it takes full width */
-    }
+  display: flex;
+  align-items: center; /* Center items vertically */
+  justify-content: space-between; /* Space between left and right */
+  width: 100%; /* Ensure it takes full width */
+}
 .welcomeContent {
-      display: flex; /* Ensure welcome message and button are in a row */
-      align-items: center; /* Center items vertically */
-    }
+  display: flex; /* Ensure welcome message and button are in a row */
+  align-items: center; /* Center items vertically */
+}
 .alertIcon {
-      margin-left: auto; /* Push the alert icon to the right */
-      cursor: pointer; /* Change cursor to pointer on hover */
-    }   
+  margin-left: auto; /* Push the alert icon to the right */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
 .alertIcon img {
-      width: 24px; /* Adjust size of the alert icon */
-      height: 24px; /* Maintain aspect ratio */
-    }
+  width: 24px; /* Adjust size of the alert icon */
+  height: 24px; /* Maintain aspect ratio */
+}
 
 .fullWidth {
-      width: 100%; /* Make the search component take full width */
-      margin-bottom: 5px; /* Space between search and links */
-    }
+  width: 100%; /* Make the search component take full width */
+  margin-bottom: 5px; /* Space between search and links */
+}
 
 .linkContainer {
-      display: flex;
-      justify-content: space-between; /* Distribute links evenly */
-      background-color: #444; 
-      padding: 5px 0;
-      border-radius: 5px;
-      width: 100%; /* Ensure it takes full width */
-    }
+  display: flex;
+  justify-content: space-between; /* Distribute links evenly */
+  background-color: #444;
+  padding: 5px 0;
+  border-radius: 5px;
+  width: 100%; /* Ensure it takes full width */
+  flex-wrap: wrap; /* Allow items to wrap if needed */
+}
 
 .linkContainer a {
-      color: #fff;
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-      flex: 1; /* Allow links to fill available space */
-      text-align: center; /* Center text */
-      margin: 0 5px; /* Add some spacing between the links */
-    }
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  flex: 1; /* Allow links to fill available space */
+  text-align: center; /* Center text */
+  margin: 0 5px; /* Add some spacing between the links */
+}
 .linkContainer a:hover {
-      background-color: #555;
-    }
-
+  background-color: #555;
+}
 
 /* Media queries for responsive design */
 @media (max-width: 600px) {
   .navbar {
-    font-size: 10px; 
+    font-size: 10px;
   }
 
   .navbarContent {
@@ -75,11 +75,11 @@
   }
 
   .linkContainer {
-    flex-direction: column; /* Stack links vertically */
+    flex-wrap: nowrap; /* Keep links in a row */
   }
 
-  .nav a {
-    padding: 6px 10px;
+  .linkContainer a {
+    padding: 6px 8px; /* Reduce padding on smaller screens */
   }
 }
 
@@ -90,7 +90,10 @@
   }
 
   .linkContainer {
-    flex-direction: column; /* Stack links vertically */
-    padding: 10px; /* Increase padding for better spacing */
+    padding: 5px; /* padding for better spacing */
+  }
+
+  .linkContainer a {
+    font-size: 8px; /* Reduce font size for very small screens */
   }
 }

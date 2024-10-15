@@ -6,7 +6,8 @@
   display: flex;
   flex-wrap: wrap; /* Allows items to wrap onto the next line */
   min-width: 300px; /* Minimum width for the container */
-  overflow-x: auto; /* Allow horizontal scrolling if items overflow */
+  overflow: hidden; /* Prevents overflow */
+  justify-content: center; /* Center items horizontally */
 }
 
 .header {
@@ -19,7 +20,7 @@
 .list {
   display: flex; /* Use flexbox for alignment */
   flex-wrap: wrap; /* Allow items to wrap onto the next line */
-  justify-content: flex-start; /* Align items to the start */
+  justify-content: center; /* Center items horizontally */
   margin: 0; 
   padding: 0; 
   list-style: none; /* Remove default list styling */
@@ -29,13 +30,14 @@
   display: flex; /* Use flexbox for item layout */
   flex-direction: row; /* Align items side by side */
   align-items: center; /* Center items vertically */
-  flex: 1 1 calc(30% - 15px); 
-  margin: 5px; 
+  flex: 1 1 calc(30% - 10px); 
+  margin: 3px; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
   border-radius: 5px; 
   padding: 10px; 
   background: #fffafa; 
   transition: transform 0.2s; /* Hover effect */
+  box-sizing: border-box; /* Include padding and border in width */
 }
 
 .item:hover {
@@ -43,8 +45,6 @@
 }
 
 .image {
-  /* width: 128px; 
-  height: 193px;  */
   width: 50px; /* Reduced size for better fit */
   height: 75px; /* Reduced size for better fit */
   margin-right: 15px; 
@@ -75,5 +75,6 @@
 @media (max-width: 480px) {
   .item {
     flex: 1 1 calc(100% - 10px); /* One item per row on mobile */
+    margin: 5px 0; /* Adjust margin for vertical spacing */
   }
 }
