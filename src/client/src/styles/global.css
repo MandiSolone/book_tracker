@@ -45,12 +45,12 @@ h3 {
 
 p {
   margin: 10px 10px; /* Space between paragraphs*/
-  color: #b4b3b3; 
+  color: #b4b3b3;
   line-height: 1.5; /* Improve readability */
 }
 
 a {
-  color: #007bff; 
+  color: #007bff;
   text-decoration: none; /* Remove underline */
 }
 
@@ -102,7 +102,7 @@ li {
 
 li img {
   border-radius: 4px;
-  margin-right: 15px; 
+  margin-right: 15px;
 }
 
 .book {
@@ -115,28 +115,28 @@ li img {
 .login {
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
-  background-color: #f8f9fa; 
-  border: 1px solid #ccc; 
-  border-radius: 8px; 
-  padding: 20px; 
-  margin: 20px auto; 
-  max-width: 400px; 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .login h3 {
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 .login a {
   margin-top: 10px;
-  color: #60926b; 
-  text-decoration: none; 
+  color: #60926b;
+  text-decoration: none;
   font-weight: bold;
 }
 
 .login a:hover {
-  text-decoration: underline; 
+  text-decoration: underline;
 }

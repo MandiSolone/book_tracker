@@ -12,20 +12,20 @@ import { UserProfileProvider } from "./contexts/UserProfileContext";
 
 export default function App() {
   return (
-      <UserProfileProvider>
-        <LibraryProvider>
-          <Router>
-            <NavBar />
-            <Routes>
+    <UserProfileProvider>
+      <LibraryProvider>
+        <Router>
+          <NavBar />
+          <Routes>
             <Route path="/" element={<Account />} />
             <Route path="/account" element={<Account />} />
             <Route path="/library" element={<Library />} />
             <Route path="/addbook" element={<AddBook />} />
             <Route path="/wishlist" element={<WishList />} />
             <Route path="/bookdetails/:bookId" element={<BookDetails />} />
-            </Routes>
-          </Router>
-        </LibraryProvider>
-      </UserProfileProvider>
+          </Routes>
+        </Router>
+      </LibraryProvider>
+    </UserProfileProvider>
   );
 }

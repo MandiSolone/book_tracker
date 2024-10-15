@@ -14,16 +14,21 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const [bookToDelete, setBookToDelete] = useState(null);
   const { user } = useUser(); //Call the user profile hook
 
-  //Handle clicks and Modals
+  console.log("blBooks", blBooks ); 
+
+  //Handle edit and Modals
   const handleEditClick = (book) => {
     setSelectedBook(book); // Set the selected book object
-    setIsEditing(true); // Open the edit form
+    setIsEditing(true); // Open the BookForm Modal to edit
   };
+
   const closeForm = () => {
     setSelectedBook(null);
     setIsEditing(false);
+    window.location.reload(); // Refresh the page
   };
 
+  // Handle Delete straight from here and not through BookForm component layer like Edit 
   const handleDeleteClick = (book) => {
     setBookToDelete(book);
     setIsModalOpen(true);
@@ -31,7 +36,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
 
   const handleConfirmDelete = async () => {
     if (bookToDelete) {
-      await blOnDelete(bookToDelete.book_id); // Call the delete function
+      await blOnDelete(bookToDelete.book_id); // Call delete function
       setIsModalOpen(false);
       setBookToDelete(null);
       window.location.reload(); // Refresh the page
@@ -44,8 +49,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
     const defaultImage =
       "https://via.placeholder.com/128x193.png?text=No+Image";
 
-
-  return (
+    return (
       <img
         className={style.image}
         src={src}
@@ -66,15 +70,17 @@ export default function BookList({ blBooks = [], blOnDelete }) {
         blBooks.length === 0 ? (
           <div className="login">
             <h3>It Looks Like Your Library is Empty</h3>
-            <p>
-              Don't worry! Start adding books and build your collection.
-            </p>
+            <p>Don't worry! Start adding books and build your collection.</p>
           </div>
         ) : (
           <ul className={style.list}>
             {blBooks.map((book) => (
               <li className={style.item} key={book.book_id || book.google_id}>
-                <BookImage className={style.image} src={book.image} bookId={book.book_id} />
+                <BookImage
+                  className={style.image}
+                  src={book.image}
+                  bookId={book.book_id}
+                />
                 <div className={style.info}>
                   <h2>{book.title}</h2>
                   <p>
@@ -85,7 +91,11 @@ export default function BookList({ blBooks = [], blOnDelete }) {
                   </p>
                   <p>
                     <strong>Link:</strong>{" "}
-                    <a href={book.link} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={book.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {book.link}
                     </a>
                   </p>
@@ -101,8 +111,12 @@ export default function BookList({ blBooks = [], blOnDelete }) {
                   <p>
                     <strong>Rating:</strong> {book.rating}
                   </p>
-                  <button onClick={() => handleDeleteClick(book)}>Delete</button>
-                  <button onClick={() => handleEditClick(book)}>Edit Book</button>
+                  <button onClick={() => handleDeleteClick(book)}>
+                    Delete
+                  </button>
+                  <button onClick={() => handleEditClick(book)}>
+                    Edit Book
+                  </button>
                 </div>
               </li>
             ))}
@@ -118,21 +132,18 @@ export default function BookList({ blBooks = [], blOnDelete }) {
           </p>
         </div>
       )}
-  
+
       {/* Conditionally render the edit modal */}
       {isEditing && (
         <Modal onClose={closeForm}>
           <BookForm
             book={selectedBook} // Pass the selected book object
             onClose={closeForm}
-            onSave={() => {
-              closeForm(); // Close the modal
-              window.location.reload(); // Refresh the page
-            }}
+            onSave={closeForm} 
           />
         </Modal>
       )}
-  
+
       {/* Conditionally render the delete confirmation modal */}
       {isModalOpen && (
         <Modal
@@ -142,7 +153,8 @@ export default function BookList({ blBooks = [], blOnDelete }) {
         >
           <h2>Confirm Deletion</h2>
           <p>
-            Are you sure you want to delete this book: {bookToDelete ? bookToDelete.title : ""}?
+            Are you sure you want to delete this book:{" "}
+            {bookToDelete ? bookToDelete.title : ""}?
           </p>
         </Modal>
       )}

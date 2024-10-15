@@ -4,7 +4,7 @@ import url from "url"; // URL module for parsing, built in Node mod
 
 let connection;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   console.log("Environment: Production");
 
   const clearDBUrl = process.env.CLEARDB_DATABASE_URL;
@@ -29,19 +29,18 @@ if (process.env.NODE_ENV === 'production') {
       host: hostname,
       user: username,
       password: password,
-      database: database
+      database: database,
     });
 
-      // Log when a connection is established
-      connection.getConnection((err, conn) => {
-        if (err) {
-          console.error("Error connecting to ClearDB:", err);
-        } else {
-          console.log("Successfully connected to ClearDB.");
-          conn.release(); // Release the connection back to the pool
-        }
-      });
-       
+    // Log when a connection is established
+    connection.getConnection((err, conn) => {
+      if (err) {
+        console.error("Error connecting to ClearDB:", err);
+      } else {
+        console.log("Successfully connected to ClearDB.");
+        conn.release(); // Release the connection back to the pool
+      }
+    });
 
     console.log("Database connection pool created for ClearDB.");
   } catch (error) {

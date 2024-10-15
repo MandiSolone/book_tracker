@@ -15,7 +15,7 @@ const LibraryProvider = ({ children }) => {
     setLoading(true);
     setError(null); // Reset error state before fetching
 
-  // Don't fetch if user is not authenticated//allows page to load and login btn to appear
+  // Don't fetch if user is not authenticated, allows page to load and login btn to appear
     if (!user) {
       setLoading(false);
       return;
@@ -23,7 +23,7 @@ const LibraryProvider = ({ children }) => {
 
     try {
       const response = await axios.get((`${process.env.REACT_APP_API_URL}/books`), {
-        withCredentials: true, // Include credentials for authentication
+        withCredentials: true, // Include credentials for auth
       });
       setLibraryBooks(
         response.data.map((book) => ({
@@ -45,7 +45,7 @@ const LibraryProvider = ({ children }) => {
       console.error("Error fetching books:", error);
       setError("Failed to load books. Please try again later.");
     } finally {
-      setLoading(false); // Stop loading regardless of success or failure
+      setLoading(false); // Stop loading regardless of success/failure
     }
   }, [user]);
 
@@ -55,21 +55,24 @@ const LibraryProvider = ({ children }) => {
 
   const libraryAddBook = async (bookData) => {
     try {
-      const response = await fetch((`${process.env.REACT_APP_API_URL}/books`), {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/books`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(bookData), // No user_id here
-        credentials: "include", // Ensure cookies are sent
+        body: JSON.stringify(bookData),
+        credentials: "include",
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to add book");
       }
-      const data = await response.json();
+
+      const data = await response.json();// Parse the response to get the newly created book
+  
+      // Immediately update the local state with the new book object
       setLibraryBooks((prevBooks) => [...prevBooks, data]);
-      // Handle successful response
+      
     } catch (error) {
       console.error(error);
     }

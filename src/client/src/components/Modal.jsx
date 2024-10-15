@@ -2,7 +2,6 @@ import React from "react";
 import style from "./modal.module.css";
 
 const Modal = ({ onClose, onConfirm, children, showConfirm }) => {
-
   return (
     <div className={style.overlay}>
       <div className={style.content}>
@@ -12,7 +11,9 @@ const Modal = ({ onClose, onConfirm, children, showConfirm }) => {
         {children}
         {showConfirm && (
           <div>
-            <button className={style.saveBtn} onClick={onConfirm}>Confirm</button>
+            <button className={style.saveBtn} onClick={onConfirm}>
+              Confirm
+            </button>
           </div>
         )}
       </div>

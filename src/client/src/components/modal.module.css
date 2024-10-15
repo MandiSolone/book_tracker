@@ -16,8 +16,8 @@
   padding: 20px;
   border-radius: 5px;
   width: 90%; /* Responsive width */
-  max-width: 500px; 
-  max-height: 80vh; 
+  max-width: 500px;
+  max-height: 80vh;
   overflow-y: auto; /* Allow vertical scrolling */
   display: flex;
   flex-direction: column; /* Stack elements vertically */
@@ -27,34 +27,35 @@
 .img {
   max-width: 100%; /* Make images responsive */
   height: auto; /* Maintain aspect ratio */
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
-h2, p {
-  font-size: 1rem; 
-  margin: 5px 0; 
+h2,
+p {
+  font-size: 1rem;
+  margin: 5px 0;
 }
 
 .close {
   position: absolute;
-  top: 10px; 
-  right: 10px; 
+  top: 10px;
+  right: 10px;
   border: none;
-  background: rgba(133, 192, 156, 0.8); 
+  background: rgba(133, 192, 156, 0.8);
   font-size: 20px;
   cursor: pointer;
   z-index: 1010; /* Ensure the button is above the content */
-  padding: 5px 10px; 
-  border-radius: 5px; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .saveBtn {
-  margin-top: 10px; 
-  background-color: #60926b; 
-  color: white; 
+  margin-top: 10px;
+  background-color: #60926b;
+  color: white;
   border: none;
   padding: 10px;
   border-radius: 5px;
-  cursor: pointer; 
+  cursor: pointer;
 }

@@ -32,7 +32,9 @@ function GoogleBooksSearch() {
   const handleSearch = async () => {
     if (!query) return;
     try {
-      const response = await fetch ((`${process.env.REACT_APP_API_URL}/search/${query}`));
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/search/${query}`
+      );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
       setGSearchedBooks(data.items || []);
@@ -61,12 +63,12 @@ function GoogleBooksSearch() {
       return; // Don't proceed if the user is not logged in
     }
 
-     // Check if authors exist and are not empty
-  const authorsString = 
-  book.volumeInfo.authors && book.volumeInfo.authors.length > 0
-    ? book.volumeInfo.authors.join(", ") // Convert authors array to a string
-    : "Unknown Author"; // Default value if authors are null, blank, or empty
-    
+    // Check if authors exist and are not empty
+    const authorsString =
+      book.volumeInfo.authors && book.volumeInfo.authors.length > 0
+        ? book.volumeInfo.authors.join(", ") // Convert authors array to a string
+        : "Unknown Author"; // Default value if authors are null, blank, or empty
+
     const bookData = {
       book_id: null, // Use null to allow the db to auto-populate an ID
       user_id: user.id,
@@ -97,7 +99,7 @@ function GoogleBooksSearch() {
       .catch((error) => {
         console.error("Error adding book to library:", error);
         setNoResultsFound(true); // Show no results if there was an error
-        setGSearchedBooks([]); // Rest Google Fetched books array 
+        setGSearchedBooks([]); // Rest Google Fetched books array
       });
   };
 
@@ -117,7 +119,10 @@ function GoogleBooksSearch() {
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <div>
-        <button  className={gSearchedBooks.length > 0 ? style.visible : style.hidden} onClick={closeResults}>
+        <button
+          className={gSearchedBooks.length > 0 ? style.visible : style.hidden}
+          onClick={closeResults}
+        >
           &times;
         </button>
 

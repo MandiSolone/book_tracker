@@ -8,8 +8,6 @@ const useUser = () => {
   if (!context) {
     throw new Error("useUser must be used within a UserProfileProvider");
   }
-  // console.log("useUser - User Context:", context); // Log the entire context
-
   return context;
 };
 

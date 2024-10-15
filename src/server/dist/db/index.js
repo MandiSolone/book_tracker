@@ -4,7 +4,7 @@ import url from "url"; // URL module for parsing, built in Node mod
 
 var connection;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   console.log("Environment: Production");
 
   var clearDBUrl = process.env.CLEARDB_DATABASE_URL;
@@ -41,7 +41,6 @@ if (process.env.NODE_ENV === 'production') {
         conn.release(); // Release the connection back to the pool
       }
     });
-
 
     console.log("Database connection pool created for ClearDB.");
   } catch (error) {

@@ -1,7 +1,7 @@
-//A Node.js package depenecy that needs to be instaled
+// A Node.js package depenecy that needs to be instaled
 import dotenv from "dotenv";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 // Create __filename and __dirname equivalents
@@ -10,10 +10,11 @@ var __dirname = dirname(__filename);
 
 // Heroku automatically sets NODE_ENV=production by default
 // If not production then dev and - First, try to load .env from one server
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   var primaryPath = path.join(__dirname, "..", ".env");
   var primaryEnvFound = dotenv.config({ path: primaryPath });
-  // If that directory doesn't work, go two up from directory to start from server/dist 
+
+  // If that directory doesn't work, go two up from directory to start from server/dist
   if (primaryEnvFound.error) {
     var fallbackPath = path.join(__dirname, "..", "..", ".env");
     var fallbackEnvFound = dotenv.config({ path: fallbackPath });
@@ -24,7 +25,7 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
-// exports configuration
+// export configurations
 export default {
   mysql: {
     host: process.env.DB_HOST,

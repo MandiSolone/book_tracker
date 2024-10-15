@@ -4,7 +4,7 @@ import books from "../controllers/books.controllers.js";
 // Requests will reach these routes already matching /api/books
 var BooksRouter = express.Router();
 
-//? means id is optional
+// ? means id is optional
 BooksRouter.get("/:book_id?", /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee(req, res, next) {var userId, book_id, formatBookData, data, booksList;return _regeneratorRuntime.wrap(function _callee$(_context) {while (1) switch (_context.prev = _context.next) {case 0:if (
           req.isAuthenticated()) {_context.next = 2;break;}return _context.abrupt("return",
           res.status(401).json({ message: "User not authenticated" }));case 2:
@@ -100,7 +100,6 @@ BooksRouter.put("/:book_id", /*#__PURE__*/function () {var _ref4 = _asyncToGener
 
 
             books.updateOne(updatedBook, book_id, userId));case 8:updatedResult = _context4.sent;if (
-
 
           updatedResult.affectedRows) {_context4.next = 11;break;}return _context4.abrupt("return",
           res.

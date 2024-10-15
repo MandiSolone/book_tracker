@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
 import useUser from "../hooks/useUser";
-import style from "./BookForm.module.css"; 
+import style from "./BookForm.module.css";
 import SignInButton from "./SignInButton";
 
 function BookForm({ book, onClose, modal, onSave }) {
@@ -39,11 +39,11 @@ function BookForm({ book, onClose, modal, onSave }) {
   // User must sign in to see BookForm and add books
   if (!user) {
     return (
-   <div className={style.login}>
-      <h3>Log In to Access Your Library</h3>
-      <p>To add books to your library, please sign in.</p>
-      <SignInButton />
-    </div>
+      <div className={style.login}>
+        <h3>Log In to Access Your Library</h3>
+        <p>To add books to your library, please sign in.</p>
+        <SignInButton />
+      </div>
     );
   }
 
@@ -63,15 +63,14 @@ function BookForm({ book, onClose, modal, onSave }) {
       link,
       image: image.trim() !== "" ? image : book ? book.image : defaultImage, // Use existing image if empty
       type,
-      location:
-        location === " Other" ? customLocation : location, // Use customLocation if "Other" is selected
+      location: location === " Other" ? customLocation : location, // Use customLocation if "Other" is selected
       status,
       rating,
     };
 
     // Save or update book
     if (book) {
-      await libraryEditBook(newBook); //Pass ID for editing
+      await libraryEditBook(newBook); //Pass newBook w/ ID for editing
     } else {
       await libraryAddBook(newBook);
     }
@@ -159,7 +158,7 @@ function BookForm({ book, onClose, modal, onSave }) {
       <div>
         <label>Type: </label>
         <select value={type} onChange={(e) => setType(e.target.value)}>
-        <option value="">Select Type</option> {/* Added empty option */}
+          <option value="">Select Type</option> {/* Added empty option */}
           <option value=" Hardcopy"> Hardcopy</option>
           <option value=" Ebook"> Ebook</option>
           <option value=" Audiobook"> Audiobook</option>
@@ -173,11 +172,11 @@ function BookForm({ book, onClose, modal, onSave }) {
           onChange={(e) => {
             setLocation(e.target.value);
             if (e.target.value !== "Other") {
-              setCustomLocation(""); //clear custom location if not "Other"
+              setCustomLocation(""); // Clear custom location if not "Other"
             }
           }}
         >
-          <option value="">Select Location</option> {/* Added empty option */}
+          <option value="">Select Location</option>
           <option value=" Google Play Books"> Google Play Books</option>
           <option value=" Kindle"> Kindle</option>
           <option value=" Nook"> Nook</option>
@@ -197,7 +196,7 @@ function BookForm({ book, onClose, modal, onSave }) {
       <div>
         <label>Status: </label>
         <select value={status} onChange={(e) => setStatus(e.target.value)}>
-        <option value="">Select Status</option> {/* Added empty option */}
+          <option value="">Select Status</option>
           <option value=" Read"> Read</option>
           <option value=" Unread"> Unread</option>
           <option value=" Other"> Other</option>
@@ -206,7 +205,7 @@ function BookForm({ book, onClose, modal, onSave }) {
       <div>
         <label>Rating: </label>
         <select value={rating} onChange={(e) => setRating(e.target.value)}>
-        <option value="">Select Rating</option> {/* Added empty option */}
+          <option value="">Select Rating</option>
           <option value=" One Star"> 1 Star</option>
           <option value=" Two Stars"> 2 Star</option>
           <option value=" Three Stars"> 3 Star</option>

@@ -1,7 +1,7 @@
 .body {
   padding: 10px;
   background-color: #333;
-  border-radius: 8px 8px 0 0; 
+  border-radius: 8px 8px 0 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -35,14 +35,14 @@ button {
   border: none;
   border-radius: 4px;
   margin: 10px;
-  padding: 5px 10px; 
+  padding: 5px 10px;
   cursor: pointer;
   transition: background-color 0.3s;
-  font-size: 0.9rem; 
+  font-size: 0.9rem;
 }
 
 button:hover {
-  background-color: #37553d; 
+  background-color: #37553d;
 }
 
 .hidden {
@@ -90,5 +90,5 @@ button:hover {
 
 .bookParagraph {
   margin: 5px 0; /* Space between paragraphs */
-  color: #666; 
+  color: #666;
 }

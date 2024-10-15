@@ -16,10 +16,12 @@ export const UserProfileProvider = ({ children }) => {
     setError(null);
 
     try {
-
-      const response = await fetch ((`${process.env.REACT_APP_API_URL}/auth/profile`),{
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/profile`,
+        {
+          credentials: "include",
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         setUser(data);
@@ -38,16 +40,14 @@ export const UserProfileProvider = ({ children }) => {
     fetchUser(); // FetchUser when the component mounts
   }, [fetchUser]);
 
-  // Call logout endpoint
-  // When a user logs out, any session cookies or local storage entries are cleared.
+  // Call logout endpoint. When a user logs out, any session cookies or local storage entries are cleared.
   const logout = async () => {
-    await fetch ((`${process.env.REACT_APP_API_URL}/auth/logout`), {
+    await fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
       credentials: "include",
       method: "POST",
     });
     setUser(null);
     // Clear cookies or local storage if needed
-    // e.g., document.cookie.split(";").forEach(c => { document.cookie = c.replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
     window.localStorage.clear(); // Clear local storage if you store tokens there
     window.location.reload(); // Refresh the page
   };
