@@ -6,12 +6,12 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
     "dev:client": "cd src/client && npm start",
     "dev:server": "cd src/server && npm start",
     "build:client": "cd src/client && npm run build",
     "build:server": "cd src/server && npm run build",
-    "start": "npm run build:client && npm run build:server && node src/server/dist/server.js",
+    "start": "npm run build:server && node src/server/dist/server.js",
+    "dev": "npm run build:client && npm run build:server && node src/server/dist/server.js",
     "heroku-postbuild": "cd src/client && npm install && npm run build"
   },
   "engines": {
