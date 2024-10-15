@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import useLibrary from "../hooks/useLibrary";
 import Modal from "./Modal";
 import useUser from "../hooks/useUser";
-import { Link } from 'react-router-dom'; //Import Link for navigation 
-import "./BookForm.module.css"; 
+import style from "./BookForm.module.css"; 
+import SignInButton from "./SignInButton";
 
 function BookForm({ book, onClose, modal, onSave }) {
   const { user } = useUser(); // Hook to UserProfileContext
@@ -13,10 +13,10 @@ function BookForm({ book, onClose, modal, onSave }) {
   const [comments, setComments] = useState("");
   const [link, setLink] = useState("");
   const [image, setImage] = useState("");
-  const [type, setType] = useState("Hardcopy");
-  const [location, setLocation] = useState("Google Play Books");
-  const [status, setStatus] = useState("Read");
-  const [rating, setRating] = useState("5 Star");
+  const [type, setType] = useState("");
+  const [location, setLocation] = useState("");
+  const [status, setStatus] = useState("");
+  const [rating, setRating] = useState("");
   const [customLocation, setCustomLocation] = useState(""); // New state for custom Location
   const [isModalOpen, setIsModalOpen] = useState(false);
   const defaultImage = "https://via.placeholder.com/128x193.png?text=No+Image"; // Default img
@@ -29,20 +29,21 @@ function BookForm({ book, onClose, modal, onSave }) {
       setComments(book.comments || "");
       setLink(book.link || "");
       setImage(book.image || defaultImage); // Keep current image if editing
-      setType(book.type || "Hardcopy");
-      setLocation(book.location || "Google Play Books");
-      setStatus(book.status || "Read");
-      setRating(book.rating || "1 Star");
+      setType(book.type || "");
+      setLocation(book.location || "");
+      setStatus(book.status || "");
+      setRating(book.rating || "");
     }
   }, [book]);
 
   // User must sign in to see BookForm and add books
   if (!user) {
     return (
-      <div>
-        <h3>Please sign in to add books to your library.</h3>
-        <Link to="/account">Sign In</Link> {/* Link to the sign-in page */}
-      </div>
+   <div className={style.login}>
+      <h3>Log In to Access Your Library</h3>
+      <p>To add books to your library, please sign in.</p>
+      <SignInButton />
+    </div>
     );
   }
 
@@ -61,11 +62,11 @@ function BookForm({ book, onClose, modal, onSave }) {
       comments,
       link,
       image: image.trim() !== "" ? image : book ? book.image : defaultImage, // Use existing image if empty
-      type: type || "Hardcopy",
+      type,
       location:
-        location === "other" ? customLocation : location || "Google Play Books", // Use customLocation if "other" is selected
-      status: status || "Read",
-      rating: rating || "1 Star",
+        location === " Other" ? customLocation : location, // Use customLocation if "Other" is selected
+      status,
+      rating,
     };
 
     // Save or update book
@@ -98,10 +99,10 @@ function BookForm({ book, onClose, modal, onSave }) {
     setComments("");
     setLink("");
     setImage("");
-    setType("Hardcopy");
-    setLocation("Google Play Books");
-    setStatus("Read");
-    setRating("1 Star");
+    setType("");
+    setLocation("");
+    setStatus("");
+    setRating("");
     setCustomLocation("");
   };
 
@@ -158,10 +159,11 @@ function BookForm({ book, onClose, modal, onSave }) {
       <div>
         <label>Type: </label>
         <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="hardcopy">Hardcopy</option>
-          <option value="ebook">Ebook</option>
-          <option value="audiobook">Audiobook</option>
-          <option value="other">Other</option>
+        <option value="">Select Type</option> {/* Added empty option */}
+          <option value=" Hardcopy"> Hardcopy</option>
+          <option value=" Ebook"> Ebook</option>
+          <option value=" Audiobook"> Audiobook</option>
+          <option value=" Other"> Other</option>
         </select>
       </div>
       <div>
@@ -170,19 +172,20 @@ function BookForm({ book, onClose, modal, onSave }) {
           value={location}
           onChange={(e) => {
             setLocation(e.target.value);
-            if (e.target.value !== "other") {
-              setCustomLocation(""); //clear custom location if not "other"
+            if (e.target.value !== "Other") {
+              setCustomLocation(""); //clear custom location if not "Other"
             }
           }}
         >
-          <option value="googlePlayBooks">Google Play Books</option>
-          <option value="kindle">Kindle</option>
-          <option value="nook">Nook</option>
-          <option value="audible">Audible</option>
-          <option value="Libby/OverDrive">Libby/OverDrive</option>
-          <option value="other">Other</option>
+          <option value="">Select Location</option> {/* Added empty option */}
+          <option value=" Google Play Books"> Google Play Books</option>
+          <option value=" Kindle"> Kindle</option>
+          <option value=" Nook"> Nook</option>
+          <option value=" Audible"> Audible</option>
+          <option value=" Libby/OverDrive"> Libby/OverDrive</option>
+          <option value=" Other"> Other</option>
         </select>
-        {location === "other" && (
+        {location === "Other" && (
           <input
             type="text"
             placeholder="Please specify"
@@ -194,19 +197,21 @@ function BookForm({ book, onClose, modal, onSave }) {
       <div>
         <label>Status: </label>
         <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="read">Read</option>
-          <option value="unread">Unread</option>
-          <option value="other">Other</option>
+        <option value="">Select Status</option> {/* Added empty option */}
+          <option value=" Read"> Read</option>
+          <option value=" Unread"> Unread</option>
+          <option value=" Other"> Other</option>
         </select>
       </div>
       <div>
         <label>Rating: </label>
         <select value={rating} onChange={(e) => setRating(e.target.value)}>
-          <option value="oneStar">1 Star</option>
-          <option value="twoStar">2 Star</option>
-          <option value="threeStar">3 Star</option>
-          <option value="fourStar">4 Star</option>
-          <option value="fiveStar">5 Star</option>
+        <option value="">Select Rating</option> {/* Added empty option */}
+          <option value=" One Star"> 1 Star</option>
+          <option value=" Two Stars"> 2 Star</option>
+          <option value=" Three Stars"> 3 Star</option>
+          <option value=" Four Stars"> 4 Star</option>
+          <option value=" Five Stars"> 5 Star</option>
         </select>
       </div>
       <button type="submit">Save Book</button>

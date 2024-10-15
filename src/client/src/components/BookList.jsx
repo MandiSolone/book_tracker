@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // Import useHistory for return 
 import BookForm from "./BookForm";
 import Modal from "./Modal";
 import style from "./BookList.module.css";
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import SignInButton from "./SignInButton";
 
 // blBooks=[] set to empty array while awaiting db API fetch from Library
 export default function BookList({ blBooks = [], blOnDelete }) {
@@ -15,7 +15,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   //Handle clicks and Modals
   const handleEditClick = (book) => {
     setSelectedBook(book); // Set the selected book object
-    setIsEditing(true); //Open the edit form
+    setIsEditing(true); // Open the edit form
   };
   const closeForm = () => {
     setSelectedBook(null);
@@ -38,7 +38,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
 
   // Handle defualtImage if broken
   const BookImage = ({ src, bookId }) => {
-    const navigate = useNavigate(); // Get the navigate function
+    const navigate = useNavigate(); // Get the nav function
     const defaultImage =
       "https://via.placeholder.com/128x193.png?text=No+Image";
 
@@ -59,10 +59,16 @@ export default function BookList({ blBooks = [], blOnDelete }) {
 
   return (
     <div className={style.container}>
-      <h2 className={style.header}>Your Books</h2>
 
       {blBooks.length === 0 ? (
-        <p>No Books available. <Link to="/account">Sign In</Link> {/* Link to the sign-in page */} </p>
+        <div className="login">
+          <h3>It Looks Like Your Library is Empty</h3>
+    <p>
+      Don't worry! Sign in to start adding books and build your collection.
+      <br />
+      <SignInButton />
+    </p>
+        </div>
       ) : (
         <ul className={style.list}>
           {blBooks.map((book) => (
@@ -120,7 +126,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
       {isEditing && (
         <Modal onClose={closeForm}>
           <BookForm
-            book={selectedBook} //Pass the seleted book object
+            book={selectedBook} // Pass the seleted book object
             onClose={closeForm}
             onSave={() => {
               closeForm(); // Close the modal

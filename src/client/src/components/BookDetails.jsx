@@ -10,12 +10,14 @@ const BookDetails = () => {
   const [error, setError] = useState(null);
   const history = useNavigate(); // Use history for navigation
 
-  useEffect(() => {
+  useEffect(() => { 
+
     const fetchBookDetails = async () => {
       try {
         const bookData = await libraryGetBook(bookId);
         if (bookData) {
           setBookDetails(bookData);
+          console.log("bookDetails", bookDetails);
         }
       } catch (err) {
         setError("Failed to fetch book details.");
@@ -43,8 +45,8 @@ const BookDetails = () => {
       <p>Authors: {bookDetails.authors}</p>
       <p>Comments: {bookDetails.comments}</p>
       <p>
-        Link: <a href={bookDetails.link}>View Book</a>
-      </p>
+      View Book:<a href={bookDetails.link} target="_blank" rel="noopener noreferrer">{bookDetails.link}</a>
+    </p>
       <img src={bookDetails.image} alt={bookDetails.title} />
       <p>Status: {bookDetails.status}</p>
       <p>Rating: {bookDetails.rating}</p>

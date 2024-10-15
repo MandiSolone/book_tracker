@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { UserProfileContext } from "../contexts/UserProfileContext"; // Import the context
 
+
 const ProfilePage = () => {
   const { user, logout } = useContext(UserProfileContext); // Access user from context
 

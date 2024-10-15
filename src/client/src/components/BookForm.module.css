@@ -1,9 +1,9 @@
 form {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Reduced gap between fields */
+    gap: 10px;
     max-width: 400px; 
-    margin: 0 auto; /* Center the form */
+    margin: 0 auto; 
     padding: 10px; 
   }
   
@@ -42,6 +42,33 @@ form {
   
   button[type="submit"]:hover {
     background-color: #37553d; 
+  }
+
+  .login {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    background-color: #f8f9fa; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    padding: 20px; 
+    margin: 20px auto; 
+    max-width: 400px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .login h3 {
+    margin-bottom: 10px; 
+  }
+  
+  .login a {
+    color: #60926b; 
+    text-decoration: none; 
+    font-weight: bold;
+  }
+  
+  .login a:hover {
+    text-decoration: underline; 
   }
   
 

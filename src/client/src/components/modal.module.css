@@ -16,8 +16,8 @@
   padding: 20px;
   border-radius: 5px;
   width: 90%; /* Responsive width */
-  max-width: 500px; /* Set a max width */
-  max-height: 80vh; /* Set a max height */
+  max-width: 500px; 
+  max-height: 80vh; 
   overflow-y: auto; /* Allow vertical scrolling */
   display: flex;
   flex-direction: column; /* Stack elements vertically */

@@ -2,11 +2,11 @@
   position: sticky; /* Makes the navbar stick to the top */
   top: 0; /* Position it at the top */
   background-color: #333;
-  padding: 10px 20px;
+  padding: 5px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Ensure it stays above other content */
   color: #fff;
-  font-size: 12px;
+  font-size: 10px;
   border-radius: 8px;
 }
 
@@ -25,12 +25,13 @@
   justify-content: space-around; /* Distribute links evenly */
   background-color: #444; /* Different background for links */
   padding: 5px 0;
+  border-radius: 5px;
 }
 
 .linkContainer a {
   color: #fff;
   text-decoration: none;
-  padding: 10px 15px;
+  padding: 8px 12px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
@@ -46,6 +47,6 @@
   }
 
   .nav a {
-    padding: 8px 12px;
+    padding: 6px 10px;
   }
 }
