@@ -23,7 +23,6 @@ import {
 
 // Main async function
 var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee() {var redisUrl, redisClient, app, sessionStore, corsOptions, __filename, __dirname, staticPath;return _regeneratorRuntime.wrap(function _callee$(_context) {while (1) switch (_context.prev = _context.next) {case 0:
-
           // Determine Redis URL based on environment (dev or prod)
           redisUrl = process.env.REDISCLOUD_URL || "redis://localhost:6379";
           redisClient = createClient({ url: redisUrl });
@@ -93,7 +92,6 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           __filename = fileURLToPath(import.meta.url);
           __dirname = dirname(__filename);
           staticPath = path.join(__dirname, "..", "../client/build");
-          console.log("server - Serving static files from:", staticPath);
           app.use(express["static"](staticPath));
 
           // Handle GET all requests to serve the React app (front end)
@@ -106,9 +104,9 @@ var startServer = /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PU
           // Bind the app to a specified port
           app.listen(config.port || 8080, function () {return (
               console.log("Server listening on port ".concat(config.port, "...")));}
-          );_context.next = 32;break;case 29:_context.prev = 29;_context.t0 = _context["catch"](2);
+          );_context.next = 31;break;case 28:_context.prev = 28;_context.t0 = _context["catch"](2);
 
-          console.error("server - Redis Client Connection Error", _context.t0);case 32:case "end":return _context.stop();}}, _callee, null, [[2, 29]]);}));return function startServer() {return _ref.apply(this, arguments);};}();
+          console.error("server - Redis Client Connection Error", _context.t0);case 31:case "end":return _context.stop();}}, _callee, null, [[2, 28]]);}));return function startServer() {return _ref.apply(this, arguments);};}();
 
 
 

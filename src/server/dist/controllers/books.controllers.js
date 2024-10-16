@@ -18,14 +18,18 @@ var findOne = /*#__PURE__*/function () {var _ref3 = _asyncToGenerator(/*#__PURE_
 var addOne = /*#__PURE__*/function () {var _ref4 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee3(newBook) {var sql, params, result, bookWithId;return _regeneratorRuntime.wrap(function _callee3$(_context3) {while (1) switch (_context3.prev = _context3.next) {case 0:
           sql = "INSERT INTO books SET ?"; // No need for WHERE clause here
           params = newBook; // Directly use the newBook object
-          _context3.next = 4;return query(sql, params);case 4:result = _context3.sent;
-
-          // Construct the new book object including its ID
+          _context3.prev = 2;_context3.next = 5;return (
+            query(sql, params));case 5:result = _context3.sent;
+          // Construct the new book object including its Id
           bookWithId = _objectSpread({
             book_id: result.insertId },
           newBook);return _context3.abrupt("return",
 
-          bookWithId);case 7:case "end":return _context3.stop();}}, _callee3);}));return function addOne(_x4) {return _ref4.apply(this, arguments);};}();
+          bookWithId);case 10:_context3.prev = 10;_context3.t0 = _context3["catch"](2);
+
+          console.error("Insert Error:", _context3.t0);throw _context3.t0;case 14:case "end":return _context3.stop();}}, _callee3, null, [[2, 10]]);}));return function addOne(_x4) {return _ref4.apply(this, arguments);};}();
+
+
 
 
 var updateOne = /*#__PURE__*/function () {var _ref5 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee4(updatedBook, book_id, user_id) {var sql, params, result;return _regeneratorRuntime.wrap(function _callee4$(_context4) {while (1) switch (_context4.prev = _context4.next) {case 0:

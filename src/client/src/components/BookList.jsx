@@ -14,8 +14,6 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const [bookToDelete, setBookToDelete] = useState(null);
   const { user } = useUser(); //Call the user profile hook
 
-  console.log("blBooks", blBooks ); 
-
   //Handle edit and Modals
   const handleEditClick = (book) => {
     setSelectedBook(book); // Set the selected book object
@@ -25,10 +23,10 @@ export default function BookList({ blBooks = [], blOnDelete }) {
   const closeForm = () => {
     setSelectedBook(null);
     setIsEditing(false);
-    window.location.reload(); // Refresh the page
+    // window.location.reload(); // Refresh the page
   };
 
-  // Handle Delete straight from here and not through BookForm component layer like Edit 
+  // Handle Delete straight from here and not through BookForm component layer like Edit
   const handleDeleteClick = (book) => {
     setBookToDelete(book);
     setIsModalOpen(true);
@@ -39,7 +37,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
       await blOnDelete(bookToDelete.book_id); // Call delete function
       setIsModalOpen(false);
       setBookToDelete(null);
-      window.location.reload(); // Refresh the page
+      // window.location.reload(); // Refresh the page
     }
   };
 
@@ -114,7 +112,14 @@ export default function BookList({ blBooks = [], blOnDelete }) {
                   <button onClick={() => handleDeleteClick(book)}>
                     Delete
                   </button>
-                  <button onClick={() => handleEditClick(book)}>
+                  {/* <button onClick={() => handleEditClick(book)}>
+                    Edit Book
+                  </button> */}
+                  <button
+                    onClick={() =>
+                      handleEditClick({ ...book, id: book.book_id })
+                    }
+                  >
                     Edit Book
                   </button>
                 </div>
@@ -139,7 +144,7 @@ export default function BookList({ blBooks = [], blOnDelete }) {
           <BookForm
             book={selectedBook} // Pass the selected book object
             onClose={closeForm}
-            onSave={closeForm} 
+            onSave={closeForm}
           />
         </Modal>
       )}

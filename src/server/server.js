@@ -23,7 +23,6 @@ import {
 
 // Main async function
 const startServer = async () => {
-
   // Determine Redis URL based on environment (dev or prod)
   const redisUrl = process.env.REDISCLOUD_URL || "redis://localhost:6379";
   const redisClient = createClient({ url: redisUrl });
@@ -31,8 +30,8 @@ const startServer = async () => {
   // Connect to the Redis client
   try {
     await redisClient.connect();
-    const app = express();// Initialize your Express app here
-    const sessionStore = new RedisStore({ client: redisClient });// Configure the session store
+    const app = express(); // Initialize your Express app here
+    const sessionStore = new RedisStore({ client: redisClient }); // Configure the session store
 
     // OAuth session middleware- At the top, before initalizing Passport and defining any routes
     app.use(
@@ -58,16 +57,16 @@ const startServer = async () => {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.use(express.json());// Middleware, Parses inc req and attaches JSON to body parameter of the request object
+    app.use(express.json()); // Middleware, Parses inc req and attaches JSON to body parameter of the request object
 
     // CORS allows using multi domains
     const corsOptions = {
-      origin: process.env.CLIENT_URL || "http://localhost:3000", 
+      origin: process.env.CLIENT_URL || "http://localhost:3000",
       credentials: true, // Allow credentials to be sent
     };
     app.use(cors(corsOptions));
 
-    app.use(morgan("dev"));// Logs incoming request information to the dev console (url, resp, req)
+    app.use(morgan("dev")); // Logs incoming request information to the dev console (url, resp, req)
 
     // Passport configuration for Google OAuth
     passport.use(
@@ -83,7 +82,7 @@ const startServer = async () => {
 
     // Serialize and deserialize user- Add lines after session middleware and before defining routes
     passport.serializeUser(serializeUser);
-    passport.deserializeUser(deserializeUser); 
+    passport.deserializeUser(deserializeUser);
 
     // Define routers
     app.use("/api", apiRouter);
@@ -93,7 +92,6 @@ const startServer = async () => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
     const staticPath = path.join(__dirname, "..", "../client/build");
-    console.log("server - Serving static files from:", staticPath);
     app.use(express.static(staticPath));
 
     // Handle GET all requests to serve the React app (front end)

@@ -15,16 +15,19 @@ const LibraryProvider = ({ children }) => {
     setLoading(true);
     setError(null); // Reset error state before fetching
 
-  // Don't fetch if user is not authenticated, allows page to load and login btn to appear
+    // Don't fetch if user is not auth, allows page to load and login btn to appear
     if (!user) {
       setLoading(false);
       return;
-    } 
+    }
 
     try {
-      const response = await axios.get((`${process.env.REACT_APP_API_URL}/books`), {
-        withCredentials: true, // Include credentials for auth
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/books`,
+        {
+          withCredentials: true, // Include credentials for auth
+        }
+      );
       setLibraryBooks(
         response.data.map((book) => ({
           book_id: book.book_id,
@@ -63,16 +66,15 @@ const LibraryProvider = ({ children }) => {
         body: JSON.stringify(bookData),
         credentials: "include",
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to add book");
       }
 
-      const data = await response.json();// Parse the response to get the newly created book
-  
+      const data = await response.json(); // Parse the response to get the newly created book
+
       // Immediately update the local state with the new book object
       setLibraryBooks((prevBooks) => [...prevBooks, data]);
-      
     } catch (error) {
       console.error(error);
     }
@@ -86,15 +88,17 @@ const LibraryProvider = ({ children }) => {
     }
     try {
       const response = await axios.put(
-        (`${process.env.REACT_APP_API_URL}/books/${bookId}`),
+        `${process.env.REACT_APP_API_URL}/books/${bookId}`,
         updatedBookData,
         { withCredentials: true } // Ensure credentials are sent with the request
       );
-
-      setLibraryBooks(
-        (prevBooks) =>
-          prevBooks.map((book) => (book.id === bookId ? response.data : book)) // Update state immediately
-      );
+      // Immediately update the local state
+      setLibraryBooks((prevBooks) => {
+        const updatedBooks = prevBooks.map((book) =>
+          book.book_id === bookId ? response.data : book
+        );
+        return updatedBooks;
+      });
     } catch (error) {
       console.error("Error editing book:", error);
       setError("Failed to update book. Please try again.");
@@ -107,9 +111,9 @@ const LibraryProvider = ({ children }) => {
       return;
     }
     try {
-      await axios.delete (`${process.env.REACT_APP_API_URL}/books/${bookId}`);
-      setLibraryBooks((prevBooks) =>
-        prevBooks.filter((book) => book.id !== bookId)
+      await axios.delete(`${process.env.REACT_APP_API_URL}/books/${bookId}`);
+      setLibraryBooks(
+        (prevBooks) => prevBooks.filter((book) => book.book_id !== bookId) // Update state immediately
       );
     } catch (error) {
       console.error("Error deleting book:", error);
@@ -125,9 +129,9 @@ const LibraryProvider = ({ children }) => {
 
     try {
       const response = await axios.get(
-        (`${process.env.REACT_APP_API_URL}/books/${bookId}`),
+        `${process.env.REACT_APP_API_URL}/books/${bookId}`,
         {
-          withCredentials: true, // Include credentials for authentication
+          withCredentials: true, // Inc credentials for auth
         }
       );
       // API returns the book in the same format as libraryBooks state
@@ -155,12 +159,12 @@ const LibraryProvider = ({ children }) => {
         libraryAddBook,
         libraryHandleDelete,
         libraryEditBook,
-        libraryGetBook, 
-        error, 
-        setError, 
+        libraryGetBook,
+        error,
+        setError,
       }}
     >
-      {children} 
+      {children}
       {/* Display error message */}
       {error && <div className="error-message">{error}</div>}{" "}
     </LibraryContext.Provider>

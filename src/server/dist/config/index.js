@@ -25,7 +25,6 @@ if (process.env.NODE_ENV !== "production") {
   }
 }
 
-// export configurations
 export default {
   mysql: {
     host: process.env.DB_HOST,

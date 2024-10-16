@@ -70,7 +70,6 @@ function GoogleBooksSearch() {
         : "Unknown Author"; // Default value if authors are null, blank, or empty
 
     const bookData = {
-      book_id: null, // Use null to allow the db to auto-populate an ID
       user_id: user.id,
       image:
         book.volumeInfo.imageLinks?.smallThumbnail ||
@@ -92,7 +91,7 @@ function GoogleBooksSearch() {
         setIsModalOpen(true);
         setTimeout(() => {
           closeModal();
-        }, 1000); // Set timeout
+        }, 700); // Set timeout
         setNoResultsFound(false); // Reset no results found
         setGSearchedBooks([]); // Rest Google Fetched books array to 0
       })

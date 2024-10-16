@@ -19,33 +19,17 @@ AuthRouter.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   async (req, res) => {
-    console.log("google/callback Authenticated User:", req.user);
     if (!req.user) {
       console.error("google/callback Authentication failed, no user returned.");
       return res.redirect("/"); // Redirect if authentication fails
     }
-    console.log("google/callback User session:", { session: req.session });
 
     res.redirect(redirectUrl); // Redirect to the account/home page (Client side) after auth
   }
 );
 
 // User profile route
-// AuthRouter.get('/profile',
-//     passport.authenticate('session'), // Ensure user is authenticated
-//     async (req, res) => {
 AuthRouter.get("/profile", async (req, res) => {
-  console.log(
-    "UserProfileContext.js - REACT_APP_API_URL:",
-    process.env.REACT_APP_API_URL
-  );
-  console.log("/profile - Incoming request:", req.method, req.url);
-  console.log("/profile - User Session:", req.session); // Log session info
-  console.log("/profile - User Authenticated:", req.isAuthenticated()); // Log authentication status
-  console.log("/profile - Session Data:", {
-    userId: req.session.passport ? req.session.passport.user : null,
-  });
-
   if (req.isAuthenticated()) {
     res.json(req.user); // Return the authenticated user
   } else {

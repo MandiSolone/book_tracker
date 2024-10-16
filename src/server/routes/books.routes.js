@@ -4,7 +4,7 @@ import books from "../controllers/books.controllers.js";
 // Requests will reach these routes already matching /api/books
 const BooksRouter = express.Router();
 
-// ? means id is optional
+// ? means id is optional // GET one or GET all
 BooksRouter.get("/:book_id?", async (req, res, next) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: "User not authenticated" });
@@ -35,7 +35,8 @@ BooksRouter.get("/:book_id?", async (req, res, next) => {
       }
       return res.json(formatBookData(data));
     } else {
-      const booksList = await books.findAll({ user_id: userId }); // Fetch books for the authenticated user
+      // Fetch books for the authenticated user
+      const booksList = await books.findAll({ user_id: userId });
       return res.json(booksList.map(formatBookData));
     }
   } catch (err) {
@@ -61,7 +62,7 @@ BooksRouter.post("/", async (req, res, next) => {
     let data = await books.addOne(bookWithUserId); // Pass newBook to addOne
 
     res.status(201).json({
-      id: data.book_id,
+      book_id: data.book_id,
       title: data.title,
       user_id: data.user_id,
       authors: data.authors || [],
@@ -96,31 +97,31 @@ BooksRouter.put("/:book_id", async (req, res, next) => {
   const userId = req.user.id;
   const updatedBook = req.body; // Get updated book data from request body
   const { book_id } = req.params; // Extract book_id from request param
-
   try {
     // Update the book in the database
-    const updatedResult = await books.updateOne(updatedBook, book_id, userId); // Pass updatedBook directly
+    const updatedResult = await books.updateOne(updatedBook, book_id, userId);
 
     if (!updatedResult.affectedRows) {
       return res
         .status(404)
         .json({ message: "Book not found or no changes made." });
     }
+    // Fetch the updated book from the database to return the complete object
+    const freshBook = await books.findOne(book_id, userId);
 
-    // Respond with the updated book data
     res.json({
-      id: updatedResult.book_id,
-      user_id: updatedResult.user_id,
-      title: updatedResult.title,
-      authors: updatedResult.authors ? updatedResult.authors.split(", ") : [], // split works as input if a string
-      comments: updatedResult.comments,
-      link: updatedResult.link,
-      image: updatedResult.image,
-      google_id: updatedResult.google_id,
-      type: updatedResult.type,
-      location: updatedResult.location,
-      status: updatedResult.status,
-      rating: updatedResult.rating,
+      book_id: freshBook.book_id,
+      user_id: freshBook.user_id,
+      title: freshBook.title,
+      authors: freshBook.authors.split(", "), // Author is a string
+      comments: freshBook.comments,
+      link: freshBook.link,
+      image: freshBook.image,
+      google_id: freshBook.google_id,
+      type: freshBook.type,
+      location: freshBook.location,
+      status: freshBook.status,
+      rating: freshBook.rating,
     });
   } catch (err) {
     console.error(err);

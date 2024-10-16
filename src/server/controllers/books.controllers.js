@@ -18,14 +18,18 @@ const findOne = async (book_id, user_id) => {
 const addOne = async (newBook) => {
   const sql = "INSERT INTO books SET ?"; // No need for WHERE clause here
   const params = newBook; // Directly use the newBook object
-  const result = await query(sql, params);
-
-  // Construct the new book object including its ID
-  const bookWithId = {
-    book_id: result.insertId, // Use insertId from the result
-    ...newBook,
-  };
-  return bookWithId; // Return the new book object
+  try {
+    const result = await query(sql, params);
+    // Construct the new book object including its Id
+    const bookWithId = {
+      book_id: result.insertId,
+      ...newBook,
+    };
+    return bookWithId;
+  } catch (error) {
+    console.error("Insert Error:", error);
+    throw error;
+  }
 };
 
 const updateOne = async (updatedBook, book_id, user_id) => {

@@ -4,7 +4,7 @@ import books from "../controllers/books.controllers.js";
 // Requests will reach these routes already matching /api/books
 var BooksRouter = express.Router();
 
-// ? means id is optional
+// ? means id is optional // GET one or GET all
 BooksRouter.get("/:book_id?", /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee(req, res, next) {var userId, book_id, formatBookData, data, booksList;return _regeneratorRuntime.wrap(function _callee$(_context) {while (1) switch (_context.prev = _context.next) {case 0:if (
           req.isAuthenticated()) {_context.next = 2;break;}return _context.abrupt("return",
           res.status(401).json({ message: "User not authenticated" }));case 2:
@@ -35,6 +35,7 @@ BooksRouter.get("/:book_id?", /*#__PURE__*/function () {var _ref = _asyncToGener
 
           res.json(formatBookData(data)));case 15:_context.next = 17;return (
 
+
             books.findAll({ user_id: userId }));case 17:booksList = _context.sent;return _context.abrupt("return",
           res.json(booksList.map(formatBookData)));case 19:_context.next = 25;break;case 21:_context.prev = 21;_context.t0 = _context["catch"](4);
 
@@ -61,7 +62,7 @@ BooksRouter.post("/", /*#__PURE__*/function () {var _ref2 = _asyncToGenerator(/*
             books.addOne(bookWithUserId));case 8:data = _context2.sent; // Pass newBook to addOne
 
           res.status(201).json({
-            id: data.book_id,
+            book_id: data.book_id,
             title: data.title,
             user_id: data.user_id,
             authors: data.authors || [],
@@ -89,7 +90,7 @@ BooksRouter["delete"]("/:book_id", /*#__PURE__*/function () {var _ref3 = _asyncT
 
 );
 
-BooksRouter.put("/:book_id", /*#__PURE__*/function () {var _ref4 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee4(req, res, next) {var userId, updatedBook, book_id, updatedResult;return _regeneratorRuntime.wrap(function _callee4$(_context4) {while (1) switch (_context4.prev = _context4.next) {case 0:if (
+BooksRouter.put("/:book_id", /*#__PURE__*/function () {var _ref4 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee4(req, res, next) {var userId, updatedBook, book_id, updatedResult, freshBook;return _regeneratorRuntime.wrap(function _callee4$(_context4) {while (1) switch (_context4.prev = _context4.next) {case 0:if (
           req.isAuthenticated()) {_context4.next = 2;break;}return _context4.abrupt("return",
           res.status(401).json({ message: "User not authenticated" }));case 2:
 
@@ -98,33 +99,33 @@ BooksRouter.put("/:book_id", /*#__PURE__*/function () {var _ref4 = _asyncToGener
           book_id = req.params.book_id; // Extract book_id from request param
           _context4.prev = 5;_context4.next = 8;return (
 
-
             books.updateOne(updatedBook, book_id, userId));case 8:updatedResult = _context4.sent;if (
 
           updatedResult.affectedRows) {_context4.next = 11;break;}return _context4.abrupt("return",
           res.
           status(404).
-          json({ message: "Book not found or no changes made." }));case 11:
+          json({ message: "Book not found or no changes made." }));case 11:_context4.next = 13;return (
 
 
-          // Respond with the updated book data
+            books.findOne(book_id, userId));case 13:freshBook = _context4.sent;
+
           res.json({
-            id: updatedResult.book_id,
-            user_id: updatedResult.user_id,
-            title: updatedResult.title,
-            authors: updatedResult.authors ? updatedResult.authors.split(", ") : [], // split works as input if a string
-            comments: updatedResult.comments,
-            link: updatedResult.link,
-            image: updatedResult.image,
-            google_id: updatedResult.google_id,
-            type: updatedResult.type,
-            location: updatedResult.location,
-            status: updatedResult.status,
-            rating: updatedResult.rating
-          });_context4.next = 18;break;case 14:_context4.prev = 14;_context4.t0 = _context4["catch"](5);
+            book_id: freshBook.book_id,
+            user_id: freshBook.user_id,
+            title: freshBook.title,
+            authors: freshBook.authors.split(", "), // Author is a string
+            comments: freshBook.comments,
+            link: freshBook.link,
+            image: freshBook.image,
+            google_id: freshBook.google_id,
+            type: freshBook.type,
+            location: freshBook.location,
+            status: freshBook.status,
+            rating: freshBook.rating
+          });_context4.next = 21;break;case 17:_context4.prev = 17;_context4.t0 = _context4["catch"](5);
 
           console.error(_context4.t0);
-          next(_context4.t0);case 18:case "end":return _context4.stop();}}, _callee4, null, [[5, 14]]);}));return function (_x10, _x11, _x12) {return _ref4.apply(this, arguments);};}()
+          next(_context4.t0);case 21:case "end":return _context4.stop();}}, _callee4, null, [[5, 17]]);}));return function (_x10, _x11, _x12) {return _ref4.apply(this, arguments);};}()
 
 );
 

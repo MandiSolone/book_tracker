@@ -8,7 +8,6 @@ const useLibrary = () => {
   if (!context) {
     throw new Error("useLibrary must be used within a LibraryProvider");
   }
-
   return context;
 };
 
